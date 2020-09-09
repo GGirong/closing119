@@ -3,14 +3,6 @@
         <!--Contact section start-->
         <div class="conact-section">
             <div class="container">
-
-                <div class="row section-space--bottom--50">
-                    <div class="col">
-                        <!-- google map component -->
-                        <GoogleMap />
-                    </div>
-                </div>
-
                 <div class="row">
                     <div class="col-lg-4 col-12">
                         <div class="contact-information">
@@ -76,13 +68,16 @@
 <script>
     import data from '../../data/contact.json'
     import GoogleMap from '@/components/GoogleMap';
+
+    import axios from "axios";
     export default {
         components: {
             GoogleMap,
         },
         data () {
             return {
-                data
+                data,
+                
             }
         }
     };

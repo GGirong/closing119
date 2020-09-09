@@ -3,20 +3,7 @@
         <Header />
 
         <HeroOne :sliderData="data.heroTwo" />
-
-        <AboutSection />
-
-        <ProjectGridSlider />
-
-        <ServiceTabs />
-
-        <Testimonial />
-
-        <TeamJob />
-
-        <BrandCarousel addClass="grey-bg" />
-
-        <BlogSection />
+        <Apitest :sliderData="data.heroTwo" />
 
         <Footer/>
 
@@ -31,6 +18,8 @@
 </template>
 
 <script>
+    import axios from "axios";
+    import Apitest from "@/components/sections/Apitest";
     import Header from '@/components/Header';
     import HeroOne from '@/components/sections/HeroOne';
     import AboutSection from '@/components/sections/AboutSection';
@@ -47,7 +36,8 @@
     export default {
         data () {
             return {
-                data
+                data,
+                apiData: []
             }
         },
         components: {
@@ -61,7 +51,8 @@
             BrandCarousel,
             BlogSection,
             Footer,
-            OffCanvasMobileMenu
+            OffCanvasMobileMenu,
+            Apitest
         },
         metaInfo: {
             title: 'Castro - Home Two',
@@ -69,6 +60,12 @@
                 lang: 'en',
                 amp: true
             }
+        },
+        async mounted() {
+            const res = await axios.get(
+
+            );
+            this.apiData = res
         }
     }
 </script>

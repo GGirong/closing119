@@ -4,42 +4,6 @@
         <div class="header-area__desktop header-area__desktop--default">
 
             <!--=======  header top bar  =======-->
-            <div class="header-top-bar">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-4">
-                            <!-- top bar left -->
-                            <div class="top-bar-left-wrapper">
-                                <div class="social-links social-links--white-topbar d-inline-block">
-                                    <ul>
-                                        <li>
-                                            <a href="//facebook.com" target="_blank"><i class="zmdi zmdi-facebook"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="//twitter.com" target="_blank"><i class="zmdi zmdi-twitter"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="//vimeo.com" target="_blank"><i class="zmdi zmdi-vimeo"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="//linkedin.com" target="_blank"><i class="zmdi zmdi-linkedin-box"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="//skype.com" target="_blank"><i class="zmdi zmdi-skype"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-8">
-                            <!-- top bar right -->
-                            <div class="top-bar-right-wrapper">
-                                <router-link to="/Contact" class="ht-btn ht-btn--default d-inline-block">GET A QUOTE</router-link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <!--=======  End of header top bar  =======-->
 
             <!--=======  header info area  =======-->
@@ -51,30 +15,32 @@
                                 <!-- logo -->
                                 <div class="logo">
                                     <router-link to="/">
-                                        <img src="assets/img/logo/logo.png" class="img-fluid" alt="Brand Logo">
+                                        <img src="assets/img/logo/closing_logo.png" class="img-fluid" alt="Brand Logo" width="75px">
                                     </router-link>
                                 </div>
 
                                 <!-- header contact info -->
                                 <div class="header-contact-info">
                                     <div class="header-info-single-item">
-                                        <div class="header-info-single-item__icon">
-                                            <i class="zmdi zmdi-smartphone-android"></i>
-                                        </div>
                                         <div class="header-info-single-item__content">
-                                            <h6 class="header-info-single-item__title">Phone</h6>
                                             <p class="header-info-single-item__subtitle">
-                                                <a href="tel:989875596854">98 9875 5968 54</a>
+                                                <a href="tel:989875596854">견적작성</a>
                                             </p>
                                         </div>
-                                    </div>
-                                    <div class="header-info-single-item">
-                                        <div class="header-info-single-item__icon">
-                                            <i class="zmdi zmdi-home"></i>
+                                        <div class="header-info-single-item__content">
+                                            <p class="header-info-single-item__subtitle">
+                                                <a href="tel:989875596854">견적확인</a>
+                                            </p>
                                         </div>
                                         <div class="header-info-single-item__content">
-                                            <h6 class="header-info-single-item__title">Address</h6>
-                                            <p class="header-info-single-item__subtitle">Your address goes here</p>
+                                            <p class="header-info-single-item__subtitle">
+                                                <a href="tel:989875596854">고객후기</a>
+                                            </p>
+                                        </div>
+                                        <div class="header-info-single-item__content">
+                                            <p class="header-info-single-item__subtitle">
+                                                <a href="tel:989875596854">파트너스 신청</a>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
