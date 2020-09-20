@@ -4,7 +4,7 @@
 
         <HeroOne :sliderData="data.heroThree" />
 
-        <Feature />
+        <Feature /> 
 
         <AboutSectionTwo />
 

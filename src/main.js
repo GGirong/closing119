@@ -6,7 +6,11 @@ import router from './router'
 import VueMeta from 'vue-meta'
 import VueSilentbox from 'vue-silentbox'
 import BackToTop from 'vue-backtotop'
-
+import SimpleVueValidation from 'simple-vue-validator';
+import VCalendar from 'v-calendar';
+import { store } from "./store";
+    
+Vue.use(SimpleVueValidation);
 Vue.use(VueSilentbox)
 Vue.use(BootstrapVue)
 Vue.use(BackToTop)
@@ -15,6 +19,17 @@ Vue.use(VueMeta, {
     // optional pluginOptions
     refreshOnceOnNavigation: true
 })
+Vue.use(VCalendar, {
+    componentPrefix: 'vc',  // Use <vc-calendar /> instead of <v-calendar />
+});
+
+const EventBus = new Vue({
+    methods: {
+        clientEdited(data){
+            this.$emit('clientData', data)
+        }
+    },
+});
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -30,5 +45,8 @@ Vue.config.productionTip = false
 
 new Vue({
     router,
+    store: store,
     render: h => h(App)
 }).$mount('#app')
+
+export default EventBus

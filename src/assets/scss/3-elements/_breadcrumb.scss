@@ -53,6 +53,22 @@
             font-size: 24px;
         }
     }
+    & h3 {
+        font-size: 18px;
+        color: $white;
+        font-weight: 300;
+        letter-spacing: 0.1px;
+        // Responsive
+        @media #{$tablet-device}{
+            font-size: 16px;
+        }
+        @media #{$large-mobile}{
+            font-size: 10px;
+        }
+        @media #{$small-mobile}{
+            font-size: 14px;
+        }
+    }
 }
 /*-- Page Breadcrumb --*/
 .breadcrumb {

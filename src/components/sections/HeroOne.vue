@@ -13,7 +13,7 @@
                                             <div class="hero-slider__content" :class="[item.addClass]">
                                                 <h2 class="hero-slider__title">{{ item.title }}</h2>
                                                 <p class="hero-slider__text">{{ item.desc }}</p>
-                                               <router-link to="/contact" class="hero-slider__btn">GET START</router-link>
+                                               <router-link to="/client" class="hero-slider__btn">GET START</router-link>
                                             </div>
                                         </div>
                                     </div>

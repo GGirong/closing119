@@ -32,6 +32,21 @@
       }
   }
 
+  @media (min-width: 1200px) {
+    .container {
+      width: 940px;
+    }
+  }
+
+  .container-table { 
+    display: table; 
+  }
+
+  .vertical-center-row { 
+    display: table-cell; 
+    vertical-align: middle; 
+  } 
+
   h1, h2, h3, h4, h5, h6 {
       color: $heading-text-color;
       font-family: $heading-font-family-name;
@@ -109,7 +124,12 @@
     vertical-align: middle;
 }
 
-
+  .line {
+    width: 100%;
+    height: 1px;
+    background-color: #d4d4d4;
+    margin-bottom: 15px;
+  }
   .border{
     border: 1px solid #eee !important;
   }

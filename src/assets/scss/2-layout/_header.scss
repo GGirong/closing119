@@ -266,7 +266,8 @@
                         }
                         
                     }
-                    & > a{
+                    & > a, div{
+                        cursor: pointer;
                         display: block;
                         font-size: 13px;
                         color: $theme-color--black;
@@ -294,7 +295,7 @@
                     }
 
                     &:hover, &.active{
-                        & > a{
+                        & > a, div{
                             color: $theme-color--default;
                             &:before{
                                 width: 100%;
@@ -318,6 +319,10 @@
                     & > li{
                        padding: 0 15px;
                         & > a{
+                            padding: 25px 0;
+                            color: $white;
+                        }
+                        & > div{
                             padding: 25px 0;
                             color: $white;
                         }

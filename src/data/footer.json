@@ -4,12 +4,12 @@
     "footerLinkTitleOne": "usefull link 01",
     "navListOne": [
         {
-            "navTitle": "Home",
+            "navTitle": "홈",
             "navUrl": "/" 
         },
         {
-            "navTitle": "Company News",
-            "navUrl": "/blog-left-sidebar" 
+            "navTitle": "파트너스 페이지",
+            "navUrl": "/partners" 
         },
         {
             "navTitle": "Projects",

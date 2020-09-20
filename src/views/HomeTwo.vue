@@ -3,7 +3,20 @@
         <Header />
 
         <HeroOne :sliderData="data.heroTwo" />
-        <Apitest :sliderData="data.heroTwo" />
+
+        <AboutSection />
+
+        <ProjectGridSlider />
+
+        <ServiceTabs />
+
+        <Testimonial />
+
+        <TeamJob />
+
+        <BrandCarousel addClass="grey-bg" />
+
+        <BlogSection />
 
         <Footer/>
 

@@ -24,22 +24,22 @@
                                     <div class="header-info-single-item">
                                         <div class="header-info-single-item__content">
                                             <p class="header-info-single-item__subtitle">
-                                                <a href="tel:989875596854">견적작성</a>
+                                                <router-link to="/client">견적작성</router-link>
                                             </p>
                                         </div>
                                         <div class="header-info-single-item__content">
                                             <p class="header-info-single-item__subtitle">
-                                                <a href="tel:989875596854">견적확인</a>
+                                                <router-link to="/clientcheck/homepage">견적확인</router-link>
                                             </p>
                                         </div>
                                         <div class="header-info-single-item__content">
                                             <p class="header-info-single-item__subtitle">
-                                                <a href="tel:989875596854">고객후기</a>
+                                                <router-link to="/">고객후기</router-link>
                                             </p>
                                         </div>
                                         <div class="header-info-single-item__content">
                                             <p class="header-info-single-item__subtitle">
-                                                <a href="tel:989875596854">파트너스 신청</a>
+                                                <router-link to="/partnersregister">파트너스 신청</router-link>
                                             </p>
                                         </div>
                                     </div>
@@ -56,92 +56,6 @@
             </div>
             <!--=======  End of header info area =======-->
             
-            <!--=======  header navigation area  =======-->
-            <fixed-header>
-                <div class="header-navigation-area default-bg">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <!-- header navigation -->
-                                <div class="header-navigation header-navigation--header-default position-relative">
-                                    <div class="header-navigation__nav position-static">
-                                        <nav>
-                                            <ul>
-                                                <li class="has-children has-children--multilevel-submenu">
-                                                    <router-link to="/">HOME</router-link>
-                                                    <ul class="submenu">
-                                                        <li>
-                                                            <router-link to="/">Home One</router-link>
-                                                        </li>
-                                                        <li>
-                                                            <router-link to="/home-two">Home Two</router-link>
-                                                        </li>
-                                                        <li>
-                                                            <router-link to="/home-three">Home Three</router-link>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <router-link to="/about">ABOUT</router-link>
-                                                </li>
-
-                                                <li class="has-children has-children--multilevel-submenu">
-                                                    <router-link to="/service">SERVICE</router-link>
-                                                    <ul class="submenu">
-                                                        <li>
-                                                            <router-link to="/service">Service</router-link>
-                                                        </li>
-                                                        <li>
-                                                            <router-link to="/service-details">Service Details</router-link>
-                                                        </li>
-                                                        <li>
-                                                            <router-link to="/service-details-right">Service Details Right Sidebar</router-link>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-
-                                                <li class="has-children has-children--multilevel-submenu">
-                                                    <router-link to="/project">PROJECT</router-link>
-                                                    <ul class="submenu">
-                                                        <li>
-                                                            <router-link to="/project">Project</router-link>
-                                                        </li>
-                                                        <li>
-                                                            <router-link to="/project-details">Project Details</router-link>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-
-                                                <li class="has-children has-children--multilevel-submenu">
-                                                    <router-link to="/blog-left-sidebar">BLOG</router-link>
-                                                    <ul class="submenu">
-                                                        <li>
-                                                            <router-link to="/blog-left-sidebar">Blog Left Sidebar</router-link>
-                                                        </li>
-                                                        <li>
-                                                            <router-link to="/blog-right-sidebar">Blog Right Sidebar</router-link>
-                                                        </li>
-                                                        <li>
-                                                            <router-link to="/blog-details">Blog Details</router-link>
-                                                        </li>
-                                                        <li>
-                                                            <router-link to="/blog-details-right-sidebar">Blog Details Right Sidebar</router-link>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <router-link to="/contact">CONTACT</router-link>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </fixed-header>
-            <!--=======  End of header navigation area =======-->
         </div>
     </div>
     <!--====================  End of header area  ====================-->

@@ -2,67 +2,17 @@
     <div class="mobile-navigation">
         <nav class="offcanvas-navigation" id="offcanvas-navigation">
             <ul>
-                <li class="menu-item-has-children">
-                    <router-link to="/">Home</router-link>
-                    <ul class="sub-menu">
-                        <li>
-                            <router-link to="/">Home One</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/home-two">Home Two</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/home-three">Home Three</router-link>
-                        </li>
-                    </ul>
+                <li>
+                    <router-link to="/partners">견적 요청서 확인</router-link>
                 </li>
                 <li>
-                    <router-link to="/about">ABOUT</router-link>
-                </li>
-                <li class="menu-item-has-children">
-                    <router-link to="/service">SERVICE</router-link>
-                    <ul class="sub-menu">
-                        <li>
-                            <router-link to="/service">Service</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/service-details">Service Details</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/service-details-right">Service Details Right Sidebar</router-link>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu-item-has-children">
-                    <router-link to="/project">PROJECT</router-link>
-                    <ul class="sub-menu">
-                        <li>
-                            <router-link to="/project">Project</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/project-details">Project Details</router-link>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu-item-has-children">
-                    <router-link to="/blog-left-sidebar">BLOG</router-link>
-                    <ul class="sub-menu">
-                        <li>
-                            <router-link to="/blog-left-sidebar">Blog Left Sidebar</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/blog-right-sidebar">Blog Right Sidebar</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/blog-details">Blog Details</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/blog-details-right-sidebar">Blog Details Right Sidebar</router-link>
-                        </li>
-                    </ul>
+                    <div @click="$emit('godetail')">진행중인 견적 확인</div>
                 </li>
                 <li>
-                    <router-link to="/contact">CONTACT</router-link>
+                    <router-link to="/done">완료된 견적 확인</router-link>
+                </li>
+                <li>
+                    <router-link to="/profile">프로필 수정</router-link>
                 </li>
             </ul>
         </nav>

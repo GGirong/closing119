@@ -6,22 +6,19 @@
                 <div class="col-lg-12">
                     <div class="footer-content-wrapper section-space--inner--100">
                         <div class="row">
-                            <div class="col-xl-3 col-lg-3 col-md-12">
+                            <div class="col-xl-4 col-lg-3 col-md-12">
                                 <FooterAbout :logo="data.footerLogo" :desc="data.footerDesc" />
                             </div>
                             <div class="col-xl-2 offset-xl-1 col-lg-3 col-md-4">
-                                <FooterLink :title="data.footerLinkTitleOne" :nav="data.navListOne" />
-                            </div>
-                            <div class="col-xl-2 offset-xl-1 col-lg-3 col-md-4">
-                                <FooterLink :title="data.footerLinkTitleTwo" :nav="data.navListTwo" />
-                            </div>
-                            <div class="col-xl-2 offset-xl-1 col-lg-3 col-md-4">
+                                <FooterLink :title="'유용한 링크'" :nav="data.navListOne" />
+                            </div> 
+                            <div class="col-xl-4 offset-xl-1 col-lg-3 col-md-4">
                                 <ContactWidget :contactWidgetData="data.footerContactWidget" />
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
         </div>
         <div class="footer-copyright-wrapper">
             <div class="footer-copyright text-center">

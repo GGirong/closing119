@@ -5,21 +5,15 @@
 
         <HeroOne :sliderData="data.heroOne" />
 
+        <LatestProject />
+
+        <Feature />
+
         <ServiceSlider />
 
         <FunFact />
 
-        <AboutSection />
-
-        <LatestProject />
-
-        <TeamJob />
-
-        <Testimonial />
-
         <BlogSection addClass="grey-bg" />
-
-        <BrandCarousel />
 
         <Footer />
 
@@ -35,6 +29,7 @@
 
 <script>
     import Header from '@/components/Header';
+    import Feature from '../components/Feature';
     import HeroOne from '../components/sections/HeroOne';
     import ServiceSlider from '../components/sections/ServiceSlider';
     import FunFact from '../components/FunFact';
@@ -57,6 +52,7 @@
         components: {
             Header,
             HeroOne,
+            Feature,
             ServiceSlider,
             FunFact,
             AboutSection,

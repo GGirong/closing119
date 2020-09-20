@@ -5,8 +5,7 @@
                 <div class="col">
                     <div class="page-banner text-center">
                         <h1>{{ title }}</h1>
-                        <h3>{{ items[0].text}}</h3>
-                        <h3>{{ items[1].text}}</h3>
+                        <b-breadcrumb class="page-breadcrumb" :items="items"></b-breadcrumb>
                     </div>
                 </div>
             </div>

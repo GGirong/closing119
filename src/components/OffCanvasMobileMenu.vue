@@ -7,7 +7,7 @@
                         <div class="col-md-6 col-8">
                             <div class="logo">
                                 <router-link to="/">
-                                    <img src="assets/img/logo/logo.png" alt="logo">
+                                    <img src="assets/img/logo/closing_logo.png" alt="logo" width="75px">
                                 </router-link>
                             </div>
                         </div>
@@ -19,7 +19,9 @@
                     </div>
                 </div>
             </div>
-            <MobileNavMenu />
+            <MobileNavMenu 
+            @godetail="goDetail"
+            />
         </div>
     </div>
 </template>
@@ -41,6 +43,9 @@
                 } else {
                     el.classList.remove(className);
                 }
+            },
+            goDetail() {
+                this.$emit('godetail')
             }
         }
     };

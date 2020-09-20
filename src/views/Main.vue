@@ -5,25 +5,19 @@
 
         <HeroOne :sliderData="data.heroOne" />
 
+        <LatestProject />
+
+        <Feature />
+
         <ServiceSlider />
 
         <FunFact />
 
-        <AboutSection />
-
-        <LatestProject />
-
-        <TeamJob />
-
-        <Testimonial />
-
         <BlogSection addClass="grey-bg" />
-
-        <BrandCarousel />
 
         <Footer />
 
-        <OffCanvasMobileMenu />
+        <ClientOffCanvas />
 
         <!-- back to top start -->
         <back-to-top class="scroll-top" bottom="60px">
@@ -35,6 +29,7 @@
 
 <script>
     import Header from '@/components/Header';
+    import Feature from '../components/Feature';
     import HeroOne from '../components/sections/HeroOne';
     import ServiceSlider from '../components/sections/ServiceSlider';
     import FunFact from '../components/FunFact';
@@ -45,7 +40,7 @@
     import BlogSection from '../components/sections/BlogSection';
     import BrandCarousel from '../components/BrandCarousel';
     import Footer from '../components/Footer';
-    import OffCanvasMobileMenu from '@/components/OffCanvasMobileMenu'
+    import ClientOffCanvas from '@/components/ClientOffCanvas'
 
     import data from '../data/slider.json'
     export default {
@@ -57,6 +52,7 @@
         components: {
             Header,
             HeroOne,
+            Feature,
             ServiceSlider,
             FunFact,
             AboutSection,
@@ -66,7 +62,7 @@
             BlogSection,
             BrandCarousel,
             Footer,
-            OffCanvasMobileMenu
+            ClientOffCanvas
         },
         metaInfo: {
             title: 'Castro - Home One',
