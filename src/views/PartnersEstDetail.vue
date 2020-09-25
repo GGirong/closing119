@@ -3,7 +3,7 @@
 
         <PartnersHeader />
 
-        <Breadcrumb :items="items" title="견적 상세 보기"/>
+        <Breadcrumb :items="items" title="견적서 작성하기"/>
         
         <PartnersEstDetailWrapper 
         :estData="clientData"
@@ -23,10 +23,10 @@
                     총금액
                 </div>
                 <div class="input-title col-3" style="text-align: center; margin-top:10px">
-                    <input class="form-control" name="up2" type="text" placeholder="" v-model="estData.prices_data.content">
+                    <input class="form-control" name="up2" type="text" placeholder="" v-model="estData.prices_data[0].content">
                 </div>
                 <div class="input-title col-3" style="text-align: center; margin-top:10px">
-                    <input class="form-control" name="up2" type="text" placeholder="" v-model="estData.prices_data.supply_price">
+                    <input class="form-control" name="up2" type="text" placeholder="" v-model="estData.prices_data[0].supply_price">
                 </div>
                 <div class="input-title col-3" style="text-align: center; margin-top:10px">
                     <input class="form-control" name="up2" type="text" readonly placeholder="">
@@ -39,8 +39,9 @@
         </div>
         
         <div style="text-align: center; margin-bottom: 50px">
-            <button class="confirmButton" style="margin: 0 auto;" v-if="estStatus" @click="makeEst">작성하기</button>
-            <button class="closeButton"  style="margin: 0 auto; cursor: default" v-if="!estStatus" >선정 대기 중</button>
+            <button class="confirmButton" style="margin: 0 auto;" v-if="estStatus && estFinish" @click="makeEst">작성하기</button>
+            <button class="closeButton"  style="margin: 0 auto; cursor: default" v-if="!estStatus && estFinish" >선정 대기 중</button>
+            <button class="confirmButton"  style="margin: 0 auto; cursor: default" v-if="!estFinish" @click="finishEst">공사 완료하기</button>
         </div>
         <Footer />
 
@@ -63,9 +64,9 @@
     import OffCanvasMobileMenu from '@/components/OffCanvasMobileMenu';
 
     import axios from 'axios'
-    import { mapGetters } from 'vuex'
 
     export default {
+        props:['estId'],
         components: {
             PartnersHeader,
             Breadcrumb,
@@ -86,23 +87,31 @@
                 ],
                 clientData: {},
                 estData: {
-                    detail: "잘부탁드립니다.",
+                    detail: "",
                     prices_data: [
                         {
-                            content: "폐업119",
-                            supply_price: 1200
+                            content: null,
+                            supply_price: null
                         }
                     ]
                 },
-                estStatus: true
+                estStatus: true,
+                estFinish: true
             } 
         },
         methods: {
-            setEst() {
-
+            async finishEst() {
+                var estData= {
+                    estimate_id: this.estId
+                }
+                await axios.post('http://tmdgud1112.pythonanywhere.com/api/estcomplete/', estData ).then(res=>{
+                    alert("공사 완료 처리 되었습니다.")
+                    this.$router.push('/done')
+                })
             },
             async makeEst() {
-                await axios.patch('http://tmdgud1112.pythonanywhere.com/api/estimate/' + this.getPartner+ '/', this.estData).then(res=>{
+                console.log(this.estData)
+                await axios.patch('http://tmdgud1112.pythonanywhere.com/api/estimate/' + this.estId+ '/', this.estData).then(res=>{
                     this.estStatus = false
                 })
             },
@@ -110,7 +119,7 @@
         },
         async mounted() {
             console.log("디테일 마운티드")
-            await axios.get('http://tmdgud1112.pythonanywhere.com/api/estimate/' + this.getPartner, ).then(res=>{
+            await axios.get('http://tmdgud1112.pythonanywhere.com/api/estimate/' + this.estId, ).then(res=>{
                 if(res.data.status == "B") {
                     this.clientData = res.data
 
@@ -119,13 +128,12 @@
                     this.clientData = res.data
                     this.estStatus = false
                 }
-                
+                else if(res.data.status == "D") {
+                    this.clientData = res.data
+                    this.estFinish = false
+                }
             })
         },
-        computed: mapGetters([
-            'getPartner',
-            'getPartnerLogin',
-        ]),
         metaInfo: {
             title: 'Castro - Contact Us',
             htmlAttrs: {

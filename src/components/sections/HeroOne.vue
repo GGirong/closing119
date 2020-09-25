@@ -6,14 +6,14 @@
                     <swiper :options="swiperOption">
                         <!--=======  single slider item  =======-->
                         <div class="swiper-slide hero-slider__single-item" :style="{ backgroundImage: `url(${item.image})` }" v-for="item in sliderData" :key="item.id">
-                            <div class="hero-slider__content-wrapper">
+                            <div class="hero-slider__content-wrapper"> 
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="hero-slider__content" :class="[item.addClass]">
                                                 <h2 class="hero-slider__title">{{ item.title }}</h2>
                                                 <p class="hero-slider__text">{{ item.desc }}</p>
-                                               <router-link to="/client" class="hero-slider__btn">GET START</router-link>
+                                               <router-link to="/client" class="hero-slider__btn">견적서 요청하기</router-link>
                                             </div>
                                         </div>
                                     </div>

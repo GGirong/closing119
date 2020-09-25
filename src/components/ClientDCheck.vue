@@ -5,8 +5,8 @@
                     <div style="border: 1px solid #d4d4d4; padding: 25px">
                         <div style="font-size:24px; font-weight:500; margin-bottom:15px">선정한 견적서</div>
                         <div style="margin-left:15px">이름: <span style="margin-left:45px">{{ estData.Estimate.partner.partner_name}}</span></div>
-                        <div style="margin-left:15px">대표 이름: <span style="margin-left:45px">{{ estData.Estimate.partner.ceo}}</span></div>
-                        <div style="margin-left:15px">주소: <span style="margin-left:45px">{{ estData.Estimate.partner.address}}</span></div>
+                        <div style="margin-left:15px">대표 이름: <span style="margin-left:45px">{{ estData.Estimate.partner.ceo }}</span></div>
+                        <div style="margin-left:15px">주소: <span style="margin-left:45px">{{ estData.Estimate.partner.address }}</span></div>
                         <div style="margin-left:15px">연락처: <span style="margin-left:45px">{{ estData.Estimate.partner.phone_num}}</span></div>
                     </div>
                     

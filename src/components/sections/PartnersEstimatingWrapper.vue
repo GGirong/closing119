@@ -42,10 +42,10 @@
             }
         },
         methods: {
-            goDetail (id) {
+            goDetail (estId) {
                 console.log("디테일로 떠납니다.")
-                console.log(id)
-                this.$router.push('/estimating-detail')
+                console.log(estId)
+                this.$router.push({name: 'EstimatingDetail', params: {estId: estId}})
             }
         },
         computed: mapGetters([

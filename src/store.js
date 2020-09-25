@@ -37,5 +37,8 @@ export const store = new Vuex.Store({
     setClientLogin: function(state, payload) {
         return state.clientLogin= true
     },
+    setPartnerLogout: function(state, payload) {
+        return state.partnerLogin = false
+    }
   }
 });

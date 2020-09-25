@@ -5,15 +5,11 @@
 
         <HeroOne :sliderData="data.heroOne" />
 
-        <LatestProject />
-
-        <Feature />
-
-        <ServiceSlider />
+        <MainMapPage />
 
         <FunFact />
 
-        <BlogSection addClass="grey-bg" />
+        <LatestProject />
 
         <Footer />
 
@@ -31,7 +27,7 @@
     import Header from '@/components/Header';
     import Feature from '../components/Feature';
     import HeroOne from '../components/sections/HeroOne';
-    import ServiceSlider from '../components/sections/ServiceSlider';
+    import MainMapPage from '../components/sections/MainMapPage';
     import FunFact from '../components/FunFact';
     import AboutSection from '../components/sections/AboutSection';
     import LatestProject from '../components/sections/LatestProject';
@@ -53,7 +49,7 @@
             Header,
             HeroOne,
             Feature,
-            ServiceSlider,
+            MainMapPage,
             FunFact,
             AboutSection,
             LatestProject,

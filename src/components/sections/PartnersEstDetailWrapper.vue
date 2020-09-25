@@ -3,7 +3,7 @@
             <div class="project-section">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-12"> 
                             <div class="project-item-wrapper section-space--bottom--40">
                                 <div style="border: 1px solid #d4d4d4; padding: 25px">
                                     <div style="font-size:24px; font-weight:500; margin-bottom:15px">{{ estData.client.client_name}}님의 견적 요청서</div>

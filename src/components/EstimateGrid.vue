@@ -7,7 +7,7 @@
                 </div>
             </h3>
             <p class="subtitle">{{ estData.partner.address }}</p>
-            <p class="subtitle">{{ estData.total_price * 1.1 }}만원</p>
+            <p class="subtitle">{{ estData.total_price * 1.1 }}원</p>
             <div class="see-more-link" @click="openModal">자세히 보기</div>
         </div>
         <EstimateModal 

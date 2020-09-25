@@ -46,7 +46,7 @@
                                                     <router-link to="/partners">견적 요청서 확인</router-link>
                                                 </li>
                                                 <li>
-                                                    <div @click="$emit('godetail')">진행중인 견적 확인</div>
+                                                    <router-link to="/estimating" >진행중인 견적 확인</router-link>
                                                 </li>
 
                                                 <li>

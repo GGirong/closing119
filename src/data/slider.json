@@ -1,18 +1,18 @@
 {
     "heroOne": [
         {
-            "title": "Build Your Dream With Passion",
-            "desc": "Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusm tempor incididunt ut labore et dolore.",
+            "title": "업계 1위 폐업119의 믿고 맡기는 폐업 절차",
+            "desc": "견적 제공부터 건설까지 빠짐없이 제공되는 폐업 119만의 매니지먼트 서비스를 체험해보세요. 전국 어디에서나 믿을 수 있는 건설 업체의 견적을 받고 폐업절차를 진행하세요!",
             "image": "assets/img/slider/slider3.jpg"
         },
         {
-            "title": "Build Your Dream With Castro",
-            "desc": "Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusm tempor incididunt ut labore et dolore.",
+            "title": "",
+            "desc": "",
             "image": "assets/img/slider/slider2.jpg"
         },
         {
-            "title": "Makes Your Dream With Castro",
-            "desc": "Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusm tempor incididunt ut labore et dolore.",
+            "title": "",
+            "desc": "",
             "image": "assets/img/slider/slider1.jpg"
         }
     ],

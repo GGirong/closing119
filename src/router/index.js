@@ -129,10 +129,28 @@ const routes = [
         component: () => import(/* webpackChunkName: "contact" */ '../views/PartnersDone.vue')
     },
     {
+        path: '/done-detail',
+        name: 'DoneDetail',
+        props: true,
+        component: () => import(/* webpackChunkName: "contact" */ '../views/PartnerDoneDetail.vue')
+    },
+    {
         path: '/profile',
         name: 'Profile',
         props: true,
         component: () => import(/* webpackChunkName: "contact" */ '../views/PartnersProfile.vue')
+    },
+    {
+        path: '/pwchange',
+        name: 'PwChange',
+        props: true,
+        component: () => import(/* webpackChunkName: "contact" */ '../views/PartnersPasswordChange.vue')
+    },
+    {
+        path: '/authfind',
+        name: 'authfind',
+        props: true,
+        component: () => import(/* webpackChunkName: "contact" */ '../views/PartnersAuthFind.vue')
     },
     
 

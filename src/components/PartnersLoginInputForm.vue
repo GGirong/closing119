@@ -7,7 +7,10 @@
                     <div class="col-lg-12 col-12">
                         <div class="contact-form">
                             <div style="height: 25px;"></div>
-                            <h4>로그인 정보</h4>
+                            <div class="position: relative">
+                                <h4>로그인 정보</h4>
+                                <div style="position: absolute; color:#777; right: 25px; top: 32px; cursor: pointer" @click="authFind">아이디/ 비밀번호 찾기</div>
+                            </div>
                             <div style="height: 20px;"></div>
                                 <div class="row row-10">
                                     <div class="line"></div>
@@ -26,6 +29,7 @@
                                     </div>
                                     
                                     <div class="line"></div>
+                                    
                                 </div>
                                 
                             <p class="form-message"></p>
@@ -76,6 +80,9 @@
                     }
                 })
             },
+            authFind() {
+                this.$router.push('/authfind')
+            }
     }
 }
 </script>

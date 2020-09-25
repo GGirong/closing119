@@ -107,7 +107,7 @@
     &__title{
         font-size: 70px;
         line-height: 1.2;
-        color: $white;
+        color: #000;
         margin-top: -15px;
         margin-bottom: 40px;
 
@@ -127,8 +127,9 @@
 
     &__text{
         font-size: 16px;
+        text-shadow: 1px 1px 5px #fff;
         line-height: 1.8;
-        color: $white;
+        color: #000;
         margin-bottom: 50px;
         @media #{$small-mobile}{
             margin-bottom: 40px;
@@ -138,8 +139,8 @@
     &__btn{
         font-size: 13px;
         padding: 15px 50px;
-        color: $white;
-        border: 1px solid $white;
+        background-color: $white;
+        color: #000;
         align-self: flex-start;
         border-radius: 50px;
         transition: $transition--cubic;

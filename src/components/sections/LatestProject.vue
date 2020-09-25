@@ -6,7 +6,7 @@
                 <div class="col-lg-12">
                     <!-- section title -->
                     <div class="section-title-area text-center">
-                        <h2 class="section-title section-space--bottom--50">{{ data.sectionTitleOne }}<span class="title-icon"></span></h2>
+                        <h2 class="section-title section-space--bottom--50">협력업체<span class="title-icon"></span></h2>
                     </div>
                 </div>
             </div>

@@ -4,29 +4,29 @@
         <Header />
 
         <Breadcrumb :items="items" title="견적서 확인하기" />
-        <div v-if="!isLogin">
+         <div v-if="!getClientLogin">
             <ClientLoginInputForm 
                 :estData="estData"
                 @setEstData="setEstData"
                 @setClientStatus="setClientStatus" 
-                @login="isLogin=true"
+                @login="loginMounted"
             />
         </div>
 
-        <div v-if="isLogin && clientStatus == 'X'">
+        <div v-if="getClientLogin&& clientStatus == 'X'">
             <ClientXCheck
             :estData="estData"
             />
         </div>
 
-        <div v-if="isLogin && clientStatus == 'S' ">
+        <div v-if="getClientLogin && clientStatus == 'S' ">
             <ClientCheckWrapper 
                 :estData="estData" 
                 @setstatus="setClientStatus"
                 />
         </div>
 
-        <div v-if="isLogin && clientStatus == 'D'">
+        <div v-if="getClientLogin && clientStatus == 'D'">
             <ClientDCheck
             :estData="estData" 
             />
@@ -56,6 +56,8 @@
 
     import EventBus from '../main.js'
     import axios from 'axios'
+    import { mapGetters } from 'vuex'
+
     export default {
         props: ['id'],
         components: {
@@ -89,13 +91,19 @@
                 this.estData = data
             },
             loginMounted () {
-                this.isLogin = true
+                this.$store.commit('setClientLogin')
             },
             setClientStatus(code) {
                 this.clientStatus = code
                 console.log(this.clientStatus)
             }
         },
+        computed: mapGetters([
+            'getClient',
+            'getClientLogin',
+            'setClientLogin',
+            'setClient'
+        ]),
         metaInfo: {
             title: 'Castro - Contact Us',
             htmlAttrs: {
@@ -109,6 +117,7 @@
             }
             else {
                 await axios.get('http://tmdgud1112.pythonanywhere.com/api/clientcheck/', {params: {verify_code: this.id}}).then(res=>{
+                    console.log(res)
                     if(res.data.msg == "STATUS_X") {
                         this.estData = res.data.results
                         this.clientStatus = 'X'
