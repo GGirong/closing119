@@ -6,7 +6,7 @@
                         <div class="col-lg-12">
                             <div class="project-item-wrapper">
                                 <div class="row">
-                                    <div class="col-lg-12 col-sm-12 col-12 section-space--bottom--30" v-for="est in estData" :key="est.id">
+                                    <div class="col-lg-12 col-sm-12 col-12 section-space--bottom--30" v-for="est in estData.slice().reverse()" :key="est.id">
                                         <EstimatingGrid 
                                         :estData="est"
                                         @go-detail="goDetail"
@@ -54,7 +54,7 @@
         async mounted() {
             console.log("래퍼 마운티드")
             console.log(this.id)
-            await axios.get('http://tmdgud1112.pythonanywhere.com/api/estimating/', {params: {partner: this.getPartner}}).then(res=>{
+            await axios.get('https://new-api.closing119.com/api/estimating/', {params: {partner: this.getPartner}}).then(res=>{
                 console.log(res.data)
                 this.estData = res.data
                 if(res.data.length == 0) {

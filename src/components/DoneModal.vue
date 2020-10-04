@@ -12,7 +12,7 @@
                   <div class="row row-5 image-popup">
                       <div class="col-xl-3 col-lg-4 col-sm-6 col-12 section-space--top--10" v-for="image in clientData.images" :key="image.id">
                           <router-link to="/project-details" class="gallery-item single-gallery-thumb">
-                              <img :src="'http://tmdgud1112.pythonanywhere.com' + image.image"  alt="thumbnail">
+                              <img :src="'https://new-api.closing119.com' + image.image"  alt="thumbnail">
                               <span class="plus"></span>
                           </router-link>
                       </div>

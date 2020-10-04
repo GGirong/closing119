@@ -40,15 +40,9 @@
         },
         methods: {
             setClientData(code) {
-                console.log("레퍼에서 선정")
                 this.$emit('setstatus', code)
             }
         },
-        mounted() {
-            console.log(this.estData.Estimate)
-        }
-        
-
     };
 </script>
 

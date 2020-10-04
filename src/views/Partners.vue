@@ -130,7 +130,7 @@
                 this.requestData.client = this.clientData.id,
                 this.requestData.partner = this.getPartner
 
-                await axios.post('http://tmdgud1112.pythonanywhere.com/api/estimate/', this.requestData).then(res=>{
+                await axios.post('https://new-api.closing119.com/api/estimate/', this.requestData).then(res=>{
                     if(res.data) {
                         console.log(res.data)
                         this.$router.push('/estimating')

@@ -65,8 +65,7 @@
                 return re.test(email);
             },
             async login() {
-                await axios.post('http://tmdgud1112.pythonanywhere.com/api/clientlogin/', this.loginData).then(res => {
-                    console.log(res)
+                await axios.post('https://new-api.closing119.com/api/clientlogin/', this.loginData).then(res => {
                     if(res.data.msg == "STATUS_X") {
                         this.$emit('setEstData', res.data.results)
                         this.$emit('setClientStatus', 'X')
@@ -78,6 +77,7 @@
                         this.$emit('login')
                     }
                     else if(res.data.msg == "STATUS_D") {
+                        console.log(res)
                         this.$emit('setEstData', res.data.results)
                         this.$emit('setClientStatus', 'D')
                         this.$emit('login')

@@ -4,10 +4,32 @@
                 <div class="container"> 
                     <div style="border: 1px solid #d4d4d4; padding: 25px">
                         <div style="font-size:24px; font-weight:500; margin-bottom:15px">선정한 견적서</div>
-                        <div style="margin-left:15px">이름: <span style="margin-left:45px">{{ estData.Estimate.partner.partner_name}}</span></div>
-                        <div style="margin-left:15px">대표 이름: <span style="margin-left:45px">{{ estData.Estimate.partner.ceo }}</span></div>
-                        <div style="margin-left:15px">주소: <span style="margin-left:45px">{{ estData.Estimate.partner.address }}</span></div>
-                        <div style="margin-left:15px">연락처: <span style="margin-left:45px">{{ estData.Estimate.partner.phone_num}}</span></div>
+                        <div class="row">
+                            <div class="est-title col-sm-2 col-12" style="margin-left:15px">
+                                업체명
+                            </div>
+                            <div class="col-8" style="margin-left:15px">
+                                {{ estData.Estimate[0].partner.partner_name}}
+                            </div>
+                            <div class="est-title col-sm-2 col-12" style="margin-left:15px">
+                                대표
+                            </div>
+                            <div class="col-8" style="margin-left:15px">
+                                {{ estData.Estimate[0].partner.ceo}}
+                            </div>
+                            <div class="est-title col-sm-2 col-12" style="margin-left:15px">
+                                연락처
+                            </div>
+                            <div class="col-8" style="margin-left:15px">
+                                {{ formatPhoneNumber(estData.Estimate[0].partner.phone_num)}}
+                            </div>
+                            <div class="est-title col-sm-2 col-12" style="margin-left:15px">
+                                견적 금액
+                            </div>
+                            <div class="col-8" style="margin-left:15px">
+                                {{ numberWithCommas((estData.Estimate[0].total_price * 1.1).toFixed(0))}}
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="row">
@@ -37,19 +59,28 @@
             }
         },
         methods: {
-            setClientData(code) {
-                console.log("레퍼에서 선정")
-                this.$emit('setstatus', code)
-            }
+            numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
+            formatPhoneNumber(str){
+            //Filter only numbers from the input
+            
+            //Check if the input is of correct length
+            let match = str.match(/^([\S]{3})([\S]{4})([\S]{4})$/);
+
+            if (match) {
+                return match[1] + '-' + match[2] + '-' + match[3]
+            };
+
+            return null
+            },
         },
-        mounted() {
-            console.log(this.estData)
-        }
-        
 
     };
 </script>
 
-<style lang="scss">
-
+<style>
+.est-title {
+    color: #777;
+}
 </style>

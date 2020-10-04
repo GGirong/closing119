@@ -104,7 +104,7 @@
                                     </div>
                                     <div class="col-md-6 col-12  section-space--bottom--20" v-if="registration_image_url != null">
                                         <img
-                                        :src="'http://tmdgud1112.pythonanywhere.com' + registration_image_url"
+                                        :src="'https://new-api.closing119.com' + registration_image_url"
                                         style="width: 150px; height: 150px"
                                         alt="사업자등록증"
                                         />
@@ -119,7 +119,7 @@
                                     </div>
                                     <div class="col-md-6 col-12  section-space--bottom--20" v-if="profile_image_url != null">
                                         <img
-                                        :src="'http://tmdgud1112.pythonanywhere.com' + profile_image_url"
+                                        :src="'https://new-api.closing119.com' + profile_image_url"
                                         style="width: 150px; height: 150px"
                                         alt="프로필사진"
                                         />
@@ -267,7 +267,7 @@
                 var loginData = {}
                 loginData.username = this.partnersData.username
                 loginData.password = this.partnersData.password
-                await axios.post('http://tmdgud1112.pythonanywhere.com/api/login/', loginData).then(res => {
+                await axios.post('https://new-api.closing119.com/api/login/', loginData).then(res => {
                     this.sendRegisterData()
                 })
                 .catch((err) => {
@@ -294,7 +294,7 @@
                 }
                 
                 console.log(this.partnersData)
-                await axios.patch('http://tmdgud1112.pythonanywhere.com/api/partner/' + this.getPartner + '/', this.partnersData).then(res=>{
+                await axios.patch('https://new-api.closing119.com/api/partner/' + this.getPartner + '/', this.partnersData).then(res=>{
                     this.partnerPk = res.data.id
                 });
                 const bodyFormData = new FormData();
@@ -308,7 +308,7 @@
                 bodyFormData.append('partner', this.partnerPk)
 
 
-                await axios.patch('http://tmdgud1112.pythonanywhere.com/api/partnerimage/', bodyFormData,{ headers: { 'Content-Type': 'multipart/form-data' }}).then(res=>{
+                await axios.patch('https://new-api.closing119.com/api/partnerimage/', bodyFormData,{ headers: { 'Content-Type': 'multipart/form-data' }}).then(res=>{
                     alert("프로필 변경이 완료되었습니다.")
                     this.$router.push('/partners')
                 });
@@ -345,7 +345,7 @@
             },
         },
         async mounted() {
-            await axios.get('http://tmdgud1112.pythonanywhere.com/api/partner/' + this.getPartner + '/').then(res=>{
+            await axios.get('https://new-api.closing119.com/api/partner/' + this.getPartner + '/').then(res=>{
                 console.log(res)
                 this.partnersData = res.data
             })
@@ -369,7 +369,7 @@
             delete this.partnersData.service_area
             this.partnersData.service_area_array = []
 
-            await axios.get('http://tmdgud1112.pythonanywhere.com/api/partnerimage/', {params: {partner: this.getPartner}}).then(res=>{
+            await axios.get('https://new-api.closing119.com/api/partnerimage/', {params: {partner: this.getPartner}}).then(res=>{
                 this.profile_image_url = res.data.results.profile_image
                 this.registration_image_url = res.data.results.registration_image
             })

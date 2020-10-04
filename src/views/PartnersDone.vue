@@ -83,7 +83,7 @@
             },
         },
         async mounted() {
-            await axios.get('http://tmdgud1112.pythonanywhere.com/api/complete/', {params: { partner: this.getPartner}}).then(res=>{
+            await axios.get('https://new-api.closing119.com/api/complete/', {params: { partner: this.getPartner}}).then(res=>{
                 this.emptyEsting = false
                 this.estData = res.data
                 console.log(this.estData)

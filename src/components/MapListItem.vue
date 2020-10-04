@@ -3,7 +3,7 @@
       <div class="item-head">
           <div class="head-left">
                 <img 
-                :src="'http://tmdgud1112.pythonanywhere.com' + source.images[0].image"
+                :src="'https://new-api.closing119.com' + source.images[0].image"
                 width="150px"
                 />
           </div>
@@ -20,16 +20,17 @@
                 <div class="head-right-item">
                     {{ source.py}}
                 </div>
+                <div class="head-right-title">
+                    주소
+                </div>
+                <div>
+                    {{ source.address}}
+                </div>
           </div>
           
       </div>
       <div class="item-address">
-            <div class="head-right-title">
-                주소
-            </div>
-            <div>
-                {{ source.address}}
-            </div>
+            
       </div>
         
         
@@ -49,7 +50,6 @@
     },
     methods: {
           setClient() {
-              console.log("클릭함")
               this.$emit('setClientData', this.source)
           }
       }

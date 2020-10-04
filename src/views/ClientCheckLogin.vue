@@ -55,7 +55,7 @@
         },
         async mounted() {
             // const res = await axios.get(
-            //     `http://tmdgud1112.pythonanywhere.com/api/user`
+            //     `https://new-api.closing119.com/api/user`
             // );
             // this.clientData = res;
             // console.log(this.clientData.data[0].email)

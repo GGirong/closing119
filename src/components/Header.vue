@@ -8,38 +8,38 @@
 
             <!--=======  header info area  =======-->
             <div class="header-info-area">
-                <div class="container">
+                <div class="header-container">
                     <div class="row align-items-center">
                         <div class="col-lg-12">
                             <div class="header-info-wrapper align-items-center">
                                 <!-- logo -->
                                 <div class="logo">
                                     <router-link to="/">
-                                        <img src="assets/img/logo/closing_logo.png" class="img-fluid" alt="Brand Logo" width="75px">
+                                        <img src="../../public/assets/img/logo/closing_logo.png" alt="Brand Logo" width="75px">
                                     </router-link>
                                 </div>
+                                <router-link to="/client">
+                                <div style="cursor: pointer;margin-left: 470px; background-color: #35a8ee; color: #fff; border-radius: 25px; width: 350px; text-align: center; padding: 5px; font-size: 18px;">
+                                    우리 매장 견적 확인하기 <img src="../../public/assets/img/pencile.png" style="height: 25px; padding-bottom:4px"/>
+                                </div>
+                                </router-link>
 
                                 <!-- header contact info -->
                                 <div class="header-contact-info">
                                     <div class="header-info-single-item">
                                         <div class="header-info-single-item__content">
                                             <p class="header-info-single-item__subtitle">
-                                                <router-link to="/client">견적작성</router-link>
+                                                <router-link to="/client">견적 요청하기</router-link>
                                             </p>
                                         </div>
                                         <div class="header-info-single-item__content">
                                             <p class="header-info-single-item__subtitle">
-                                                <router-link to="/clientcheck/homepage">견적확인</router-link>
+                                                <router-link to="/clientcheck/homepage">내 견적 확인하기</router-link>
                                             </p>
                                         </div>
                                         <div class="header-info-single-item__content">
                                             <p class="header-info-single-item__subtitle">
-                                                <router-link to="/">고객후기</router-link>
-                                            </p>
-                                        </div>
-                                        <div class="header-info-single-item__content">
-                                            <p class="header-info-single-item__subtitle">
-                                                <router-link to="/partnersregister">파트너스 신청</router-link>
+                                                <router-link to="/partners">파트너스 신청하기</router-link>
                                             </p>
                                         </div>
                                     </div>

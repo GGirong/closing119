@@ -8,32 +8,51 @@
                 견적요청서 자세히 보기
               </div>
               <div style="height:1px; background-color:#d4d4d4; margin-top: 10px; margin-bottom: 20px"></div>
-              <div class="col-12">
+                <div class="row">
+                  <div class="estimate-text-box col-lg-6 col-md-12">
+                    <div class="estimate-text-title">
+                      상호명
+                    </div>
+                    <div class="estimate-text-subtitle">
+                      {{ clientData.business_name}}
+                    </div>
+                  </div>
+                  <div class="estimate-text-box col-lg-6 col-md-12">
+                    <div class="estimate-text-title">
+                      주소
+                    </div>
+                    <div class="estimate-text-subtitle">
+                      {{ clientData.address}}
+                    </div>
+                  </div>
+                  <div class="estimate-text-box col-lg-6 col-md-12">
+                    <div class="estimate-text-title">
+                      업종
+                    </div>
+                    <div class="estimate-text-subtitle">
+                      {{ clientData.sector}}
+                    </div>
+                  </div>
+                  <div class="estimate-text-box col-lg-6 col-md-12">
+                    <div class="estimate-text-title">
+                      평수
+                    </div>
+                    <div class="estimate-text-subtitle">
+                      {{ clientData.py}}
+                    </div>
+                  </div>
+                
+                <div class="col-12">
                   <div class="row row-5 image-popup">
-                      <div class="col-xl-3 col-lg-4 col-sm-6 col-12 section-space--top--10" v-for="image in clientData.images" :key="image.id">
-                          <router-link to="/project-details" class="gallery-item single-gallery-thumb">
-                              <img :src="'http://tmdgud1112.pythonanywhere.com' + image.image"  alt="thumbnail">
-                              <span class="plus"></span>
-                          </router-link>
+                      <div class="col-xl-3 col-lg-4 col-sm-6 col-3 section-space--top--20" v-for="image in clientData.images" :key="image.id">
+                          <img :src="'https://new-api.closing119.com' + image.image"  
+                          alt="thumbnail"
+                          class="map-modal-image"
+                          >
                       </div>
                   </div>
                 </div>
-                <div class="estimate-text">
-                    이름 : {{ clientData.client_name}}
-                </div>
-                <div class="estimate-text">
-                    상호명 : {{ clientData.business_name}}
-                </div>
-                <div class="estimate-text">
-                    주소 : {{ clientData.address}}
-                </div>
-                <div class="estimate-text">
-                    업종 : {{ clientData.sector}}
-                </div>
-                <div class="estimate-text">
-                    평수 : {{ clientData.py}}
-                </div>
-                
+              </div>
             </div>
         </div>
         <footer class="modal-footer">
@@ -131,5 +150,20 @@
   }
 }
 
+.map-modal-image {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+    object-position: 50%;
+}
+.estimate-text-box {
 
+}
+.estimate-text-title {
+  color: rgb(94, 84, 84)
+  font-size: 14px
+}
+.estimate-text-subtitle {
+  font-size: 16px
+}
 </style>

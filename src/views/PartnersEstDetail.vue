@@ -7,41 +7,127 @@
         
         <PartnersEstDetailWrapper 
         :estData="clientData"
-        /> 
-        <div class="container">
-            <div class="row row-10 section-space--bottom--40">
-                <div class="input-title col-3" style="text-align: center">
-                    공사내용
+        />
+        <b-form-group class="container" v-if="!estFinish">
+            <template v-for="(value, index) in multiple_input_map_list">
+            <b-row
+            :key="index"
+            class="mb-1"
+            >
+            <b-col class="col-2">
+                <div class="input-bugase">
+                    {{value.content}}
                 </div>
-                <div class="input-title col-3" style="text-align: center">
-                    공급가
+            </b-col>
+            <b-col class="col-3">
+                <div class="input-bugase">
+                    {{numberWithCommas(value.supply_price)}}
                 </div>
-                <div class="input-title col-3" style="text-align: center">
-                    부가세
+            </b-col>
+            <b-col class="col-3">
+                <div class="input-bugase">
+                    {{numberWithCommas(value.supply_price * 0.1)}}
                 </div>
-                <div class="input-title col-3" style="text-align: center">
-                    총금액
+            </b-col>
+            <b-col class="col-3">
+                <div class="input-bugase">
+                    {{ numberWithCommas((value.supply_price * 1.1).toFixed(0)) }}
                 </div>
-                <div class="input-title col-3" style="text-align: center; margin-top:10px">
-                    <input class="form-control" name="up2" type="text" placeholder="" v-model="estData.prices_data[0].content">
+            </b-col>
+            </b-row>
+        </template>
+        </b-form-group>
+        <b-form-group class="container" v-if="estFinish">
+        <template v-for="(value, index) in multiple_input_map_list">
+            <b-row
+            :key="index"
+            class="mb-1"
+            >
+            <b-col class="col-2">
+                <div class="input-bugase">
+                    {{value.content}}
                 </div>
-                <div class="input-title col-3" style="text-align: center; margin-top:10px">
-                    <input class="form-control" name="up2" type="text" placeholder="" v-model="estData.prices_data[0].supply_price">
+            </b-col>
+            <b-col class="col-3">
+                <div class="input-bugase">
+                    {{numberWithCommas(value.supply_price)}}
                 </div>
-                <div class="input-title col-3" style="text-align: center; margin-top:10px">
-                    <input class="form-control" name="up2" type="text" readonly placeholder="">
+            </b-col>
+            <b-col class="col-3">
+                <div class="input-bugase">
+                    {{numberWithCommas(value.supply_price * 0.1)}}
                 </div>
-                <div class="input-title col-3" style="text-align: center; margin-top:10px">
-                    <input class="form-control" name="up2" type="text" readonly placeholder="">
+            </b-col>
+            <b-col class="col-3">
+                <div class="input-bugase">
+                    {{ numberWithCommas((value.supply_price * 1.1).toFixed(0)) }}
                 </div>
-
-            </div>
-        </div>
+            </b-col>
+            <b-col class="col-1">
+                <b-button
+                @click.stop.prevent="onDeleteMultipleMapInput(value.content)"
+                variant="danger"
+                >
+                <i class="icon icon-trash"></i> 삭제
+                </b-button>
+            </b-col>
+            </b-row>
+        </template>
+        <b-row>
+            <b-col class="col-2">
+            <b-form-input
+                id="input-multiple-input-map-key"
+                name="input-multiple-input-map-key"
+                v-model="multiple_input_map_key"
+            >
+            </b-form-input>
+            </b-col>
+            <b-col class="col-3">
+            <b-form-input
+                name="input-multiple-input-map-value"
+                v-model.lazy="multiple_input_map_value"
+            >
+            </b-form-input>
+            </b-col>
+            <b-col class="col-3">
+                <div class="input-bugase">
+                    {{numberWithCommas(multiple_input_map_value * 0.1)}}
+                </div>
+            </b-col>
+            <b-col class="col-3">
+                <div class="input-bugase">
+                    {{ numberWithCommas((multiple_input_map_value* 1.1).toFixed(0)) }}
+                </div>
+            </b-col>
+            <b-col class="col-12" style="text-align: center">
+            <b-button
+                @click.stop.prevent="onAddMultipleMapInput"
+                variant="primary"
+                style="width: 150px; margin-top: 20px"
+            >
+                <i class="icon icon-plus"></i> 추가
+            </b-button>
+            </b-col>
+             <b-col class="col-3" style="margin-left: 25px; margin-top: 20px;"> 
+                세부사항 (선택)
+            </b-col>
+            <b-form-input class="col-10"
+            style="height: 80px; margin-left: 40px; margin-top: 20px"
+            v-model="estData.detail">
+            </b-form-input>
+        </b-row>
+        <!-- <b-row>
+            <b-col class="col-12">
+            {{ multipleInputToMap }}
+            </b-col>
+        </b-row> -->
+        </b-form-group>
+        
         
         <div style="text-align: center; margin-bottom: 50px">
             <button class="confirmButton" style="margin: 0 auto;" v-if="estStatus && estFinish" @click="makeEst">작성하기</button>
             <button class="closeButton"  style="margin: 0 auto; cursor: default" v-if="!estStatus && estFinish" >선정 대기 중</button>
-            <button class="confirmButton"  style="margin: 0 auto; cursor: default" v-if="!estFinish" @click="finishEst">공사 완료하기</button>
+            <button class="confirmButton"  style="margin: 0 auto;" v-if="!estFinish" @click="finishEst">공사 완료하기</button>
         </div>
         <Footer />
 
@@ -88,15 +174,19 @@
                 clientData: {},
                 estData: {
                     detail: "",
-                    prices_data: [
-                        {
-                            content: null,
-                            supply_price: null
-                        }
-                    ]
+                    prices_data: []
                 },
                 estStatus: true,
-                estFinish: true
+                estFinish: true,
+                multiple_input_map_list: [],      // 배열처리된 입력양식의 값
+                multiple_input_map_key: "",       // 값 추가를 위한 입력양식의 키
+                multiple_input_map_value: "",
+
+                details : {},         // 입력양식의 현재 데이터
+                origin : {},          // 입력양식의 기본 데이터(리셋 버튼클릭시 초기화될 값)
+                defaults : {          // 기본값
+                    multiple_input_map_form: "",
+                }
             } 
         },
         methods: {
@@ -104,22 +194,46 @@
                 var estData= {
                     estimate_id: this.estId
                 }
-                await axios.post('http://tmdgud1112.pythonanywhere.com/api/estcomplete/', estData ).then(res=>{
+                await axios.post('https://new-api.closing119.com/api/estcomplete/', estData ).then(res=>{
                     alert("공사 완료 처리 되었습니다.")
                     this.$router.push('/done')
                 })
             },
             async makeEst() {
-                console.log(this.estData)
-                await axios.patch('http://tmdgud1112.pythonanywhere.com/api/estimate/' + this.estId+ '/', this.estData).then(res=>{
+                this.estData.prices_data = this.multiple_input_map_list
+                await axios.patch('https://new-api.closing119.com/api/estimate/' + this.estId+ '/', this.estData).then(res=>{
                     this.estStatus = false
                 })
+            },
+            onAddMultipleMapInput() {
+                const key = this.multiple_input_map_key;
+                const value = this.multiple_input_map_value;
+                if(key !== "" && value !== "") {
+                    this.multiple_input_map_list.push({"content" : key, "supply_price" : value});
+                    this.multiple_input_map_key = "";
+                    this.multiple_input_map_value = "";
+                }
+            },
+            onDeleteMultipleMapInput(key) {
+                let index = -1;
+                this.multiple_input_map_list.some((info, idx) => {
+                    if(info.key === key) {
+                    index = idx;
+                    return true;
+                    }
+                });
+                if(index >= 0) {
+                    this.multiple_input_map_list.splice(index, 1);
+                }
+            },
+            numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             },
 
         },
         async mounted() {
             console.log("디테일 마운티드")
-            await axios.get('http://tmdgud1112.pythonanywhere.com/api/estimate/' + this.estId, ).then(res=>{
+            await axios.get('https://new-api.closing119.com/api/estimate/' + this.estId, ).then(res=>{
                 if(res.data.status == "B") {
                     this.clientData = res.data
 
@@ -133,6 +247,11 @@
                     this.estFinish = false
                 }
             })
+            if(this.clientData.status == "D"){
+                axios.get('https://new-api.closing119.com/api/estpriceset/', {params: {estimate: this.clientData.id}}).then(res=>{
+                    this.multiple_input_map_list = res.data
+                })
+            }
         },
         metaInfo: {
             title: 'Castro - Contact Us',
@@ -144,3 +263,22 @@
     }
 </script>
 
+<style>
+.input-bugase {
+    background-color: #e9ecef;
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+</style>

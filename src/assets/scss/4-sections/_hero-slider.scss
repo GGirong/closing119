@@ -135,7 +135,26 @@
             margin-bottom: 40px;
         }
     }
+    &__mainbtn{
+        font-size: 13px;
+        padding: 15px 50px;
+        background-color: $theme-color--default;
+        color: $white;
+        align-self: flex-start;
+        border: 1px solid $theme-color--default;
+        border-radius: 50px;
+        transition: $transition--cubic;
 
+        &--style2{
+            align-self: center;
+        }
+
+        &:hover, &:focus, &:active{
+            color: $theme-color--default;
+            background-color: $white;
+            border: 1px solid $theme-color--default;
+        }
+    }
     &__btn{
         font-size: 13px;
         padding: 15px 50px;

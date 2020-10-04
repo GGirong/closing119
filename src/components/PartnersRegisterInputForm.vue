@@ -196,6 +196,9 @@
             </div>
         </div>
         <!--Contact section end-->
+        <Loading :active.sync="isLoading"
+        :is-full-page="fullPage"
+        />
     </div>
 </template>
 
@@ -203,13 +206,16 @@
     import data from '../data/contact.json'
     import MyModal from '../components/MyModal'
     import Multiselect from 'vue-multiselect'
+    import Loading from 'vue-loading-overlay';
+    import 'vue-loading-overlay/dist/vue-loading.css';
 
     import axios from "axios";
 
     export default {
         components: {
             MyModal,
-            Multiselect
+            Multiselect,
+            Loading,
         },
         data () {
             return {
@@ -263,7 +269,9 @@
                 checked_5: false,
                 profile_image: null,
                 registration_image: null,
-                partnerPk: null
+                partnerPk: null,
+                isLoading: false,
+                fullPage: true,
             }
         },
         methods: {
@@ -274,6 +282,7 @@
                 this.registration_image = this.$refs.reg_image.files[0]
             },
             async sendRegisterData() {
+                this.isLoading = true
                 if(this.checked_1) {
                     this.partnersData.service_area_array.push('seoul')
                 }
@@ -290,7 +299,7 @@
                     this.partnersData.service_area_array.push('jeolla')
                 }
                 console.log(this.partnersData)
-                await axios.post('http://tmdgud1112.pythonanywhere.com/api/partner/', this.partnersData).then(res=>{
+                await axios.post('https://new-api.closing119.com/api/partner/', this.partnersData).then(res=>{
                     this.partnerPk = res.data.id
                 });
                 const bodyFormData = new FormData();
@@ -300,9 +309,10 @@
                 bodyFormData.append('partner', this.partnerPk)
 
 
-                await axios.post('http://tmdgud1112.pythonanywhere.com/api/partnerimage/', bodyFormData,{ headers: { 'Content-Type': 'multipart/form-data' }}).then(res=>{
+                await axios.post('https://new-api.closing119.com/api/partnerimage/', bodyFormData,{ headers: { 'Content-Type': 'multipart/form-data' }}).then(res=>{
+                    this.isLoading = false
                     alert("신청이 완료 되었습니다. 관리자의 승인 후 파트너스 페이지를 이용하실 수 있습니다.")
-                    this.$router.push('/')
+                    this.$router.push('/partners')
                 });
                 
             },
@@ -345,7 +355,7 @@
                 var username = { "username": ""}
                 username.username = this.partnersData.username
                 await axios.post(
-                    'http://tmdgud1112.pythonanywhere.com/api/checkid/', username
+                    'https://new-api.closing119.com/api/checkid/', username
                 ).then(res=>{
                     alert("사용가능한 아이디입니다.")
                     this.idConfirm()

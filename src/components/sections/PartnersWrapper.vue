@@ -82,7 +82,6 @@
         },
         methods: {
             setClientData(data) {
-                console.log("확인")
                 this.$emit('setClientData', data)
             }
         },
@@ -91,21 +90,43 @@
             'getPartnerLogin',
         ]),
         async mounted() {
-
-            
             var container = document.getElementById('map');
             var mapOptions = {
                 center: new daum.maps.LatLng(37.6526164, 127.0366073),
-                level: 4 //지도의 레벨(확대, 축소 정도)
+                level: 10 //지도의 레벨(확대, 축소 정도)
             };
             var map = new daum.maps.Map(container, mapOptions);
+
+            if (navigator.geolocation) {
+    
+                // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var lat = position.coords.latitude, // 위도
+                        lon = position.coords.longitude; // 경도
+                    var locPosition = new kakao.maps.LatLng(lat, lon)
+
+                    displayMarker(locPosition);
+                });
+                
+            } else { 
+                var lat = 37.6526164, // 위도
+                    lon = 127.0366073; // 경도
+
+                var locPosition = new kakao.maps.LatLng(lat, lon)
+
+                displayMarker(locPosition);
+            }
+
+            function displayMarker(locPosition) {
+                map.setCenter(locPosition);      
+            }  
 
             var zoomControl = new kakao.maps.ZoomControl();
             map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
 
             
 
-            await axios.get('http://tmdgud1112.pythonanywhere.com/api/partnermap/', {params: {partner: this.getPartner}}).then(res=>{
+            await axios.get('https://new-api.closing119.com/api/partnermap/', {params: {partner: this.getPartner}}).then(res=>{
                 for(var i in res.data){
                     this.positions[i] = {}
                     this.positions[i].lat = res.data[i].lat
@@ -127,7 +148,7 @@
                 var info_address
                 var info_py
 
-                await axios.get('http://tmdgud1112.pythonanywhere.com/api/clientimage/', {params: {client: this.positions[i].title}}).then(res=>{
+                await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: this.positions[i].title}}).then(res=>{
                     info_name = res.data.results.client.business_name
                     info_address = res.data.results.client.address
                     info_py = res.data.results.client.py
@@ -144,14 +165,13 @@
             function clickMarker(marker, me) {
                 return function() {
                     var id = marker.getTitle()
-                    axios.get('http://tmdgud1112.pythonanywhere.com/api/clientimage/', {params: {client: id}}).then(res=>{
+                    axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: id}}).then(res=>{
                         let clientData = res.data.results.client
                         let images = []
                         for( var i in res.data.results.client_image) {
                             images[i] = res.data.results.client_image[i]
                         }
                         clientData.images = images
-                        console.log(clientData.images)
                         me.$emit('setClientData', clientData)
                     })
                 }
@@ -166,7 +186,7 @@
                     infowindow.close();
                 };
             }
-            await axios.get('http://tmdgud1112.pythonanywhere.com/api/partnermaplist/', {params: {partner: this.getPartner}}).then(res=>{
+            await axios.get('https://new-api.closing119.com/api/partnermaplist/', {params: {partner: this.getPartner}}).then(res=>{
                 if(res.data.results.chungcheong.length > 0) {
                     this.mapList.chungcheong.push(res.data.results.chungcheong)
                     this.sector.chungcheong = true
@@ -190,7 +210,7 @@
             })
             console.log(this.mapList)
             for ( var i in this.mapList.seoul[0]) {
-                await axios.get('http://tmdgud1112.pythonanywhere.com/api/clientimage/', {params: {client: this.mapList.seoul[0][i].id}}).then(res=>{
+                await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: this.mapList.seoul[0][i].id}}).then(res=>{
                     this.clientList.push(res.data.results.client)
                     let images = []
                     for( var j in res.data.results.client_image) {

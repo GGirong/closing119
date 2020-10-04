@@ -1,11 +1,11 @@
 <template>
-    <div class="main-container">
+    <div>
 
         <Header />
 
         <HeroOne :sliderData="data.heroOne" />
 
-        <MainMapPage />
+        <MainDesign />
 
         <FunFact />
 
@@ -26,6 +26,7 @@
 <script>
     import Header from '@/components/Header';
     import Feature from '../components/Feature';
+    import MainDesign from '../components/MainDesign';
     import HeroOne from '../components/sections/HeroOne';
     import MainMapPage from '../components/sections/MainMapPage';
     import FunFact from '../components/FunFact';
@@ -58,7 +59,8 @@
             BlogSection,
             BrandCarousel,
             Footer,
-            ClientOffCanvas
+            ClientOffCanvas,
+            MainDesign 
         },
         metaInfo: {
             title: 'Castro - Home One',

@@ -4,18 +4,35 @@
       <div class="modal-window">
         <div class="modal-content">
             <div class="estimate-container">
-              <div style="width: 200px; font-size: 21px; margin: 0 auto">
-                견적서 자세히 보기
-              </div>
-              <div style="height:1px; background-color:#d4d4d4; margin-top: 10px; margin-bottom: 20px"></div>
-                <div class="estimate-text">
-                    이름 : 꽈뚜릅
-                </div>
-                <div class="estimate-text">
-                    상호명 : 금영건설
-                </div>
-                <div class="estimate-text">
-                    견적 금액 : 879 만원
+                <div class="row">
+                  <div class="col-12 text-center" style="font-size: 21px;">
+                    견적서 자세히 보기
+                  </div>
+                  <div class="col-12" style="height:1px; background-color:#d4d4d4; margin-top: 10px; margin-bottom: 20px"></div>
+                  <div class="estimate-modal-title col-xs-6 col-sm-4">
+                    업체명
+                  </div>
+                  <div class="col-xs-6 col-sm-8">
+                    {{ estData.partner.partner_name}}
+                  </div>
+                  <div class="estimate-modal-title col-xs-6 col-sm-4">
+                    대표
+                  </div>
+                  <div class="col-xs-6 col-sm-8">
+                    {{ estData.partner.ceo}}
+                  </div>
+                  <div class="estimate-modal-title col-xs-6 col-sm-4">
+                    견적 금액
+                  </div>
+                  <div class="col-xs-6 col-sm-8">
+                    {{ numberWithCommas((estData.total_price * 1.1).toFixed(0)) }} 원
+                  </div>
+                  <div class="estimate-modal-title col-xs-6 col-sm-4">
+                    세부사항
+                  </div>
+                  <div class="col-12">
+                    {{ estData.detail }}
+                  </div>
                 </div>
             </div>
         </div>
@@ -35,8 +52,10 @@
                 addData: ""
             }
         },
-        mounted() {
-            console.log("모달 열림")
+        methods: {
+          numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          },
         }
     }
 </script>
@@ -59,6 +78,7 @@
     background: #fff;
     border-radius: 4px;
     overflow: hidden;
+    margin: 50px
   }
 
   &-content {
@@ -82,8 +102,6 @@
     margin-top: 15px;
 }
 .estimate-container {
-    width: 50vw;
-    height: 45vh;
 }
 .estimate-text {
   margin-left: 20px
@@ -134,5 +152,8 @@
     text-transform: uppercase;
     background-color: #fff;
     font-weight: 700;
+}
+.estimate-modal-title {
+  color: #777
 }
 </style>

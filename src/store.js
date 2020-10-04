@@ -8,7 +8,8 @@ export const store = new Vuex.Store({
       partnerId: 0,
       clientId: 0,
       partnerLogin: false,
-      clientLogin: false
+      clientLogin: false,
+      clientStatus: 'DAMEDAME',
   },
   getters: {
     getPartner: function (state) {
@@ -22,6 +23,9 @@ export const store = new Vuex.Store({
     },
     getClientLogin: function (state) {
         return state.clientLogin;
+    },
+    getClientStatus: function (state) {
+        return state.clientStatus;
     }
   },
   mutations: {
@@ -39,6 +43,12 @@ export const store = new Vuex.Store({
     },
     setPartnerLogout: function(state, payload) {
         return state.partnerLogin = false
+    },
+    setClientLogout: function(state, payload) {
+        return state.clientLogin = false
+    },
+    setClientStatus: function (state, payload) {
+        return state.clientStatus = payload;
     }
   }
 });

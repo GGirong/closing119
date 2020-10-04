@@ -89,7 +89,7 @@
             } 
         },
         async mounted() {
-            await axios.get('http://tmdgud1112.pythonanywhere.com/api/clientestcomplete/',{params: {client: this.clientId}}).then(res=>{
+            await axios.get('https://new-api.closing119.com/api/clientestcomplete/',{params: {client: this.clientId}}).then(res=>{
                 console.log(res)
                 this.clientData = res.data[0].client
                 this.estData = res.data

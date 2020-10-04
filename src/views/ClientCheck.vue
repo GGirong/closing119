@@ -13,21 +13,27 @@
             />
         </div>
 
-        <div v-if="getClientLogin&& clientStatus == 'X'">
+        <div v-if="getClientLogin&& getClientStatus == 'X'">
             <ClientXCheck
             :estData="estData"
             />
         </div>
 
-        <div v-if="getClientLogin && clientStatus == 'S' ">
+        <div v-if="getClientLogin && getClientStatus == 'S' ">
             <ClientCheckWrapper 
                 :estData="estData" 
                 @setstatus="setClientStatus"
                 />
         </div>
 
-        <div v-if="getClientLogin && clientStatus == 'D'">
+        <div v-if="getClientLogin && getClientStatus == 'D'">
             <ClientDCheck
+            :estData="estData" 
+            />
+        </div>
+
+        <div v-if="getClientLogin && getClientStatus == 'C'">
+            <ClientCCheck
             :estData="estData" 
             />
         </div>
@@ -50,6 +56,7 @@
     import ClientLoginInputForm from '../components/ClientLoginInputForm'
     import ClientXCheck from '../components/ClientXCheck'
     import ClientDCheck from '../components/ClientDCheck'
+    import ClientCCheck from '../components/ClientCCheck'
     import BrandCarousel from '../components/BrandCarousel'
     import Footer from '../components/Footer'
     import OffCanvasMobileMenu from '@/components/OffCanvasMobileMenu';
@@ -69,7 +76,8 @@
             ClientCheckWrapper,
             ClientLoginInputForm,
             ClientXCheck,
-            ClientDCheck
+            ClientDCheck,
+            ClientCCheck
         },
         data() {
             return {
@@ -94,15 +102,13 @@
                 this.$store.commit('setClientLogin')
             },
             setClientStatus(code) {
-                this.clientStatus = code
-                console.log(this.clientStatus)
+                this.$store.commit('setClientStatus', code)
             }
         },
         computed: mapGetters([
             'getClient',
             'getClientLogin',
-            'setClientLogin',
-            'setClient'
+            'getClientStatus'
         ]),
         metaInfo: {
             title: 'Castro - Contact Us',
@@ -113,29 +119,33 @@
         },
         async mounted () {
             if(this.id == 'homepage') {
-                console.log("파라미터 전송 성공")
+                if(this.getClientStatus == 'X' ||
+                this.getClientStatus == 'S' ||
+                this.getClientStatus == 'D' ||
+                this.getClientStatus == 'C') {
+                    this.$store.commit('setClientLogout')
+                }
             }
             else {
-                await axios.get('http://tmdgud1112.pythonanywhere.com/api/clientcheck/', {params: {verify_code: this.id}}).then(res=>{
-                    console.log(res)
+                await axios.get('https://new-api.closing119.com/api/clientcheck/', {params: {verify_code: this.id}}).then(res=>{
                     if(res.data.msg == "STATUS_X") {
                         this.estData = res.data.results
-                        this.clientStatus = 'X'
+                        this.$store.commit('setClientStatus', 'X')
                         this.loginMounted()
                     }
                     else if(res.data.msg == "STATUS_S") {
                         this.estData = res.data.results
-                        this.clientStatus = 'S'
+                        this.$store.commit('setClientStatus', 'S')
                         this.loginMounted()
                     }
                     else if(res.data.msg == "STATUS_D") {
                         this.estData = res.data.results
-                        this.clientStatus = 'D'
+                        this.$store.commit('setClientStatus', 'D')
                         this.loginMounted()
                     }
                     else if(res.data.msg == "STATUS_C") {
                         this.estData = res.data.results
-                        this.clientStatus = 'C'
+                        this.$store.commit('setClientStatus', 'C')
                         this.loginMounted()
                     }
                 })

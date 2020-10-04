@@ -130,6 +130,9 @@
                                 @confirm="confirmModal"
                                 v-if="modal"
                             />
+                            <loading :active.sync="isLoading"
+                            :is-full-page="fullPage"
+                            ></loading>
                         </div>
                     </div>
                 </div>
@@ -137,16 +140,20 @@
             </div>
         </div>
         <!--Contact section end-->
+        
     </div>
 </template>
 
 <script>
     import MyModal from '../components/MyModal'
+    import Loading from 'vue-loading-overlay';
+    import 'vue-loading-overlay/dist/vue-loading.css';
 
     import axios from "axios";
     export default {
         components: {
             MyModal,
+            Loading,
         },
         data () {
             return {
@@ -193,7 +200,9 @@
                 images: null,
                 clientPk: null,
                 clientVC: null,
-                today: new Date()
+                today: new Date(),
+                isLoading: false,
+                fullPage: true,
             }
         },
         methods: {
@@ -207,36 +216,41 @@
                 this.images = this.$refs.files.files
             },
             async sendRegisterData() {
-                console.log(this.reqData)
+                this.isLoading = true
 
                 await axios.post(
-                    'http://tmdgud1112.pythonanywhere.com/api/client/', this.reqData
+                    'https://new-api.closing119.com/api/client/', this.reqData
                 ).then(res=> {
                     console.log(res.data)
                     this.clientPk = res.data.id
                     this.clientVC = res.data.verify_code
+
+                    const bodyFormData = new FormData();
+
+                    if(this.images != null) {
+                        for( var i = 0; i < this.images.length; i++ ){
+                            let file = this.images[i];
+
+                            bodyFormData.append('client_image', file); 
+                        }
+                    }
+                    bodyFormData.append('client', this.clientPk);
+
+                    axios.post('https://new-api.closing119.com/api/clientimage/', bodyFormData, { headers: { 'Content-Type': 'multipart/form-data' }}).then(res=>{
+                        this.isLoading = false
+                        alert("정상적으로 신청되었습니다. 견적서 등록시 연락처로 안내 될 예정입니다.")
+                        this.$emit('register', this.clientVC)
+                    }).catch(err=>{
+                        this.isLoading = false
+                        alert("정상이 아닙니다.")
+                    })
                     
                 }).catch(err=> {
+                    this.isLoading = false
                     alert("기존에 철거를 진행하셨던 연락처로는 견적 진행이 불가능합니다. 관리자에게 문의해주세요.")
                 });
 
-                const bodyFormData = new FormData();
-                if(this.images != null) {
-                    for( var i = 0; i < this.images.length; i++ ){
-                        let file = this.images[i];
-
-                        bodyFormData.append('client_image', file); 
-                    }
-                }
-                bodyFormData.append('client', this.clientPk);
-
-                await axios.post('http://tmdgud1112.pythonanywhere.com/api/clientimage/', bodyFormData, { headers: { 'Content-Type': 'multipart/form-data' }}).then(res=>{
-                    alert("정상적으로 신청되었습니다. 견적서 등록시 연락처로 안내 될 예정입니다.")
-                    this.$emit('register', this.clientVC)
-                }).catch(err=>{
-                    alert("정상적으로 신청되었습니다. 견적서 등록시 연락처로 안내 될 예정입니다.")
-                    this.$emit('register', this.clientVC)
-                })
+                
                 
             },
             openModal() {

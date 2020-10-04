@@ -15,9 +15,9 @@
                                 <!-- logo -->
                                 <div style="margin: 0 auto">
                                     <router-link to="/partners">
-                                        <img src="assets/img/logo/closing_logo.png" class="img-fluid" alt="Brand Logo" width="75px">
-                                    </router-link>
+                                        <img src="../../public/assets/img/logo/closing_logo.png" class="img-fluid" alt="Brand Logo" width="75px">
                                     파트너스 페이지
+                                    </router-link>
                                 </div>
 
                                 <!-- mobile menu -->

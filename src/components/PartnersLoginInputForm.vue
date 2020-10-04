@@ -64,7 +64,7 @@
         },
         methods: {
             async login() {
-                await axios.post('http://tmdgud1112.pythonanywhere.com/api/login/', this.loginData).then(res => {
+                await axios.post('https://new-api.closing119.com/api/login/', this.loginData).then(res => {
                     console.log(res)
                     this.$emit('setLoginData', res.data.id)
                 })

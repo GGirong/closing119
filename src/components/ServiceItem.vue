@@ -3,8 +3,8 @@
         <div class="service-grid-item__image">
             <div class="service-grid-item__image-wrapper" >
                 <img
-                :src="'http://tmdgud1112.pythonanywhere.com'+ this.client.imageurl"
-                height="150px"
+                :src="'https://new-api.closing119.com'+ this.client.imageurl"
+                class="main-client-image-container"
                 />
             </div>
         </div>
@@ -36,11 +36,10 @@
         props: ['client'],
         computed: {
             imageUrl() {
-                return 'http://tmdgud1112.pythonanywhere.com' + this.client.imageurl
+                return 'https://new-api.closing119.com' + this.client.imageurl
             },
         },
         mounted() {
-            console.log(this.client)
         }
     };
 </script>
@@ -55,5 +54,11 @@
 .main-client-content {
     margin-top: 10px;
     color: rgb(94, 84, 84)
+}
+.main-client-image-container {
+    height: 300px;
+    width: 300px;
+    object-fit: cover;
+    object-position: 50%;
 }
 </style>

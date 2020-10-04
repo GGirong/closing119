@@ -8,13 +8,13 @@
             <div class="container">
                 <div class="contact-form">
                     <div class="row row-10">
-                        <div class="input-title col-md-4 col-12  section-space--bottom--20">
+                        <div v-if="!find" class="input-title col-md-4 col-12  section-space--bottom--20">
                             현재 비밀번호
                         </div>
-                        <div class="col-md-4 col-12  section-space--bottom--20">
+                        <div v-if="!find" class="col-md-4 col-12  section-space--bottom--20">
                             <input class="form-control" name="con_name" type="password" placeholder="" v-model="passwordData.now_password">
                         </div>
-                        <div class="line"></div>
+                        <div v-if="!find" class="line"></div>
                         <div class="input-title col-md-4 col-12  section-space--bottom--20">
                             새로운 비밀번호
                         </div>
@@ -68,7 +68,16 @@
     import { mapGetters } from 'vuex'
 
     export default {
-        props:['username', 'find'],
+        props: {
+            username: {
+                type: String,
+                default : ''
+            },
+            find: {
+                type: Boolean,
+                default: false
+            }
+        },
         components: {
             PartnersHeader,
             Breadcrumb,
@@ -100,24 +109,37 @@
         ]),
         methods: {
             async changePassword() {
-                var loginData = {}
-                loginData.username = this.username
-                loginData.password = this.passwordData.now_password
-                await axios.post('http://tmdgud1112.pythonanywhere.com/api/login/', loginData).then(res => {
+                if(this.find) {
                     var partnerData = {}
+                    partnerData.username = this.username
                     partnerData.password = this.passwordData.new_password
-
-                    axios.patch('http://tmdgud1112.pythonanywhere.com/api/partner/' + this.getPartner + '/', partnerData).then(res=>{
+                    axios.post('https://new-api.closing119.com/api/nologinpw/', partnerData).then(res=>{
                         alert("정상적으로 변경되었습니다. 바뀐 비밀번호로 다시 로그인 해주세요!")
                         this.$router.push('/partners')
                         this.$store.commit('setPartnerLogout')
                     })
-                })
-                .catch((err) => {
-                    if(err.response.data.code=="WRONG_PASSWORD") {
-                        alert("기존 비밀번호가 틀렸습니다. 다시 한 번 확인해주세요.")
-                    }
-                })
+                }
+                else {
+                    var loginData = {}
+                    loginData.username = this.username
+                    loginData.password = this.passwordData.now_password
+                    axios.post('https://new-api.closing119.com/api/login/', loginData).then(res => {
+                        var partnerData = {}
+                        partnerData.password = this.passwordData.new_password
+
+                        axios.patch('https://new-api.closing119.com/api/partner/' + this.getPartner + '/', partnerData).then(res=>{
+                            alert("정상적으로 변경되었습니다. 바뀐 비밀번호로 다시 로그인 해주세요!")
+                            this.$router.push('/partners')
+                            this.$store.commit('setPartnerLogout')
+                        })
+                    })
+                    .catch((err) => {
+                        if(err.response.data.code=="WRONG_PASSWORD") {
+                            alert("기존 비밀번호가 틀렸습니다. 다시 한 번 확인해주세요.")
+                        }
+                    })
+                }
+                
             }
         },
         metaInfo: {
