@@ -63,9 +63,9 @@
             MainDesign 
         },
         metaInfo: {
-            title: 'Castro - Home One',
+            title: '폐업119',
             htmlAttrs: {
-                lang: 'en',
+                lang: 'kor',
                 amp: true
             }
         }

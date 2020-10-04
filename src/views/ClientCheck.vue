@@ -111,9 +111,9 @@
             'getClientStatus'
         ]),
         metaInfo: {
-            title: 'Castro - Contact Us',
+            title: '폐업119',
             htmlAttrs: {
-                lang: 'en',
+                lang: 'kor',
                 amp: true
             }
         },

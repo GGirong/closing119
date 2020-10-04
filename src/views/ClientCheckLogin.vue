@@ -61,9 +61,9 @@
             // console.log(this.clientData.data[0].email)
         },
         metaInfo: {
-            title: 'Castro - Contact Us',
+            title: '폐업119',
             htmlAttrs: {
-                lang: 'en',
+                lang: 'kor',
                 amp: true
             }
         }

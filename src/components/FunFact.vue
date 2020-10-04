@@ -14,14 +14,14 @@
                     고민 끝에 결정하신 폐업, 신뢰할 수 있는 폐업119에게 맡겨주세요!
                 </div>
                 <div class="row text-center">
-                    <div class="col-2">
+                    <div class="col-md-6 col-lg-2">
                         <div class="believe-left-title">
                             국내최초 폐업재기<br>
                             박람회 개최
                         </div>
                         <img src="../../public/assets/img/blv-1.png" style="margin-top: 100px;">
                     </div>
-                    <div class="col-3">
+                    <div class="col-md-6 col-lg-3">
                         <div class="believe-left-title">
                             소상공인시장공단<br>
                             지정 교육 기관
@@ -29,7 +29,7 @@
                         <div class="believe-subtitle" style="margin-top:19px">(*폐업컨설팅 분야, 2019~2020)</div>
                         <img src="../../public/assets/img/blv-2.png" style="margin-top: 54px;">
                     </div>
-                    <div class="col-2">
+                    <div class="col-md-4 col-lg-2">
                         <div class="believe-right-title">
                             상담완료건수
                         </div>
@@ -38,7 +38,7 @@
                             <span class="believe-title-bold" v-if="countOn"><ICountUp :endVal="3568" /></span>개
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-md-4 col-lg-3">
                         <div class="believe-right-title">
                             서비스 수행건수
                         </div>
@@ -47,7 +47,7 @@
                             <span class="believe-title-bold" v-if="countOn"><ICountUp :endVal="3210" /></span>개
                         </div>
                     </div>
-                    <div class="col-2">
+                    <div class="col-md-4 col-lg-2">
                         <div class="believe-right-title">
                             협력 업체 수
                         </div>

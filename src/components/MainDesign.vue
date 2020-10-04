@@ -4,7 +4,7 @@
         <div class="main-container" style="width: 1135px;">
             <div class="row section-space--inner--60">
                 <div class="col-lg-6">
-                    <div style="font-size: 30px; font-weight: 700; line-height:32px; padding-left: 65px">
+                    <div style="font-size: 30px; font-weight: 700; line-height:36px; padding-left: 65px">
                         보다 빠르고 효율적인 매장정리를 위한<br>
                         폐업119만의 비교견적 시스템!
                     </div>
@@ -95,7 +95,7 @@
                         class="board-item-image"
                         />
                         <div class="board-content-container">
-                            <div style="font-size: 17.76px;">
+                            <div style="font-size: 17.76px; line-height: 20px;">
                                 상가/매장
                             </div>
                             <div style="font-size: 21.85px;">
@@ -116,7 +116,7 @@
                         class="board-item-image"
                         />
                         <div class="board-content-container">
-                            <div style="font-size: 17.76px;">
+                            <div style="font-size: 17.76px; line-height: 20px;">
                                 상가/매장
                             </div>
                             <div style="font-size: 21.85px;">
@@ -137,7 +137,7 @@
                         class="board-item-image"
                         />
                         <div class="board-content-container">
-                            <div style="font-size: 17.76px;">
+                            <div style="font-size: 17.76px; line-height: 20px;">
                                 상가/매장
                             </div>
                             <div style="font-size: 21.85px;">
@@ -158,7 +158,7 @@
                         class="board-item-image"
                         />
                         <div class="board-content-container">
-                            <div style="font-size: 17.76px;">
+                            <div style="font-size: 17.76px; line-height: 20px;">
                                 상가/매장
                             </div>
                             <div style="font-size: 21.85px;">
@@ -392,7 +392,7 @@
     padding-top: 15px; 
     padding-bottom: 20px;
     padding-left: 10px;
-    padding-right: 10px;
+    padding-right: 0px;
     margin-left: 0px;
     margin-right: 0px;
     margin-bottom: 15px;

@@ -105,7 +105,6 @@
 }
 .partner-banner-item {
     width: 945px;
-    height: 560px;
 }
 .owl-stage-outer {
     overflow: visible !important;

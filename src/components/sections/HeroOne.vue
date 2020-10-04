@@ -11,8 +11,8 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="hero-slider__content" :class="[item.addClass]">
-                                                <h2 class="hero-slider__title">{{ item.title }}</h2>
-                                                <p class="hero-slider__text">{{ item.desc }}</p>
+                                                <h2 class="hero-slider__title">업계 1위 폐업119의<br>믿고 맡기는 폐업 절차</h2>
+                                                <p class="hero-slider__text">견적 제공부터 건설까지 빠짐없이 제공되는 폐업 119만의 매니지먼트 서비스를 체험해보세요.<br>전국 어디에서나 믿을 수 있는 건설 업체의 견적을 받고 폐업절차를 진행하세요!</p>
                                                <router-link to="/client" class="hero-slider__mainbtn">견적서 요청하기</router-link>
                                             </div>
                                         </div>

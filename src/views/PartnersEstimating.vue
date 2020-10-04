@@ -51,9 +51,9 @@
             } 
         },
         metaInfo: {
-            title: 'Castro - Contact Us',
+            title: '폐업119 - 파트너스',
             htmlAttrs: {
-                lang: 'en',
+                lang: 'kor',
                 amp: true
             }
         }
