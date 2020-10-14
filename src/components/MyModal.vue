@@ -3,41 +3,38 @@
     <div class="modal modal-overlay" @click.self="$emit('close')">
       <div class="modal-window">
         <div class="modal-content">
-            <DaumPostcode
-                :on-complete="handleAddress"
-            />
+          <DaumPostcode :on-complete="handleAddress" />
         </div>
         <footer class="modal-footer">
-            <div class="address">
-                {{ roadAddress }}
-            </div>
-            <button @click="$emit('close')">확인</button>
+          <div class="address">
+            {{ roadAddress }}
+          </div>
+          <button @click="$emit('close')">확인</button>
         </footer>
       </div>
     </div>
   </transition>
 </template>
 <script>
-    import DaumPostcode from 'vuejs-daum-postcode'
+import DaumPostcode from "vuejs-daum-postcode";
 
-    export default {
-        components: {
-                DaumPostcode,
-            },
-        data() {
-            return {
-                roadAddress: null,
-                addData: ""
-            }
-        },
-        methods: {
-            handleAddress (data) {
-                this.$emit('confirm', data)
-                console.log(data)
-                this.roadAddress = data.roadAddress
-            }
-        }
-    }
+export default {
+  components: {
+    DaumPostcode,
+  },
+  data() {
+    return {
+      roadAddress: null,
+      addData: "",
+    };
+  },
+  methods: {
+    handleAddress(data) {
+      this.$emit("confirm", data);
+      this.roadAddress = data.roadAddress;
+    },
+  },
+};
 </script>
 <style lang="stylus" scoped>
 .modal {

@@ -1,65 +1,62 @@
 <template>
-    <div class="main-container">
+  <div class="main-container">
+    <Header />
 
-        <Header />
+    <Breadcrumb :items="items" title="Contact Us" />
 
-        <Breadcrumb :items="items" title="Contact Us" />
+    <ContactMainWrapper />
 
-        <ContactMainWrapper />
+    <BrandCarousel addClass="grey-bg" />
 
-        <BrandCarousel addClass="grey-bg" />
+    <Footer />
 
-        <Footer />
+    <OffCanvasMobileMenu />
 
-        <OffCanvasMobileMenu />
-
-        <!-- back to top start -->
-        <back-to-top class="scroll-top" bottom="60px">
-            <i class="ion-android-arrow-up"></i>
-        </back-to-top>
-        <!-- back to top end -->
-    </div>
+    <!-- back to top start -->
+    <back-to-top class="scroll-top" bottom="60px">
+      <i class="ion-android-arrow-up"></i>
+    </back-to-top>
+    <!-- back to top end -->
+  </div>
 </template>
 
 <script>
+import Header from "@/components/Header";
+import Breadcrumb from "../components/Breadcrumb";
+import ContactMainWrapper from "../components/sections/ContactMainWrapper";
+import BrandCarousel from "../components/BrandCarousel";
+import Footer from "../components/Footer";
+import OffCanvasMobileMenu from "@/components/OffCanvasMobileMenu";
 
-    import Header from '@/components/Header';
-    import Breadcrumb from '../components/Breadcrumb'
-    import ContactMainWrapper from '../components/sections/ContactMainWrapper'
-    import BrandCarousel from '../components/BrandCarousel'
-    import Footer from '../components/Footer'
-    import OffCanvasMobileMenu from '@/components/OffCanvasMobileMenu';
-
-    export default {
-        components: {
-            Header,
-            Breadcrumb,
-            ContactMainWrapper,
-            BrandCarousel,
-            Footer,
-            OffCanvasMobileMenu
+export default {
+  components: {
+    Header,
+    Breadcrumb,
+    ContactMainWrapper,
+    BrandCarousel,
+    Footer,
+    OffCanvasMobileMenu,
+  },
+  data() {
+    return {
+      items: [
+        {
+          text: "Home",
+          to: "/",
         },
-        data() {
-            return {
-                items: [
-                    {
-                        text: 'Home',
-                        to: "/"
-                    },
-                    {
-                        text: 'Contact',
-                        active: true
-                    }
-                ]
-            }
+        {
+          text: "Contact",
+          active: true,
         },
-        metaInfo: {
-            title: '폐업119',
-            htmlAttrs: {
-                lang: 'kor',
-                amp: true
-            }
-        }
-    }
+      ],
+    };
+  },
+  metaInfo: {
+    title: "폐업119",
+    htmlAttrs: {
+      lang: "ko-KR",
+      amp: true,
+    },
+  },
+};
 </script>
-

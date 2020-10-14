@@ -3,78 +3,113 @@
     <div class="modal modal-overlay" @click.self="$emit('close')">
       <div class="modal-window">
         <div class="modal-content">
-            <div class="estimate-container">
-              <div style="width: 200px; font-size: 21px; margin: 0 auto">
-                견적요청서 자세히 보기
-              </div>
-              <div style="height:1px; background-color:#d4d4d4; margin-top: 10px; margin-bottom: 20px"></div>
-                <div class="row">
-                  <div class="estimate-text-box col-lg-6 col-md-12">
-                    <div class="estimate-text-title">
-                      상호명
-                    </div>
-                    <div class="estimate-text-subtitle">
-                      {{ clientData.business_name}}
-                    </div>
-                  </div>
-                  <div class="estimate-text-box col-lg-6 col-md-12">
-                    <div class="estimate-text-title">
-                      주소
-                    </div>
-                    <div class="estimate-text-subtitle">
-                      {{ clientData.address}}
-                    </div>
-                  </div>
-                  <div class="estimate-text-box col-lg-6 col-md-12">
-                    <div class="estimate-text-title">
-                      업종
-                    </div>
-                    <div class="estimate-text-subtitle">
-                      {{ clientData.sector}}
-                    </div>
-                  </div>
-                  <div class="estimate-text-box col-lg-6 col-md-12">
-                    <div class="estimate-text-title">
-                      평수
-                    </div>
-                    <div class="estimate-text-subtitle">
-                      {{ clientData.py}}
-                    </div>
-                  </div>
-                
-                <div class="col-12">
-                  <div class="row row-5 image-popup">
-                      <div class="col-xl-3 col-lg-4 col-sm-6 col-3 section-space--top--20" v-for="image in clientData.images" :key="image.id">
-                          <img :src="'https://new-api.closing119.com' + image.image"  
-                          alt="thumbnail"
-                          class="map-modal-image"
-                          >
-                      </div>
-                  </div>
+          <div class="estimate-container">
+            <div class="map-modal-title">
+              견적요청서 자세히 보기
+              <b-icon-x
+                style="cursor: pointer;"
+                @click="$emit('close')"
+              ></b-icon-x>
+            </div>
+            <div
+              style="height:1px; background-color:#d4d4d4; margin-top: 10px; margin-bottom: 20px"
+            ></div>
+            <div class="row" style="padding: 15px">
+              <div class="map-modal-estimate-text-box col-6">
+                <div class="map-modal-estimate-text-title">
+                  상호명
+                </div>
+                <div class="map-modal-estimate-text-subtitle">
+                  {{ clientData.business_name }}
                 </div>
               </div>
+              <div class="map-modal-estimate-text-box col-6">
+                <div class="map-modal-estimate-text-title">
+                  주소
+                </div>
+                <div class="map-modal-estimate-text-subtitle">
+                  {{ clientData.address }}
+                </div>
+              </div>
+              <div class="map-modal-estimate-text-box col-6">
+                <div class="map-modal-estimate-text-title">
+                  업종
+                </div>
+                <div class="map-modal-estimate-text-subtitle">
+                  {{ clientData.sector }}
+                </div>
+              </div>
+              <div class="map-modal-estimate-text-box col-6">
+                <div class="map-modal-estimate-text-title">
+                  평수
+                </div>
+                <div class="map-modal-estimate-text-subtitle">
+                  {{ clientData.py }}
+                </div>
+              </div>
+
+              <div class="col-12">
+                <carousel
+                  class="map-modal-image-container"
+                  :items="1"
+                  :margin="15"
+                  :loop="false"
+                  :dots="false"
+                  :nav="false"
+                  :autoplay="false"
+                >
+                  <div v-for="image in clientData.images" :key="image.id">
+                    <img
+                      :src="'https://new-api.closing119.com' + image.image"
+                      alt="thumbnail"
+                      class="map-modal-image"
+                    />
+                  </div>
+                </carousel>
+              </div>
             </div>
+          </div>
         </div>
         <footer class="modal-footer">
-            <button class="closeButton" @click="$emit('close')">닫기</button>
-            <button class="confirmButton" @click="$emit('offmeeting')">방문 요청하기</button>
+          <button class="closeButton" @click="$emit('close')">닫기</button>
+          <button class="confirmButton" @click="$emit('offmeeting')">
+            방문 요청하기
+          </button>
         </footer>
       </div>
     </div>
   </transition>
 </template>
 <script>
-    export default {
-        props:['clientData'],
-        data() {
-            return {
-                addData: ""
-            }
-        },
-        mounted() {
-          console.log(this.clientData.images)
-        }
+import carousel from "vue-owl-carousel2";
+
+export default {
+  props: ["clientData"],
+  components: { carousel },
+  data() {
+    return {
+      addData: "",
+    };
+  },
+  mounted() {
+    if (this.clientData.sector == "음식점 (식당/카페/호프/패스트푸드 등)") {
+      this.clientData.sector = "음식점";
+    } else if (
+      this.clientData.sector ==
+      "도소매 (편의점/문구사무/애견/화장품/기타잡화 등)"
+    ) {
+      this.clientData.sector = "도소매";
+    } else if (
+      this.clientData.sector == "서비스업 (학원/미용/주유소/세탁/기타서비스업)"
+    ) {
+      this.clientData.sector = "서비스업";
+    } else if (
+      this.clientData.sector == "여가 오락(pc방/노래방/당구장/골프장/헬스/기타)"
+    ) {
+      this.clientData.sector = "여가 오락";
     }
+  },
+};
 </script>
 <style lang="stylus" scoped>
 .modal {
@@ -119,10 +154,9 @@
     margin-top: 15px;
 }
 .estimate-container {
-    width: 50vw;
-    height: 45vh;
+  max-width: 1000px;
 }
-.estimate-text {
+.map-modal-estimate-text {
   margin-left: 20px
 }
 
@@ -150,20 +184,59 @@
   }
 }
 
-.map-modal-image {
-    height: 100px;
-    width: 100px;
-    object-fit: cover;
-    object-position: 50%;
-}
+
 .estimate-text-box {
 
 }
-.estimate-text-title {
-  color: rgb(94, 84, 84)
-  font-size: 14px
+</style>
+
+<style>
+.map-modal-image-container {
+  max-width: 200px;
+  margin: 0 auto;
 }
-.estimate-text-subtitle {
-  font-size: 16px
+.map-modal-title {
+  font-size: 21px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.map-modal-estimate-text-title {
+  color: rgb(94, 84, 84);
+  font-size: 14px;
+}
+.map-modal-estimate-text-subtitle {
+  font-size: 16px;
+}
+.map-modal-image {
+  max-width: 200px;
+  object-fit: cover;
+  object-position: 50%;
+}
+@media (max-width: 1141px) {
+  .map-modal-title {
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .map-modal-estimate-text-title {
+    color: rgb(94, 84, 84);
+    font-size: 10px;
+  }
+  .map-modal-estimate-text-subtitle {
+    font-size: 12px;
+  }
+  .map-modal-image {
+    max-width: 150px;
+    object-fit: cover;
+    object-position: 50%;
+    margin-top: 15px;
+  }
+  .map-modal-image-container {
+    max-width: 150px;
+    margin: 0 auto;
+  }
 }
 </style>

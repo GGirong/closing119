@@ -1,45 +1,45 @@
-
 /*=============================================
 =            hero slider            =
 =============================================*/
 
-.hero-slider{
-    &__container-area{
+.hero-slider {
+    &__container-area {
         position: relative;
 
-        .ht-swiper-button{
-            &-nav{
+        .ht-swiper-button {
+            &-nav {
                 background-color: rgba(255, 255, 255, 0.3);
                 border: 0;
                 color: $white;
 
-                &:hover{
+                &:hover {
                     background-color: $theme-color--default;
                 }
             }
 
-            &-prev{
+            &-prev {
                 left: 100px;
 
-                @media #{$laptop-device}{
+                @media #{$laptop-device} {
                     left: 20px;
                 }
             }
 
-            &-next{
+            &-next {
                 right: 100px;
 
-                @media #{$laptop-device}{
+                @media #{$laptop-device} {
                     right: 20px;
                 }
             }
         }
     }
 
-    &__wrapper{
-        .swiper-slide-active{
-            .hero-slider__content{
-                & > * {
+    &__wrapper {
+        .swiper-slide-active {
+            .hero-slider__content {
+                &>* {
+
                     // Child Selector
                     &:nth-child(1) {
                         animation-name: fadeInDown;
@@ -52,6 +52,7 @@
                         animation-duration: 1.5s;
                         animation-delay: 1s;
                     }
+
                     &:nth-child(3) {
                         animation-name: fadeInDown;
                         animation-duration: 1.5s;
@@ -62,100 +63,122 @@
         }
     }
 
-    &__single-item{
+    &__single-item {
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center bottom;
-       
+
     }
 
-    &__content{
+    &__content {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        height: 730px;
-        width: 700px;
+        height: 712px;
         max-width: 100%;
 
-        @media #{$xlmax-device, $laptop-device, $desktop-device}{
+        @media #{$xlmax-device, $laptop-device, $desktop-device} {
             height: 600px;
         }
 
-        @media #{$tablet-device}{
+        @media #{$tablet-device} {
             height: 550px;
         }
 
-        @media #{$large-mobile}{
+        @media #{$large-mobile} {
             height: 450px;
         }
 
-        & > * {
-            animation-name: fadeInUp;
-            animation-duration: 1s;
+        &>* {
+            animation-name: fadeInDown;
+            animation-duration: 0.5s;
             animation-fill-mode: both;
-        } 
+        }
+
         &--center {
             margin: auto;
             text-align: center;
             align-items: center;
+
             .hero-slider__btn {
                 align-self: inherit;
             }
         }
     }
 
-    &__title{
-        font-size: 70px;
-        line-height: 1.2;
-        color: #000;
-        margin-top: -15px;
-        margin-bottom: 40px;
+    &__space {
+        display: none;
 
-        @media #{$tablet-device}{
-            font-size: 50px;
-        }
-
-        @media #{$large-mobile}{
-            font-size: 40px;
-        }
-
-        @media #{$small-mobile}{
-            font-size: 35px;
-            margin-bottom: 30px;
+        @media (max-width: 1141px) {
+            display: block;
         }
     }
 
-    &__text{
-        font-size: 16px;
-        text-shadow: 1px 1px 5px #fff;
-        line-height: 1.8;
+    &__title {
+        font-size: 42.18px;
+        letter-spacing: -3px;
+        line-height: 67px;
         color: #000;
-        margin-bottom: 50px;
-        @media #{$small-mobile}{
+        margin-top: 207px;
+        margin-bottom: 10px;
+
+        @media #{$tablet-device} {
+            margin-top: 80px;
+            font-size: 34px;
+            line-height: 46px;
+        }
+
+        @media #{$large-mobile} {
+            margin-top: 100px;
+            font-size: 26px;
+            line-height: 36px;
+        }
+
+        @media #{$small-mobile} {
+            margin-top: 80px;
+            font-size: 21px;
+        }
+    }
+
+    &__text {
+        letter-spacing: -1px;
+        font-size: 17px;
+        color: #000;
+        margin-bottom: 65px;
+
+        @media #{$small-mobile} {
+            font-size: 14px;
             margin-bottom: 40px;
         }
     }
-    &__mainbtn{
-        font-size: 13px;
-        padding: 15px 50px;
+
+    &__mainbtn {
+        font-size: 14px;
+        padding: 13px 22px;
         background-color: $theme-color--default;
         color: $white;
-        align-self: flex-start;
+        align-self: center;
         border: 1px solid $theme-color--default;
         border-radius: 50px;
         transition: $transition--cubic;
 
-        &--style2{
+        &--style2 {
             align-self: center;
         }
 
-        &:hover, &:focus, &:active{
+        &:hover,
+        &:focus,
+        &:active {
             color: $theme-color--default;
             background-color: $white;
             border: 1px solid $theme-color--default;
         }
+
+        @media #{$small-mobile} {
+            padding: 10px 30px
+        }
     }
-    &__btn{
+
+    &__btn {
         font-size: 13px;
         padding: 15px 50px;
         background-color: $white;
@@ -164,11 +187,13 @@
         border-radius: 50px;
         transition: $transition--cubic;
 
-        &--style2{
+        &--style2 {
             align-self: center;
         }
 
-        &:hover, &:focus, &:active{
+        &:hover,
+        &:focus,
+        &:active {
             color: $white;
             background-color: $theme-color--default;
             border-color: $theme-color--default;
@@ -177,4 +202,3 @@
 }
 
 /*=====  End of hero slider  ======*/
-

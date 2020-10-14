@@ -3,59 +3,64 @@
     <div class="modal modal-overlay" @click.self="$emit('close')">
       <div class="modal-window">
         <div class="modal-content">
-            <div class="estimate-container">
-              <div style="width: 200px; font-size: 21px; margin: 0 auto">
-                견적요청서 자세히 보기
-              </div>
-              <div style="height:1px; background-color:#d4d4d4; margin-top: 10px; margin-bottom: 20px"></div>
-              <div class="col-12">
-                  <div class="row row-5 image-popup">
-                      <div class="col-xl-3 col-lg-4 col-sm-6 col-12 section-space--top--10" v-for="image in clientData.images" :key="image.id">
-                          <router-link to="/project-details" class="gallery-item single-gallery-thumb">
-                              <img :src="'https://new-api.closing119.com' + image.image"  alt="thumbnail">
-                              <span class="plus"></span>
-                          </router-link>
-                      </div>
-                  </div>
-                </div>
-                <div class="estimate-text">
-                    이름 : {{ clientData.client_name}}
-                </div>
-                <div class="estimate-text">
-                    상호명 : {{ clientData.business_name}}
-                </div>
-                <div class="estimate-text">
-                    주소 : {{ clientData.address}}
-                </div>
-                <div class="estimate-text">
-                    업종 : {{ clientData.sector}}
-                </div>
-                <div class="estimate-text">
-                    평수 : {{ clientData.py}}
-                </div>
-                
+          <div class="estimate-container">
+            <div style="width: 200px; font-size: 21px; margin: 0 auto">
+              견적요청서 자세히 보기
             </div>
+            <div
+              style="height:1px; background-color:#d4d4d4; margin-top: 10px; margin-bottom: 20px"
+            ></div>
+            <div class="col-12">
+              <div class="row row-5 image-popup">
+                <div
+                  class="col-xl-3 col-lg-4 col-sm-6 col-12 section-space--top--10"
+                  v-for="image in clientData.images"
+                  :key="image.id"
+                >
+                  <router-link
+                    to="/project-details"
+                    class="gallery-item single-gallery-thumb"
+                  >
+                    <img
+                      :src="'https://new-api.closing119.com' + image.image"
+                      alt="thumbnail"
+                    />
+                    <span class="plus"></span>
+                  </router-link>
+                </div>
+              </div>
+            </div>
+            <div class="estimate-text">이름 : {{ clientData.client_name }}</div>
+            <div class="estimate-text">
+              상호명 : {{ clientData.business_name }}
+            </div>
+            <div class="estimate-text">주소 : {{ clientData.address }}</div>
+            <div class="estimate-text">업종 : {{ clientData.sector }}</div>
+            <div class="estimate-text">평수 : {{ clientData.py }}</div>
+          </div>
         </div>
         <footer class="modal-footer">
-            <button class="closeButton" @click="$emit('close')">닫기</button>
-            <button class="confirmButton" @click="$emit('offmeeting')">방문 요청하기</button>
+          <button class="closeButton" @click="$emit('close')">닫기</button>
+          <button class="confirmButton" @click="$emit('offmeeting')">
+            방문 요청하기
+          </button>
         </footer>
       </div>
     </div>
   </transition>
 </template>
 <script>
-    export default {
-        props:['clientData'],
-        data() {
-            return {
-                addData: ""
-            }
-        },
-        mounted() {
-          console.log(this.clientData.images)
-        }
-    }
+export default {
+  props: ["clientData"],
+  data() {
+    return {
+      addData: "",
+    };
+  },
+  mounted() {
+    console.log(this.clientData.images);
+  },
+};
 </script>
 <style lang="stylus" scoped>
 .modal {
@@ -100,8 +105,6 @@
     margin-top: 15px;
 }
 .estimate-container {
-    width: 50vw;
-    height: 45vh;
 }
 .estimate-text {
   margin-left: 20px
@@ -130,6 +133,4 @@
     transform: translateY(-20px);
   }
 }
-
-
 </style>

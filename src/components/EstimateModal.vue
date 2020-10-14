@@ -3,61 +3,68 @@
     <div class="modal modal-overlay" @click.self="$emit('close')">
       <div class="modal-window">
         <div class="modal-content">
-            <div class="estimate-container">
-                <div class="row">
-                  <div class="col-12 text-center" style="font-size: 21px;">
-                    견적서 자세히 보기
-                  </div>
-                  <div class="col-12" style="height:1px; background-color:#d4d4d4; margin-top: 10px; margin-bottom: 20px"></div>
-                  <div class="estimate-modal-title col-xs-6 col-sm-4">
-                    업체명
-                  </div>
-                  <div class="col-xs-6 col-sm-8">
-                    {{ estData.partner.partner_name}}
-                  </div>
-                  <div class="estimate-modal-title col-xs-6 col-sm-4">
-                    대표
-                  </div>
-                  <div class="col-xs-6 col-sm-8">
-                    {{ estData.partner.ceo}}
-                  </div>
-                  <div class="estimate-modal-title col-xs-6 col-sm-4">
-                    견적 금액
-                  </div>
-                  <div class="col-xs-6 col-sm-8">
-                    {{ numberWithCommas((estData.total_price * 1.1).toFixed(0)) }} 원
-                  </div>
-                  <div class="estimate-modal-title col-xs-6 col-sm-4">
-                    세부사항
-                  </div>
-                  <div class="col-12">
-                    {{ estData.detail }}
-                  </div>
+          <div class="estimate-container">
+            <div class="row">
+              <div class="col-12 text-center" style="font-size: 21px;">
+                견적서 자세히 보기
+              </div>
+              <div
+                class="col-12"
+                style="height:1px; background-color:#d4d4d4; margin-top: 10px; margin-bottom: 20px"
+              ></div>
+              <div class="estimate-modal-content-container row">
+                <div class="estimate-modal-title col-4">
+                  업체명
                 </div>
+                <div class="estimate-modal-text col-8">
+                  {{ estData.partner.partner_name }}
+                </div>
+                <div class="estimate-modal-title col-4">
+                  대표
+                </div>
+                <div class="estimate-modal-text  col-8">
+                  {{ estData.partner.ceo }}
+                </div>
+                <div class="estimate-modal-title col-4">
+                  견적 금액
+                </div>
+                <div class="estimate-modal-text  col-8">
+                  {{ estData.total_price }}원 (VAT 별도)
+                </div>
+                <div class="estimate-modal-title col-4">
+                  세부사항
+                </div>
+                <div class="estimate-modal-text-box col-12">
+                  {{ estData.detail }}
+                </div>
+              </div>
             </div>
+          </div>
         </div>
         <footer class="modal-footer">
-            <button class="closeButton" @click="$emit('close')">닫기</button>
-            <button class="confirmButton" @click="$emit('select')">업체 선정하기</button>
+          <button class="closeButton" @click="$emit('close')">닫기</button>
+          <button class="confirmButton" @click="$emit('select')">
+            업체 선정하기
+          </button>
         </footer>
       </div>
     </div>
   </transition>
 </template>
 <script>
-    export default {
-        props:['estData'],
-        data() {
-            return {
-                addData: ""
-            }
-        },
-        methods: {
-          numberWithCommas(x) {
-                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          },
-        }
-    }
+export default {
+  props: ["estData"],
+  data() {
+    return {
+      addData: "",
+    };
+  },
+  methods: {
+    numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+  },
+};
 </script>
 <style lang="stylus" scoped>
 .modal {
@@ -78,7 +85,7 @@
     background: #fff;
     border-radius: 4px;
     overflow: hidden;
-    margin: 50px
+    max-width: 1000px
   }
 
   &-content {
@@ -103,8 +110,8 @@
 }
 .estimate-container {
 }
-.estimate-text {
-  margin-left: 20px
+.estimate-modal-text  {
+  margin-top: 15px
 }
 
 // 오버레이 트랜지션
@@ -132,7 +139,7 @@
 }
 
 .confirmButton {
-    width: 200px;
+    max-width: 200px;
     height: 50px;
     border: none;
     border-radius: 10px;
@@ -143,7 +150,7 @@
     font-weight: 700;
 }
 .closeButton {
-    width: 200px;
+    max-width: 200px;
     height: 50px;
     border-radius: 10px;
     border: 1px solid #f0542d;
@@ -154,6 +161,30 @@
     font-weight: 700;
 }
 .estimate-modal-title {
+  margin-top: 15px;
   color: #777
+}
+.estimate-modal-text-box {
+  max-width: 900px !important
+}
+.estimate-modal-content-container {
+  padding: 30px
+}
+
+@media (max-width: 1141px) {
+  .estimate-modal-title {
+    margin-top: 5px;
+    font-size: 10px
+  }
+  .estimate-modal-text {
+    margin-top: 5px;
+    font-size: 10px;
+  }
+  .estimate-modal-text-box {
+    font-size: 10px
+  }
+  .estimate-modal-content-container {
+  padding: 10px
+}
 }
 </style>

@@ -1,27 +1,28 @@
-
 /*=============================================
 =            footer            =
 =============================================*/
-.footer-content-wrapper{
 
-    
-    @media #{$large-mobile}{
+.footer-content-wrapper {
+
+
+    @media #{$large-mobile} {
         margin-bottom: 0;
     }
 }
 
-.footer-logo{
+.footer-logo {
     margin-bottom: 35px;
 
-    &--style2{
+    &--style2 {
         margin-bottom: 170px;
-        @media #{$desktop-device, $tablet-device, $large-mobile}{
+
+        @media #{$desktop-device, $tablet-device, $large-mobile} {
             margin-bottom: 50px;
         }
     }
 }
 
-.footer-desc{
+.footer-desc {
     color: #c7c7c7;
     max-width: 520px;
     font-family: $poppins;
@@ -29,83 +30,92 @@
     line-height: 2.2;
 }
 
-.footer-intro-wrapper{
-    @media #{$tablet-device}{
+.footer-intro-wrapper {
+    @media #{$tablet-device} {
         margin-bottom: 40px;
     }
-    @media #{$large-mobile}{
+
+    @media #{$large-mobile} {
         margin-bottom: 30px;
     }
 }
 
-.footer-widget-wrapper{
-    @media #{$large-mobile}{
+.footer-widget-wrapper {
+    @media #{$large-mobile} {
         margin-bottom: -30px;
     }
 }
 
-.footer-widget{
-    @media #{$large-mobile}{
+.footer-widget {
+    @media #{$large-mobile} {
         margin-bottom: 30px;
     }
 
-    &__title{
+    &__title {
         color: #fff;
         margin-bottom: 50px;
         font-size: 18px;
         text-transform: uppercase;
-        @media #{$tablet-device, $large-mobile}{
+
+        @media #{$tablet-device, $large-mobile} {
             margin-bottom: 20px;
         }
-        &--black{
+
+        &--black {
             color: $theme-color--black;
         }
     }
 
-    &__navigation{
+    &__navigation {
         line-height: 1;
-        li{
-            padding:  0;
+
+        li {
+            padding: 0;
             line-height: 1;
-            &:first-child{
+
+            &:first-child {
                 padding-top: 0;
             }
-            &:last-child{
+
+            &:last-child {
                 padding-bottom: 0;
             }
-            a{
+
+            a {
                 font-size: 14px;
                 color: #c7c7c7;
                 transition: $transition--cubic;
                 line-height: 2;
                 font-family: $poppins;
                 font-weight: 300;
-                &:hover{
+
+                &:hover {
                     color: $theme-color--default;
                 }
             }
         }
 
-  
+
     }
 
-    &__content{
+    &__content {
         color: #c7c7c7;
         font-size: 14px;
         font-family: $poppins;
         font-weight: 300;
         line-height: 1.7;
-       .contact-details{
-           li{
-               span{
-                   margin-right: 10px;
-               }
-           }
-       }
+
+        .contact-details {
+            li {
+                span {
+                    margin-right: 10px;
+                }
+            }
+        }
     }
 }
 
-.footer-copyright-wrapper{
+.footer-copyright-wrapper {
     padding: 15px 0;
     color: #c7c7c7;
     border-top: 1px solid #4a4a4a;

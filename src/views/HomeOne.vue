@@ -1,75 +1,74 @@
 <template>
-    <div class="main-container">
+  <div class="main-container">
+    <Header />
 
-        <Header />
+    <HeroOne :sliderData="data.heroOne" />
 
-        <HeroOne :sliderData="data.heroOne" />
+    <LatestProject />
 
-        <LatestProject />
+    <Feature />
 
-        <Feature />
+    <ServiceSlider />
 
-        <ServiceSlider />
+    <FunFact />
 
-        <FunFact />
+    <BlogSection addClass="grey-bg" />
 
-        <BlogSection addClass="grey-bg" />
+    <Footer />
 
-        <Footer />
+    <OffCanvasMobileMenu />
 
-        <OffCanvasMobileMenu />
-
-        <!-- back to top start -->
-        <back-to-top class="scroll-top" bottom="60px">
-            <i class="ion-android-arrow-up"></i>
-        </back-to-top>
-        <!-- back to top end -->
-    </div>
+    <!-- back to top start -->
+    <back-to-top class="scroll-top" bottom="60px">
+      <i class="ion-android-arrow-up"></i>
+    </back-to-top>
+    <!-- back to top end -->
+  </div>
 </template>
 
 <script>
-    import Header from '@/components/Header';
-    import Feature from '../components/Feature';
-    import HeroOne from '../components/sections/HeroOne';
-    import ServiceSlider from '../components/sections/ServiceSlider';
-    import FunFact from '../components/FunFact';
-    import AboutSection from '../components/sections/AboutSection';
-    import LatestProject from '../components/sections/LatestProject';
-    import TeamJob from '../components/sections/TeamJob';
-    import Testimonial from '../components/Testimonial';
-    import BlogSection from '../components/sections/BlogSection';
-    import BrandCarousel from '../components/BrandCarousel';
-    import Footer from '../components/Footer';
-    import OffCanvasMobileMenu from '@/components/OffCanvasMobileMenu'
+import Header from "@/components/Header";
+import Feature from "../components/Feature";
+import HeroOne from "../components/sections/HeroOne";
+import ServiceSlider from "../components/sections/ServiceSlider";
+import FunFact from "../components/FunFact";
+import AboutSection from "../components/sections/AboutSection";
+import LatestProject from "../components/sections/LatestProject";
+import TeamJob from "../components/sections/TeamJob";
+import Testimonial from "../components/Testimonial";
+import BlogSection from "../components/sections/BlogSection";
+import BrandCarousel from "../components/BrandCarousel";
+import Footer from "../components/Footer";
+import OffCanvasMobileMenu from "@/components/OffCanvasMobileMenu";
 
-    import data from '../data/slider.json'
-    export default {
-        data () {
-            return {
-                data
-            }
-        },
-        components: {
-            Header,
-            HeroOne,
-            Feature,
-            ServiceSlider,
-            FunFact,
-            AboutSection,
-            LatestProject,
-            TeamJob,
-            Testimonial,
-            BlogSection,
-            BrandCarousel,
-            Footer,
-            OffCanvasMobileMenu
-        },
-        metaInfo: {
-            title: '폐업119',
-            htmlAttrs: {
-                lang: 'kor',
-                amp: true
-            }
-        }
-    }
+import data from "../data/slider.json";
+export default {
+  data() {
+    return {
+      data,
+    };
+  },
+  components: {
+    Header,
+    HeroOne,
+    Feature,
+    ServiceSlider,
+    FunFact,
+    AboutSection,
+    LatestProject,
+    TeamJob,
+    Testimonial,
+    BlogSection,
+    BrandCarousel,
+    Footer,
+    OffCanvasMobileMenu,
+  },
+  metaInfo: {
+    title: "폐업119",
+    htmlAttrs: {
+      lang: "ko-KR",
+      amp: true,
+    },
+  },
+};
 </script>
