@@ -29,7 +29,8 @@
               견적 금액
             </div>
             <div class="col-8" style="margin-left:15px">
-              {{ estData.Estimate[0].total_price }}원 (VAT 별도)
+              {{ numberWithCommas(estData.Estimate[0].total_price) }}원 (VAT
+              별도)
             </div>
           </div>
         </div>

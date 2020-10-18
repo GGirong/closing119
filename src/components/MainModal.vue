@@ -3,73 +3,79 @@
     <div class="modal modal-overlay" @click.self="$emit('close')">
       <div class="modal-window">
         <div class="modal-content">
-          <div class="estimate-container">
+          <div class="main-modal-estimate-container">
             <div class="main-modal-title">
               마감된 견적요청서 자세히 보기
+              <div class="main-modal-reg-code">(접수번호: 102052)</div>
               <b-icon-x
-                style="cursor: pointer;"
+                style="cursor: pointer"
                 @click="$emit('close')"
               ></b-icon-x>
             </div>
             <div
-              style="height:1px; background-color:#d4d4d4; margin-top: 10px; margin-bottom: 20px"
+              style="
+                height: 1px;
+                background-color: #d4d4d4;
+                margin-top: 10px;
+                margin-bottom: 20px;
+              "
             ></div>
-            <div class="main-modal-head-container row">
-              <div class="main-modal-head-image-container col-5">
+            <div class="col-12" style="overflow: hidden">
+              <carousel
+              class="main-modal-image-container"
+              :items="1"
+              :margin="3"
+              :loop="false"
+              :dots="false"
+              :nav="false"
+              :autoplay="false"
+            >
+              <div v-for="image in clientData.images" :key="image.id">
                 <img
-                  src="../../public/assets/img/ex_3.jpg"
-                  class="main-modal-head-image"
+                  :src="'https://new-api.closing119.com' + image.image"
+                  alt="thumbnail"
+                  class="main-modal-image"
                 />
               </div>
-              <div class="col-7 row">
-                <div class="main-estimate-text-box col-lg-6 col-md-12">
-                  <div class="main-estimate-text-title">
-                    상호명
-                  </div>
-                  <div class="main-estimate-text-subtitle">
-                    아뜰리에 코스메틱 양재점
-                  </div>
-                </div>
-                <div class="main-estimate-text-box col-lg-6 col-md-12">
-                  <div class="main-estimate-text-title">
-                    주소
-                  </div>
-                  <div class="main-estimate-text-subtitle">
-                    서울특별시 양재동
+            </carousel>
+            </div>
+            <div class="main-modal-head-container">
+              <div class="main-modal-head-title">{{ maskingTitle(clientData.business_name) }}</div>
+              <div class="main-modal-head-subtitle">서울 서초구 | 음식점</div>
+            </div>
+            <div class="main-modal-info-container">
+              <div class="main-modal-info-wrapper">
+                <div class="main-modal-info-section">
+                  <div class="main-modal-info-light">매장평수</div>
+                  <div class="main-modal-info-bold">
+                    <ICountUp :endVal="30"/>평
                   </div>
                 </div>
-                <div
-                  class="main-estimate-text-box main-estimate-mobile col-lg-6 col-md-12"
-                >
-                  <div class="main-estimate-text-title">
-                    업종
-                  </div>
-                  <div class="main-estimate-text-subtitle">
-                    상가/매장
-                  </div>
+                <div class="main-modal-info-section-divider"></div>
+                <div class="main-modal-info-section">
+                  <div class="main-modal-info-light">파트너스</div>
+                  <div class="main-modal-info-bold"><ICountUp :endVal="3"/>개 업체</div>
                 </div>
-                <div
-                  class="main-estimate-text-box main-estimate-mobile col-lg-6 col-md-12"
-                >
-                  <div class="main-estimate-text-title">
-                    평수
-                  </div>
-                  <div class="main-estimate-text-subtitle">
-                    30 평
-                  </div>
+                <div class="main-modal-info-section-divider"></div>
+                <div class="main-modal-info-section">
+                  <div class="main-modal-info-light">최종견적</div>
+                  <div class="main-modal-info-bold"><ICountUp :endVal="184"/>만원</div>
                 </div>
+                
               </div>
+
+            </div>
+            <div class="main-modal-partners-title-container">
+              <div class="main-modal-partners-title-left"></div><div class="main-modal-partners-title">세부 견적 사항</div>
             </div>
             <div class="main-modal-partners-container row">
-              <div class="main-modal-partners-title col-12">참여 파트너스</div>
               <div
-                class="main-modal-partner-container col-6"
+                class="main-modal-partner-container col-12"
                 v-for="est in estData.Estimate"
                 :key="est.id"
               >
                 <MainEstimateGrid
                   :estData="est"
-                  @setclientstatus="setClientData"
                 />
               </div>
             </div>
@@ -82,12 +88,15 @@
 <script>
 import DaumPostcode from "vuejs-daum-postcode";
 import MainEstimateGrid from "../components/MainEstimateGrid";
+import ICountUp from "vue-countup-v2";
+import carousel from "vue-owl-carousel2";
 
 export default {
-  props: ["clientData"],
   components: {
     DaumPostcode,
     MainEstimateGrid,
+    carousel,
+    ICountUp,
   },
   data() {
     return {
@@ -100,6 +109,7 @@ export default {
             partner: {
               id: 2,
               partner_name: "동양철거",
+              detail: "시설팀 가이드에 따라 야간공사로 진행되어야 하며, 출입구 금속공사시 알로이 재질로 별도 도색이 필요합니다."
             },
             total_price: 15000000,
           },
@@ -108,6 +118,7 @@ export default {
             partner: {
               id: 2,
               partner_name: "자진철거",
+              detail: "시설팀 가이드에 따라 야간공사로 진행되어야 하며, 출입구 금속공사시 알로이 재질로 별도 도색이 필요합니다."
             },
             total_price: 12200000,
           },
@@ -116,14 +127,43 @@ export default {
             partner: {
               id: 2,
               partner_name: "수양철거",
+              detail: "시설팀 가이드에 따라 야간공사로 진행되어야 하며, 출입구 금속공사시 알로이 재질로 별도 도색이 필요합니다."
             },
             total_price: 14300000,
           },
         ],
       },
+      clientData: {
+        business_name: "아뜰리에 자전거",
+        images: [
+          {
+            id: 1,
+            image: "/media/client/default.jpg",
+          },
+          {
+            id: 2,
+            image: "/media/client/default.jpg",
+          }
+        ]
+      },
     };
   },
-  methods: {},
+  methods: {
+    maskingTitle(str) {
+      var maskStr = ""
+
+      for(var i in str) {
+        if(i == 0 || i == 1) {
+          maskStr += "*"
+        }
+        else {
+          maskStr += str[i]
+        }
+      }
+
+      return maskStr
+    }
+  },
 };
 </script>
 <style lang="stylus" scoped>
@@ -144,8 +184,7 @@ export default {
   &-window {
     background: #fff;
     border-radius: 4px;
-    overflow: hidden;
-    max-width: 1200px;
+    
   }
 
   &-content {
@@ -159,58 +198,7 @@ export default {
     text-align: right;
   }
 }
-.address {
-    text-align: left;
-    width: 65%;
-    height: 35px;
-    background: #fff;
-    overflow: hidden;
-    padding-top: 5px;
-    padding-left: 10px
-    margin-top: 15px;
-}
-.estimate-container {
-    width: auto;
-}
-.main-modal-title {
-    font-size: 21px;
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between
-}
-.main-modal-partners-container {
-    max-width: 1000px;
-    margin: 0 auto
-}
-.main-modal-partners-title {
-    margin-top: 15px;
-    font-size: 21px;
-    font-family: NotoSansKR-bold;
-    color: #1665fe;
-}
-.main-modal-head-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 15px
-}
-.main-modal-head-image-container {
-    padding-right: 15px;
-}
-.main-modal-head-image {
-    border-radius : 10px;
-    width: 100%;
-    object-fit: cover;
-}
-.main-estimate-text-title {
-  color: rgb(94, 84, 84)
-  font-size: 14px
-}
-.main-modal-partner-container {
-    margin-top: 20px;
-}
-.main-estimate-text-subtitle {
-  font-size: 16px
-}
+
 // 오버레이 트랜지션
 .modal-enter-active, .modal-leave-active {
   transition: opacity 0.4s;
@@ -234,11 +222,134 @@ export default {
     transform: translateY(-20px);
   }
 }
+
+.modal {
+  &-content {
+    padding: 25px 30px;
+    padding-bottom: 15px;
+  }
+}
+</style>
+
+<style>
+.main-modal-estimate-container {
+  width: 863px;
+}
+.main-modal-title {
+  font-size: 21px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.main-modal-reg-code {
+  position: absolute;
+  font-size: 12px;
+  top: 10px;
+  left: 280px;
+}
+.main-modal-image-container {
+  max-width: 425px;
+  margin: 0 auto;
+}
+.main-modal-image {
+  max-width: 425px;
+  max-height: 287px;
+  object-fit: cover;
+  object-position: 50%;
+}
+.main-modal-partners-container {
+  overflow-y: scroll;
+  max-height: 450px;
+  margin: 0 auto;
+}
+.main-modal-partners-title-container {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+.main-modal-partners-title-left {
+  width: 3px;
+  height: 22px;
+  margin-top: 25px;
+  margin-right: 5px;
+  margin-left: 3px;
+  background-color: #000;
+}
+.main-modal-partners-title {
+  margin-top: 17px;
+  font-size: 23px;
+  font-family: NotoSansKR-Medium;
+}
+.main-modal-head-container {
+  max-width: 425px;
+  margin: 0 auto;
+  padding: 15px;
+  text-align: center;
+}
+.main-modal-head-title {
+  font-size: 26.89px;
+  font-family: NotoSansKr-Medium;
+}
+.main-modal-head-subtitle {
+  font-size: 12.55px;
+}
+.main-modal-info-container {
+  width: 100%;
+  height: 125px;
+  border: 1px solid #f2f7ff;
+  margin-top: 5px;
+  border-radius: 5px;
+  padding: 3px;
+}
+.main-modal-info-wrapper {
+  height: 100%;
+  background-color: #f2f7ff;
+  font-size: 20.47px;
+  display: flex;
+  flex-direction: row;
+}
+.main-modal-info-section {
+  width: 33%;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+}
+.main-modal-info-light {
+  margin-top: 15px;
+}
+.main-modal-info-bold {
+  margin-top: 3px;
+  color: #004eff;
+  font-size: 32.93px;
+}
+.main-modal-info-section-divider{
+  margin-top: 30px;
+  height: 67px;
+  width: 1px;
+  background: #e0e1e2;
+}
+.main-estimate-text-title {
+  color: rgb(94, 84, 84);
+  font-size: 14px;
+  
+}
+.main-modal-partner-container {
+  margin-bottom: 13px;
+}
+.main-estimate-text-subtitle {
+  font-size: 16px;
+}
+.main-modal-partner-container {
+  padding: 3px;
+}
 @media (max-width: 1141px) {
   .main-modal-head-container {
     max-width: 300px;
     margin: 0 auto;
     padding: 5px;
+  }
+  .main-estimate-mobile {
+    display: none;
   }
   .main-modal-partners-container {
     max-width: 300px;
@@ -247,22 +358,15 @@ export default {
     color: rgb(94, 84, 84);
     font-size: 10px;
   }
-
   .main-estimate-text-subtitle {
     font-size: 12px;
-  }
-  .main-estimate-text-box {
-    padding: 0px;
-  }
-  .main-estimate-mobile {
-    display: none;
   }
   .main-modal-head-image-container {
     padding-top: 5px;
   }
   .main-modal-partners-title {
     margin-top: 10px;
-    margin-bottom: 5px
+    margin-bottom: 5px;
     font-size: 16px;
   }
   .main-modal-title {
@@ -272,15 +376,8 @@ export default {
     display: flex;
     justify-content: space-between;
   }
-  .modal {
-    &-content {
-        padding: 5px 5px;
-        padding-bottom: 15px;
-    }
-  }
-  .main-modal-partner-container {
-      padding: 3px;
-      margin-top: 0px;
+  .main-estimate-text-box {
+    padding: 0px;
   }
 }
 </style>

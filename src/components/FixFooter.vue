@@ -124,16 +124,12 @@
 </template>
 
 <script>
-import FooterAbout from "@/components/FooterAbout.vue";
-import FooterLink from "@/components/FooterLink.vue";
 import ContactWidget from "@/components/ContactWidget.vue";
 import UserModal from "../components/UserModal";
 import PrivacyModal from "../components/PrivacyModal";
 
 export default {
   components: {
-    FooterAbout,
-    FooterLink,
     ContactWidget,
     UserModal,
     PrivacyModal,

@@ -201,6 +201,8 @@ import "swiper/css/swiper.css";
 import boardList from "../data/boardList.json";
 import MainModal from "../components/MainModal";
 
+import axios from "axios";
+
 export default {
   components: {
     Swiper,
@@ -297,11 +299,15 @@ export default {
         height: 0,
       },
       modal: false,
+      loading: false,
     };
   },
   created() {
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
+  },
+  async mounted() {
+    await axios.get("")
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
