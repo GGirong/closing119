@@ -58,7 +58,7 @@
             <div class="believe-subtitle">누적접수건수(*2015~)</div>
             <div class="believe-title">
               <span class="believe-title-bold" v-if="countOn"
-                ><ICountUp :endVal="3568"/></span
+                ><ICountUp :endVal="this.main_num.complete_num"/></span
               >개
             </div>
           </div>
@@ -69,7 +69,7 @@
             <div class="believe-subtitle">누적접수건수(*2015~)</div>
             <div class="believe-title">
               <span class="believe-title-bold" v-if="countOn"
-                ><ICountUp :endVal="3210"/></span
+                ><ICountUp :endVal="this.main_num.perform_num"/></span
               >개
             </div>
           </div>
@@ -80,7 +80,7 @@
             <div class="believe-subtitle">전국 가맹 업체 수</div>
             <div class="believe-title">
               <span class="believe-title-bold" v-if="countOn"
-                ><ICountUp :endVal="272"/></span
+                ><ICountUp :endVal="this.main_num.partner_num"/></span
               >개
             </div>
           </div>
@@ -93,6 +93,8 @@
 
 <script>
 import ICountUp from "vue-countup-v2";
+import axios from "axios";
+
 export default {
   components: {
     ICountUp,
@@ -101,6 +103,7 @@ export default {
     return {
       delay: 300,
       countOn: false,
+      main_num: "", 
       window: {
         width: 0,
         height: 0,
@@ -128,6 +131,12 @@ export default {
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
     },
+  },
+  async mounted() {
+    await axios.get("https://new-api.closing119.com/api/main-num/1").then(res=> {
+      this.main_num = res.data
+      console.log(this.main_num)
+    })
   },
   created() {
     window.addEventListener("resize", this.handleResize);

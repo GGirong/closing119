@@ -115,15 +115,13 @@
       </div>
       <div
         class="new-board-mobile-row row"
-        v-for="rowlist in boardList"
-        :key="rowlist.id"
+        v-if="loading"
       >
         <div
-          class="mobile-col-padding col-6 col-md-3"
-          :class="{ clickable: list.status == '마감' }"
-          v-for="list in rowlist"
+          class="mobile-col-padding col-6 col-md-3 clickable"
+          v-for="list in paginatedList"
           :key="list.id"
-          @click="mainModal(list)"
+          @click="mainModal(list.id, list.status)"
         >
           <div class="board-item-container">
             <div
@@ -132,26 +130,26 @@
                 backgroundColor: list.color,
               }"
             >
-              {{ list.status }}
+              {{ list.statusText }}
             </div>
             <img
-              src="../../public/assets/img/ex_3.jpg"
+              :src="'https://new-api.closing119.com'+ list.imageUrl"
               class="board-item-image"
               :style="{ filter: list.brightness }"
             />
             <div class="board-content-container">
               <div class="board-content-sector">
-                상가/매장
+                {{ sectorShort(list.sector) }}
               </div>
               <div class="board-content-title">
-                아뜰리에 코스메틱 양재점
+                {{ maskingTitle(list.business_name) }}
               </div>
               <div class="board-content-address">
                 <span class="board-content-margin-right"
-                  >서울특별시 양재동</span
+                  >{{ list.district }}</span
                 >
                 |
-                <span class="board-content-margin-left">30평</span>
+                <span class="board-content-margin-left">{{ list.py }}평</span>
               </div>
             </div>
           </div>
@@ -159,18 +157,11 @@
       </div>
       <div class="page-pagination-container col">
         <ul class="page-pagination">
-          <li @click="pagedown()">
+          <li @click="prevPage" :disabled="pageNum == 0">
             <a><i class="fa fa-angle-left"></i> Prev</a>
           </li>
-          <li
-            v-for="item in pagination"
-            :key="item.num"
-            :class="{ active: item.selected }"
-            @click="paginate(item.num)"
-          >
-            <a>{{ item.num }}</a>
-          </li>
-          <li @click="pageup()">
+          <span class="page-pagination-pagenum">{{ pageNum + 1 }} / {{ pageCount}} 페이지</span>
+          <li @click="nextPage" :disabled="pageNum >= pageCount - 1">
             <a><i class="fa fa-angle-right"></i> Next</a>
           </li>
         </ul>
@@ -190,15 +181,13 @@
       <swiper-slide class="banner-swiper">배너자리 10</swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
-    <MainModal :clientData="clientData" v-if="modal" @close="closeModal" />
+    <MainModal :clientId="modalId" :status="modalStatus" v-if="modal" @close="closeModal" />
   </div>
 </template>
 
 <script>
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
-
-import boardList from "../data/boardList.json";
 import MainModal from "../components/MainModal";
 
 import axios from "axios";
@@ -279,7 +268,6 @@ export default {
           partners: 4,
         },
       ],
-      boardList,
       pagination: [
         {
           num: "01",
@@ -299,7 +287,14 @@ export default {
         height: 0,
       },
       modal: false,
+      modalId: false,
+      modalStatus: false,
       loading: false,
+      clientNIdList: [],
+      clientIdList: [],
+      newClientList: [],
+      pageSize: 16,
+      pageNum: 0,
     };
   },
   created() {
@@ -307,12 +302,72 @@ export default {
     this.handleResize();
   },
   async mounted() {
-    await axios.get("")
+    await axios.get("https://new-api.closing119.com/api/client").then(res=>{
+      this.clientIdList = res.data
+      for(var i in this.clientIdList) {
+        if(this.clientIdList[i].status == "N" || this.clientIdList[i].status == "B" || this.clientIdList[i].status == "S") {
+          this.newClientList.unshift(this.clientIdList[i])
+          this.newClientList[0].statusText = "진행중"
+          this.newClientList[0].brightness = "brightness(100%)"
+        }
+        else {
+          this.newClientList.unshift(this.clientIdList[i])
+          this.newClientList[0].statusText = "마감"
+          this.newClientList[0].brightness = "brightness(50%)"
+          this.newClientList[0].color = "#ee5335"
+        }
+      }
+    })
+    this.getClientImgFunc()
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
   },
+  computed: {
+    pageCount() {
+      let listLeng = this.newClientList.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize)
+
+      if(listLeng % listSize > 0 ) page += 1
+
+      return page
+    },
+    paginatedList() {
+      const start = this.pageNum * this.pageSize,
+            end = start + this.pageSize;
+
+      return this.newClientList.slice(start, end)
+    }
+  },
   methods: {
+    maskingTitle(str) {
+      var maskStr = ""
+
+      for(var i in str) {
+        if(i == 0 || i == 1) {
+          maskStr += "*"
+        }
+        else {
+          maskStr += str[i]
+        }
+      }
+
+      return maskStr
+    },
+    getClientImgFunc() {
+      for(var i in this.newClientList) {
+        this.getClientImg(this.newClientList[i].id, i)
+      }
+    },
+    async getClientImg(id, i) {
+      await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: id}}).then(res=>{
+          this.newClientList[i].imageUrl = res.data.results.client_image[0].image
+      })
+      if(this.clientIdList.length - 1 == i) {
+        this.loading = true
+      }
+    },
     handleResize() {
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
@@ -355,15 +410,45 @@ export default {
         }
       }
     },
-    mainModal(list) {
-      if (list.status == "마감") {
-        this.clientData = list;
-        this.modal = true;
+    nextPage () {
+      if(this.pageNum >= this.pageCount - 1) {
+
       }
+      else {
+        this.pageNum += 1;
+      }
+    },
+    prevPage () {
+      if(this.pageNum != 0) {
+        this.pageNum -= 1;
+      } 
+    },
+    mainModal(id, status) {
+      this.modalId = id
+      this.modalStatus = status
+      this.modal = true
     },
     closeModal() {
       this.modal = false;
     },
+    sectorShort(sector) {
+      if (sector == "음식점 (식당/카페/호프/패스트푸드 등)") {
+        return "음식점";
+      } else if (
+        sector ==
+        "도소매 (편의점/문구사무/애견/화장품/기타잡화 등)"
+      ) {
+        return "도소매";
+      } else if (
+        sector == "서비스업 (학원/미용/주유소/세탁/기타서비스업)"
+      ) {
+        return "서비스업";
+      } else if (
+        sector == "여가 오락(pc방/노래방/당구장/골프장/헬스/기타)"
+      ) {
+        return "여가 오락";
+      }
+    }
   },
 };
 </script>
@@ -602,6 +687,12 @@ export default {
 }
 .mobile-spacing {
   display: none;
+}
+.page-pagination-pagenum {
+  padding-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 18px;
 }
 @media screen and (max-width: 1141px) {
   .mobile-spacing {

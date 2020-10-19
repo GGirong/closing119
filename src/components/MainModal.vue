@@ -4,9 +4,17 @@
       <div class="modal-window">
         <div class="modal-content">
           <div class="main-modal-estimate-container">
-            <div class="main-modal-title">
+             <div class="main-modal-title" v-if="estimateDone">
               마감된 견적요청서 자세히 보기
-              <div class="main-modal-reg-code">(접수번호: 102052)</div>
+              <div class="main-modal-reg-code">(접수번호: {{ clientData.reg_code }})</div>
+              <b-icon-x
+                style="cursor: pointer"
+                @click="$emit('close')"
+              ></b-icon-x>
+            </div>
+            <div class="main-modal-title" v-if="!estimateDone">
+              진행중인 견적요청서 자세히 보기
+              <div class="main-modal-ongoing-reg-code">(접수번호: {{ clientData.reg_code }})</div>
               <b-icon-x
                 style="cursor: pointer"
                 @click="$emit('close')"
@@ -20,7 +28,8 @@
                 margin-bottom: 20px;
               "
             ></div>
-            <div class="col-12" style="overflow: hidden">
+            <div v-if="loading">
+              <div class="col-12" style="overflow: hidden">
               <carousel
               class="main-modal-image-container"
               :items="1"
@@ -41,43 +50,50 @@
             </div>
             <div class="main-modal-head-container">
               <div class="main-modal-head-title">{{ maskingTitle(clientData.business_name) }}</div>
-              <div class="main-modal-head-subtitle">서울 서초구 | 음식점</div>
+              <div class="main-modal-head-subtitle">{{ clientData.district}} | {{ sectorShort(clientData.sector) }}</div>
             </div>
             <div class="main-modal-info-container">
               <div class="main-modal-info-wrapper">
                 <div class="main-modal-info-section">
                   <div class="main-modal-info-light">매장평수</div>
                   <div class="main-modal-info-bold">
-                    <ICountUp :endVal="30"/>평
+                    <ICountUp :endVal="clientData.py"/>평
                   </div>
                 </div>
                 <div class="main-modal-info-section-divider"></div>
                 <div class="main-modal-info-section">
                   <div class="main-modal-info-light">파트너스</div>
-                  <div class="main-modal-info-bold"><ICountUp :endVal="3"/>개 업체</div>
+                  <div class="main-modal-info-bold"><ICountUp :endVal="estData.length"/>개 업체</div>
                 </div>
                 <div class="main-modal-info-section-divider"></div>
                 <div class="main-modal-info-section">
                   <div class="main-modal-info-light">최종견적</div>
-                  <div class="main-modal-info-bold"><ICountUp :endVal="184"/>만원</div>
+                  <div class="main-modal-info-bold" v-if="estimateDone"><ICountUp :endVal="numberWithThree((total_price * 1.1).toFixed(0))"/>만원</div>
+                  <div class="main-modal-info-bold" v-if="!estimateDone">입찰중</div>
                 </div>
                 
               </div>
 
             </div>
+            </div>
+            
             <div class="main-modal-partners-title-container">
               <div class="main-modal-partners-title-left"></div><div class="main-modal-partners-title">세부 견적 사항</div>
             </div>
-            <div class="main-modal-partners-container row">
+            <div class="main-modal-partners-container row" v-if="estimate">
               <div
                 class="main-modal-partner-container col-12"
-                v-for="est in estData.Estimate"
+                v-for="est in estData"
                 :key="est.id"
               >
                 <MainEstimateGrid
                   :estData="est"
+                  :status="estimateDone"
                 />
               </div>
+            </div>
+            <div class="main-modal-no-partners-container" v-if="!estimate">
+              아직 제출된 견적서가 없습니다.
             </div>
           </div>
         </div>
@@ -86,14 +102,15 @@
   </transition>
 </template>
 <script>
-import DaumPostcode from "vuejs-daum-postcode";
 import MainEstimateGrid from "../components/MainEstimateGrid";
 import ICountUp from "vue-countup-v2";
 import carousel from "vue-owl-carousel2";
 
+import axios from "axios";
+
 export default {
+  props:['clientId', 'status'],
   components: {
-    DaumPostcode,
     MainEstimateGrid,
     carousel,
     ICountUp,
@@ -101,37 +118,12 @@ export default {
   data() {
     return {
       roadAddress: null,
+      title: "진행중인",
+      estimate: false,
+      estimateDone: false,
+      total_price: 0,
       addData: "",
       estData: {
-        Estimate: [
-          {
-            id: 1,
-            partner: {
-              id: 2,
-              partner_name: "동양철거",
-              detail: "시설팀 가이드에 따라 야간공사로 진행되어야 하며, 출입구 금속공사시 알로이 재질로 별도 도색이 필요합니다."
-            },
-            total_price: 15000000,
-          },
-          {
-            id: 2,
-            partner: {
-              id: 2,
-              partner_name: "자진철거",
-              detail: "시설팀 가이드에 따라 야간공사로 진행되어야 하며, 출입구 금속공사시 알로이 재질로 별도 도색이 필요합니다."
-            },
-            total_price: 12200000,
-          },
-          {
-            id: 3,
-            partner: {
-              id: 2,
-              partner_name: "수양철거",
-              detail: "시설팀 가이드에 따라 야간공사로 진행되어야 하며, 출입구 금속공사시 알로이 재질로 별도 도색이 필요합니다."
-            },
-            total_price: 14300000,
-          },
-        ],
       },
       clientData: {
         business_name: "아뜰리에 자전거",
@@ -146,9 +138,41 @@ export default {
           }
         ]
       },
+      loading: false
     };
   },
   methods: {
+    sectorShort(sector) {
+      if (sector == "음식점 (식당/카페/호프/패스트푸드 등)") {
+        return "음식점";
+      } else if (
+        sector ==
+        "도소매 (편의점/문구사무/애견/화장품/기타잡화 등)"
+      ) {
+        return "도소매";
+      } else if (
+        sector == "서비스업 (학원/미용/주유소/세탁/기타서비스업)"
+      ) {
+        return "서비스업";
+      } else if (
+        sector == "여가 오락(pc방/노래방/당구장/골프장/헬스/기타)"
+      ) {
+        return "여가 오락";
+      }
+    },
+    numberWithThree(x) {
+      x += " "
+      if(x.length == 8 ) {
+        return Number(x.substr( 0 , 3 ))
+      }
+      else if( x.length == 9) {
+        return Number(x.substr( 0 , 4 ))
+      }
+      else if( x.length == 10) {
+        return Number(x.substr( 0 , 5 ))
+      }
+      
+    },
     maskingTitle(str) {
       var maskStr = ""
 
@@ -162,8 +186,59 @@ export default {
       }
 
       return maskStr
-    }
+    },
+    async getClientN(id) {
+      await axios
+      .get("https://new-api.closing119.com/api/client/" + this.clientId)
+      .then((res) => {
+        console.log(res);
+        this.clientData = res.data
+      });
+      await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: this.clientId}}).then(res=>{
+        var images = [];
+          for (var j in res.data.results.client_image) {
+            images[j] = res.data.results.client_image[j];
+          }
+          this.clientData.images = images;
+       })
+       this.loading = true
+    },
+    async getClient(id) {
+      await axios
+      .get("https://new-api.closing119.com/api/clientestcomplete/", {
+        params: { client: this.clientId },
+      })
+      .then((res) => {
+        console.log(res);
+        this.clientData = res.data[0].client
+        this.estData = res.data
+        this.estimate = true
+      });
+      await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: this.clientId}}).then(res=>{
+        var images = [];
+          for (var j in res.data.results.client_image) {
+            images[j] = res.data.results.client_image[j];
+          }
+          this.clientData.images = images;
+       })
+      for(var i in this.estData) {
+        if(this.estData[i].status == 'D' || this.estData[i].status == 'C') {
+          this.estimateDone = true
+          this.title = "마감된"
+          this.total_price = this.estData[i].total_price
+        }
+      }
+      this.loading = true
+    },
   },
+  mounted() {
+    if(this.status == "N" || this.status == "B") {
+      this.getClientN(this.clientId)
+    }
+    else {
+      this.getClient(this.clientId)
+    }
+  }
 };
 </script>
 <style lang="stylus" scoped>
@@ -244,8 +319,14 @@ export default {
 .main-modal-reg-code {
   position: absolute;
   font-size: 12px;
-  top: 10px;
+  top: 12px;
   left: 280px;
+}
+.main-modal-ongoing-reg-code {
+  position: absolute;
+  font-size: 12px;
+  top: 12px;
+  left: 300px;
 }
 .main-modal-image-container {
   max-width: 425px;
@@ -256,6 +337,12 @@ export default {
   max-height: 287px;
   object-fit: cover;
   object-position: 50%;
+}
+.main-modal-no-partners-container {
+  height: 250px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 35px;
 }
 .main-modal-partners-container {
   overflow-y: scroll;
@@ -312,15 +399,16 @@ export default {
   width: 33%;
   display: flex;
   justify-content: space-between;
-  padding: 30px;
+  padding: 20px;
 }
 .main-modal-info-light {
-  margin-top: 15px;
+  margin-top: 25px;
 }
 .main-modal-info-bold {
-  margin-top: 3px;
+  margin-top: 13px;
   color: #004eff;
   font-size: 32.93px;
+  font-family: NotoSansKR-Medium;
 }
 .main-modal-info-section-divider{
   margin-top: 30px;

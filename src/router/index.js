@@ -25,11 +25,6 @@ const routes = [
         component: () => import(/* webpackChunkName: "contact" */ '../views/PartnersRegister.vue')
     },
     {
-        path: '/clientchecklogin',
-        name: 'ClientCheckLogin',
-        component: () => import(/* webpackChunkName: "contact" */ '../views/ClientCheckLogin.vue')
-    },
-    {
         path: '/clientcheck/:id',
         name: 'ClientCheck',
         props: true,
@@ -81,6 +76,12 @@ const routes = [
         name: 'authfind',
         props: true,
         component: () => import(/* webpackChunkName: "contact" */ '../views/PartnersAuthFind.vue')
+    },
+    {
+        path: '/admin',
+        name: 'admin',
+        props: true,
+        component: () => import(/* webpackChunkName: "contact" */ '../views/Admin.vue')
     },
     
 

@@ -12,7 +12,7 @@
           <div class="main-estimate-grid-text left-padding col-6">
             <div class="main-estimate-grid-title">견적 가격</div>
             <div class="main-estimate-grid-subtitle">
-              {{ numberWithThree((estData.total_price * 1.1).toFixed(0)) }}만원
+              {{ numberWithThree((estData.total_price * 1.1).toFixed(0)) }}원
             </div>
           </div>
         </div>
@@ -20,7 +20,7 @@
       <div class="main-estimate-divider"></div>
         <div class="main-estimate-detail-container">
           <div class="main-estimate-detail-title">견적 세부사항</div>
-          <div class="main-estimate-detail-content">{{ estData.partner.detail }}</div>
+          <div class="main-estimate-detail-content">{{ estData.detail }}</div>
         </div>
     </div>
   </div>
@@ -32,7 +32,7 @@ import EstimateModal from "../components/EstimateModal";
 import axios from "axios";
 
 export default {
-  props: ["estData"],
+  props: ["estData", "status"],
   components: {
     EstimateModal,
     
@@ -47,16 +47,18 @@ export default {
   methods: {
     numberWithThree(x) {
       x += " "
-      if(x.length == 8 ) {
-        return x.substr( 0 , 3 )
+      var maskingName = "";
+      if(!this.status) {
+        for(var i in x) {
+          if(i != 0) {
+            maskingName += "*";
+          }
+        }
+        return maskingName;
       }
-      else if( x.length == 9) {
-        return x.substr( 0 , 4 )
+      else {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
-      else if( x.length == 10) {
-        return x.substr( 0 , 5 )
-      }
-      
     },
     maskingName(name) {
       var maskingName = "";
@@ -71,6 +73,9 @@ export default {
       return maskingName;
     },
   },
+  mounted() {
+    console.log(this.estData)
+  }
 };
 </script>
 

@@ -52,6 +52,8 @@ Vue.config.productionTip = false
 new Vue({
     router,
     store: store,
+    linkActiveClass: 'is-active',
+    linkExactActiveClass: 'is-exact-active',
     render: h => h(App)
 }).$mount('#app')
 

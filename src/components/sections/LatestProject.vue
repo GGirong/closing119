@@ -34,31 +34,16 @@
               :autoplay="true"
               :autoplayTimeout="5000"
               :autoplayHoverPause="true"
+              v-if="loading"
             >
+            <div class="partner-banner-image-container" v-for="item in bannerData" :key="item.id">
               <img
-                src="../../../public/assets/img/parnter_1.jpeg"
-                class="partner-banner-item"
+                :src="item.banner_image"
+                class="partner-banner-image"
               />
-
-              <img
-                src="../../../public/assets/img/partner_2.jpeg"
-                class="partner-banner-item"
-              />
-
-              <img
-                src="../../../public/assets/img/partner_3.jpeg"
-                class="partner-banner-item"
-              />
-
-              <img
-                src="../../../public/assets/img/partner_4.jpeg"
-                class="partner-banner-item"
-              />
-
-              <img
-                src="../../../public/assets/img/partner_5.jpeg"
-                class="partner-banner-item"
-              />
+              <div class="partner-banner-upper-text">{{ item.upper_text }}</div>
+              <div class="partner-banner-bottom-text">{{ item.bottom_text }}</div>
+            </div>
             </carousel>
           </div>
         </div>
@@ -70,6 +55,7 @@
 
 <script>
 import carousel from "vue-owl-carousel2";
+import axios from "axios";
 
 export default {
   components: { carousel },
@@ -86,45 +72,22 @@ export default {
           prevEl: ".ht-swiper-button-prev",
         },
       },
-      partnerList: [
-        {
-          id: 1,
-          title1: "저의 긍정에너지를",
-          title2: "가득 채워드리고 싶어요.",
-          sector: "서울/경기/인천",
-          business_name: "그린철거",
-        },
-        {
-          id: 2,
-          title1: "비결이요?",
-          title2: "정답은 친절입니다.",
-          sector: "강원도",
-          business_name: "재영건설",
-        },
-        {
-          id: 3,
-          title1: "늘어나는 스킬과 함께",
-          title2: "제 자신도 레벨업 중이에요.",
-          sector: "경상도",
-          business_name: "명구철거",
-        },
-        {
-          id: 4,
-          title1: "제자리에 머무르지 않고",
-          title2: "계속 성장해야죠.",
-          sector: "전라도",
-          business_name: "호중무역",
-        },
-        {
-          id: 5,
-          title1: "신뢰란 사소한 것에서",
-          title2: "부터 만들어지는 것이죠.",
-          sector: "충청도",
-          business_name: "성장철거",
-        },
-      ],
+      bannerData: [],
+      loading: false,
     };
   },
+  async mounted() {
+    await axios.get("https://new-api.closing119.com/api/banner/").then(res=> {
+      for(var i in res.data) {
+        if(res.data[i].upper_text != "none") {
+          console.log(res.data[i])
+          this.bannerData.unshift(res.data[i])
+        }
+      }
+      this.loading = true
+    })
+    
+  }
 };
 </script>
 
@@ -160,6 +123,25 @@ export default {
 .partner-banner-item {
   height: 557px;
   background-size: contain;
+}
+.partner-banner-item-container {
+  position: relative;
+}
+.partner-banner-upper-text {
+  position: absolute;
+  top: 140px;
+  left: 50px;
+  font-size: 45px;
+  color: #fff;
+  font-family: NotoSansKR-Bold;
+}
+.partner-banner-bottom-text {
+  position: absolute;
+  top: 190px;
+  left: 50px;
+  font-size: 45px;
+  color: #fff;
+  font-family: NotoSansKR-Bold;
 }
 .owl-stage-outer {
   overflow: visible !important;

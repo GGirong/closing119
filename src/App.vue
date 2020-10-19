@@ -7,7 +7,7 @@
 <script>
 export default {
   mounted() {
-    console.log("ver 0.61");
+    console.log("ver 0.8");
   },
 };
 </script>
