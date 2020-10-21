@@ -82,6 +82,44 @@
             </div>
             <button class="admin-main-modal-button" @click="makeModalOpen()">새로 작성하기</button>
         </div>
+        <div class="ad-container">
+          <div class="container-title">광고 배너 관리</div>
+          <div class="ad-title-container">
+            상단 광고 이미지 (1200 x 110 px)
+          </div>
+          <img
+          :src="ad_u_banner.ad_banner"
+          style="margin-bottom: 30px"
+          />
+          <div class="col-6" style="margin: 0 auto">
+            <input
+          class="form-control ad"
+          type="file"
+          id="ad_one_image"
+          ref="ad_one_image"
+          v-on:change="handleOneFileUpload()"
+          />
+          </div>
+          <div class="col-6" style="margin: 0 auto">
+            <input
+            type="text"
+            class="form-control"
+            v-model="ad_u_banner.ad_link"
+            />
+          </div>
+          <div class="col-12">
+              <button class="ad-num-button" @click="patchAd(ad_u_banner)">적용</button>
+          </div>
+          <div class="ad2-title-container">
+            하단 광고 이미지 (1920 x 209 px)
+          </div>
+          <div class="row" style="width: 600px; margin: 0 auto">
+            <div v-for="(banner, i ) in ad_b_banner" :key="banner.id" class="col-6 admin-banner-link" 
+              @click="openAdModal(banner, i)">
+                  {{ i + 1 }}번째 배너 수정하기
+            </div>
+          </div>
+        </div>
         <div class="numbers-container">
             <div class="container-title">메인페이지 숫자</div>
             <div class="row">
@@ -131,33 +169,45 @@
         </div>
         <div class="banner-container">
             <div class="container-title">메인페이지 파트너스 배너 관리</div>
-            <div v-for="banner in bannerData" :key="banner.id" class="admin-banner-link"
-            @click="openModal(banner)">
-                {{ (banner.id) - 2 }}번째 배너 수정하기
+            <div class="row" style="width: 800px; margin: 0 auto;">
+              <div v-for="(banner, i ) in bannerData" :key="banner.id" class="col-4 admin-banner-link"
+              @click="openModal(banner, i)">
+                  {{ i + 1 }}번째 배너 수정하기
+              </div>
             </div>
+            
             
         </div>
         <AdminBannerModal 
-            :banner="banner"
-            v-if="modal"
-            @close="closeModal"
-            @confirm="patchBanner"
-            />
-            <AdminMainModal
-            v-if="makeModal"
-            @close="closeModal"
-            @confirm="makeMainModal"
-            />
-            <AdminMainModalRe
-            :usecaseId="usecaseId"
-            v-if="mainModal"
-            @close="closeModal"
-            @confirm="patchMainModal"
-            />
+        :banner="banner"
+        :index="index"
+        v-if="modal"
+        @close="closeModal"
+        @confirm="patchBanner"
+        />
+        <AdBannerModal 
+        :banner="banner"
+        :index="index"
+        v-if="Admodal"
+        @close="closeModal"
+        @confirm="patchBAd"
+        />
+        <AdminMainModal
+        v-if="makeModal"
+        @close="closeModal"
+        @confirm="makeMainModal"
+        />
+        <AdminMainModalRe
+        :usecaseId="usecaseId"
+        v-if="mainModal"
+        @close="closeModal"
+        @confirm="patchMainModal"
+        />
     </div>
 </template>
 <script>
 import AdminBannerModal from "../AdminBannerModal"
+import AdBannerModal from "../AdBannerModal"
 import AdminMainModal from "../AdminMainModal"
 import AdminMainModalRe from "../AdminMainModalRe"
 import axios from "axios";
@@ -166,6 +216,7 @@ import axios from "axios";
 export default {
     components: {
         AdminBannerModal,
+        AdBannerModal,
         AdminMainModal,
         AdminMainModalRe,
       },
@@ -173,11 +224,21 @@ export default {
     return {
         banner: "",
         modal: false,
+        Admodal: false,
+        index: 0,
         mainModal: false,
         makeModal: false,
         loading: false,
+        ad_one: "",
+        ad_two: "",
         bannerData: [],
+        bannerConfirmData: [],
         main_num: {},
+        ad_u_banner: [ {
+          ad_banner: "",
+          ad_link: "",
+        }],
+        ad_b_banner: [],
         bannerUploadData: [],
         usecase: {},
         usecaseId: 0,
@@ -217,9 +278,15 @@ export default {
       makeModalOpen() {
           this.makeModal = true
       },
-      openModal(banner) {
+      openModal(banner, i) {
           this.banner = banner
+          this.index = i + 1
           this.modal = true
+      },
+      openAdModal(banner, i) {
+        this.banner = banner
+        this.index = i + 1
+        this.Admodal = true
       },
       openMainModal(usecaseId) {
           this.usecaseId = usecaseId
@@ -229,18 +296,26 @@ export default {
           this.modal = false
           this.mainModal = false
           this.makeModal = false
+          this.Admodal = false
       },
-      async patchBanner(bannerData) {
+      async patchBanner(bannerData, index) {
           const bodyFormData = new FormData();
 
           bodyFormData.append("upper_text", bannerData.upper_text)
           bodyFormData.append("bottom_text", bannerData.bottom_text)
           bodyFormData.append("banner_image", bannerData.banner_image)
 
-        await axios.patch("https://new-api.closing119.com/api/banner/" + bannerData.id + "/", bodyFormData).then(res => {
-            this.modal = false
-            alert("정상적으로 수정되었습니다!")
-        })
+          console.log(this.bannerConfirmData[index-1].banner_image)
+        if(bannerData.banner_image == this.bannerConfirmData[index-1].banner_image || bannerData.upper_text.length == 0 || bannerData.bottom_text.length == 0) {
+          alert("빈 데이터가 있으면 수정이 불가능합니다.")
+        }
+        else {
+          await axios.patch("https://new-api.closing119.com/api/banner/" + bannerData.id + "/", bodyFormData).then(res => {
+              this.modal = false
+              alert("정상적으로 수정되었습니다!")
+          })
+        }
+        
       },
       async patchMainNum() {
           await axios.patch("https://new-api.closing119.com/api/main-num/1/", this.main_num).then(res => {
@@ -296,19 +371,52 @@ export default {
               alert("정상적으로 수정되었습니다!")
               this.closeModal()
           })
+      },
+      async patchAd(bannerData) {
+        const bodyFormData = new FormData();
+
+        bodyFormData.append("ad_link", bannerData.ad_link);
+        bodyFormData.append("ad_banner", bannerData.ad_banner);
+
+        await axios.patch("https://new-api.closing119.com/api/ad-u-banner/" + bannerData.id + "/", bodyFormData).then(res=> {
+            alert("정상적으로 수정되었습니다!")
+        })
+      },
+      async patchBAd(bannerData) {
+        const bodyFormData = new FormData();
+
+        bodyFormData.append("ad_link", bannerData.ad_link);
+        bodyFormData.append("ad_banner", bannerData.ad_banner);
+        
+        await axios.patch("https://new-api.closing119.com/api/ad-b-banner/" + bannerData.id + "/", bodyFormData).then(res=> {
+            alert("정상적으로 수정되었습니다!")
+            this.closeModal()
+        })
+      },
+      handleOneFileUpload() {
+        this.ad_u_banner.ad_banner = this.$refs.ad_one_image.files[0]
+      },
+      handleTwoFileUpload() {
+        this.ad_two = this.$refs.ad_two_image.files
       }
       
   },
   async mounted() {
+        await axios.get("https://new-api.closing119.com/api/ad-u-banner/").then(res=> {
+          this.ad_u_banner = res.data[0]
+        })
+        await axios.get("https://new-api.closing119.com/api/ad-b-banner/").then(res=>{
+          this.ad_b_banner = res.data
+        })
         await axios.get("https://new-api.closing119.com/api/banner/").then(res => {
             this.bannerData = res.data
+            this.bannerConfirmData = JSON.parse(JSON.stringify(this.bannerData))
         })
         await axios.get("https://new-api.closing119.com/api/main-num/1").then(res => {
             this.main_num = res.data
         })
         await axios.get("https://new-api.closing119.com/api/main-modal/").then(res => {
             this.usecase = res.data.results
-            console.log(this.usecase)
         })
         for(var i in this.usecase) {
             if(i % 3 == 0) {
@@ -336,10 +444,14 @@ export default {
 };
 </script>
 <style>
+.ad {
+  margin-bottom: 15px;
+}
 .admin-container {
     max-width: 1200px;
     margin: 0 auto;
     text-align: center;
+    padding-bottom: 45px;
 }
 .usecase-container {
     padding-top: 30px;
@@ -364,6 +476,17 @@ export default {
     border-radius: 15px;
     padding: 10px;
 }
+.ad-num-button {
+    width: 200px;
+    margin-top: 40px;
+    margin-bottom: 50px;
+    font-size: 24px;
+    background-color: #f0542d;
+    color: #fff;
+    border: 0px;
+    border-radius: 15px;
+    padding: 10px;
+}
 .admin-main-modal-edit-button {
     width: 100%;
     font-size: 18px;
@@ -373,7 +496,7 @@ export default {
     width: 250px;
     font-size: 24px;
     margin-top: 40px;
-    margin-bottom: 200px;
+    margin-bottom: 150px;
     background-color: #f0542d;
     color: #fff;
     border: 0px;
@@ -384,7 +507,7 @@ export default {
     font-size: 21px;
     text-decoration: underline;
     cursor: pointer;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 .admin-banner-row-container {
     margin-top: 15px;
@@ -482,6 +605,9 @@ export default {
   left: -10px;
   width: 13px;
 }
+.numbers-container {
+  margin-top: 200px;
+}
 .top-slide-check-2 {
   position: absolute;
   top: 24px;
@@ -509,6 +635,242 @@ export default {
   line-height: 20px;
   padding-left: 10px;
 }
+.ad-title-container {
+  font-size: 24px;
+  margin-bottom : 20px; 
+}
+.ad2-title-container {
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+.ad2-subtitle {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 1141px) {
+  .mobile-spacing {
+    display: block;
+  }
+  .mobile-spacing-reverse {
+    display: none;
+  }
+  .main-head-text-container {
+    padding-top: 55px;
+    padding-bottom: 35px;
+    max-width: 375px;
+    margin: 0 auto;
+  }
+  .main-head-text-wrapper {
+    flex: 0 0 100%;
+  }
+  .main-head-text-title {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 24px;
+    padding-left: 25px;
+  }
+  .main-head-text {
+    font-size: 14px;
+    margin-top: 5px;
+    line-height: 20px;
+    padding-left: 25px;
+  }
+
+  .main-head-image {
+    margin-top: 20px;
+    padding-left: 0px;
+  }
+  .main-head-image-size {
+    max-width: 300px;
+  }
+  .head-swiper-section {
+    max-width: 375px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .head-swiper-container {
+    max-width: 375px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .head-swiper-wrapper {
+    max-width: 270px;
+    margin: 0 auto;
+  }
+  .swiper-button-prev {
+    display: none;
+  }
+  .swiper-button-next {
+    display: none;
+  }
+  .top-slide-image {
+    max-width: 270px;
+    max-height: 169px;
+  }
+  .top-slide-headcircle {
+    overflow: hidden;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 2px solid #fff;
+    top: 0;
+    left: 105px;
+    color: #fff;
+    text-align: center;
+    padding-top: 23px;
+    line-height: 16px;
+    font-family: NotoSansKR-Medium;
+    font-size: 13px;
+  }
+  .headcircle-bold-title {
+    font-family: NotoSansKR-Bold;
+    font-size: 18px;
+    margin-right: 2px;
+  }
+  .top-slide-content-container {
+    padding-top: 15px;
+    padding-bottom: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+    border-radius: 0 0 5px 5px;
+    border: 1px solid #dcdde0;
+  }
+  .top-slide-sector {
+    font-size: 9px;
+    line-height: 12px;
+  }
+  .top-slide-title {
+    font-size: 13px;
+  }
+  .top-slide-address {
+    font-size: 9px;
+    color: #646464;
+  }
+  .top-slide-margin-right {
+    margin-right: 15px;
+  }
+  .top-slide-margin-left {
+    margin-left: 15px;
+  }
+  .top-slide-check-1 {
+    position: absolute;
+    top: 3.5px;
+    left: -14px;
+    width: 10px;
+  }
+  .top-slide-check-2 {
+    position: absolute;
+    top: 19px;
+    left: -14px;
+    width: 10px;
+  }
+  .top-slide-check-3 {
+    position: absolute;
+    top: 35px;
+    left: -14px;
+    width: 10px;
+  }
+  .top-slide-check-text-1 {
+    font-size: 9px;
+    line-height: 17px;
+    padding-left: 0px;
+  }
+  .top-slide-check-text-2 {
+    font-size: 9px;
+    line-height: 17px;
+    padding-left: 0px;
+  }
+  .top-slide-check-text-3 {
+    font-size: 9px;
+    line-height: 17px;
+    padding-left: 0px;
+  }
+  .banner-one {
+    margin-top: 35px;
+    margin-left: 20px;
+  }
+  .banner-one-image {
+    width: 300px;
+    margin: 0 auto;
+  }
+  .new-board-title {
+    margin-top: 40px;
+    text-align: center;
+  }
+  .new-board-mobile-row {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .mobile-col-padding {
+    padding: 0;
+  }
+  .board-item-container {
+    width: 150px;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+  }
+  .board-d-day {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background-color: #1665fe;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 11.49px;
+    padding: 7px;
+    z-index: 1;
+  }
+  .board-item-image {
+    border-radius: 5px;
+    width: 150px;
+    height: 114px;
+    object-fit: cover;
+  }
+  .board-content-container {
+    padding-top: 15px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 45.5px;
+    border-radius: 0 0 5px 5px;
+  }
+  .board-content-sector {
+    font-size: 10px;
+    line-height: 12px;
+  }
+  .board-content-title {
+    font-size: 12px;
+    line-height: 12px;
+    font-family: NotoSansKR-Medium;
+    margin-bottom: 5px;
+  }
+  .board-content-address {
+    font-size: 10px;
+    color: #646464;
+  }
+  .board-content-margin-right {
+    margin-right: 10px;
+  }
+  .board-content-margin-left {
+    margin-left: 10px;
+  }
+  .banner-swiper {
+    color: #fff;
+    font-size: 32px;
+    font-weight: 400;
+  }
+  .page-pagination-container {
+    margin-top: 10px;
+    margin-bottom: 40px;
+  }
+}
+
 </style>
 
 <style lang="scss" scope>

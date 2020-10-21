@@ -80,7 +80,6 @@ export default {
     await axios.get("https://new-api.closing119.com/api/banner/").then(res=> {
       for(var i in res.data) {
         if(res.data[i].upper_text != "none") {
-          console.log(res.data[i])
           this.bannerData.unshift(res.data[i])
         }
       }

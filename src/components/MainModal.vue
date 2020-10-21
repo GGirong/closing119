@@ -20,13 +20,7 @@
                 @click="$emit('close')"
               ></b-icon-x>
             </div>
-            <div
-              style="
-                height: 1px;
-                background-color: #d4d4d4;
-                margin-top: 10px;
-                margin-bottom: 20px;
-              "
+            <div class="title-line"
             ></div>
             <div v-if="loading">
               <div class="col-12" style="overflow: hidden">
@@ -265,6 +259,7 @@ export default {
   &-content {
     padding: 10px 20px;
     padding-bottom: 30px;
+
   }
 
   &-footer {
@@ -272,6 +267,8 @@ export default {
     padding: 10px;
     text-align: right;
   }
+
+  
 }
 
 // 오버레이 트랜지션
@@ -303,6 +300,11 @@ export default {
     padding: 25px 30px;
     padding-bottom: 15px;
   }
+  @media screen and (max-width:1141px) {
+    &-content {
+      padding: 5px 10px;
+    }
+  }
 }
 </style>
 
@@ -327,6 +329,12 @@ export default {
   font-size: 12px;
   top: 12px;
   left: 300px;
+}
+.title-line {
+  height: 1px;
+  background-color: #d4d4d4;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 .main-modal-image-container {
   max-width: 425px;
@@ -431,41 +439,102 @@ export default {
   padding: 3px;
 }
 @media (max-width: 1141px) {
-  .main-modal-head-container {
+  .main-modal-estimate-container{
     max-width: 300px;
     margin: 0 auto;
     padding: 5px;
   }
-  .main-estimate-mobile {
-    display: none;
+  .main-modal-title {
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
   }
-  .main-modal-partners-container {
-    max-width: 300px;
+  .main-modal-reg-code {
+    position: absolute;
+    font-size: 10px;
+    top: 23px;
+    left: -0px;
   }
-  .main-estimate-text-title {
-    color: rgb(94, 84, 84);
+  .main-modal-ongoing-reg-code {
+    position: absolute;
+    font-size: 10px;
+    top: 21px;
+    left: 0px;
+  }
+  .title-line {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  .main-modal-image-container {
+    max-width: 225px;
+    margin: 0 auto;
+  }
+  .main-modal-image {
+    max-width: 425px;
+    max-height: 152px;
+    object-fit: cover;
+    object-position: 50%;
+  }
+  .main-modal-head-title {
+    font-size: 14px;
+    font-family: NotoSansKr-Medium;
+  }
+  .main-modal-head-subtitle {
     font-size: 10px;
   }
-  .main-estimate-text-subtitle {
+  .main-modal-info-container {
+    width: 100%;
+    height: 75px;
+  }
+  .main-modal-info-section {
+    width: 33%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 5px;
+  }
+  .main-modal-info-light {
+    margin-top: 10px;
     font-size: 12px;
   }
-  .main-modal-head-image-container {
+  .main-modal-info-bold {
+    margin-top:0px;
+    margin-bottom: 10px;
+    color: #004eff;
+    font-size: 16px;
+    font-family: NotoSansKR-Medium;
+  }
+  .main-modal-info-section-divider{
+    margin-top: 15px;
+    height: 40px;
+    width: 1px;
+    background: #e0e1e2;
+  }
+  .main-modal-no-partners-container {
+    height: 40px;
+    margin: 0 auto;
+    text-align: center;
     padding-top: 5px;
+    font-size: 12px;
+  }
+  .main-modal-partners-title-left {
+    width: 3px;
+    height: 16px;
+    margin-top: 14.5px;
+    margin-right: 5px;
+    margin-left: 3px;
+    background-color: #000;
   }
   .main-modal-partners-title {
     margin-top: 10px;
-    margin-bottom: 5px;
-    font-size: 16px;
+    font-size: 14px;
+    font-family: NotoSansKR-Medium;
   }
-  .main-modal-title {
-    font-size: 16px;
-    margin-top: 10px;
-    margin-left: 10px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .main-estimate-text-box {
-    padding: 0px;
+  .main-modal-partners-container {
+    overflow-y: scroll;
+    max-height: 160px;
+    margin: 0 auto;
   }
 }
 </style>

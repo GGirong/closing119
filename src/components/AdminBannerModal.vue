@@ -4,7 +4,7 @@
       <div class="modal-window">
         <div class="modal-content">
             <div>
-                <div class="admin-modal-title">{{ (banner.id) - 2}}번째 배너 수정하기
+                <div class="admin-modal-title">{{ index }}번째 배너 수정하기
                     <b-icon-x
                 style="cursor: pointer; position:absolute; right: 0px;"
                 @click="$emit('close')"
@@ -66,7 +66,7 @@
             </div>
         </div>
         <footer class="modal-footer">
-          <button class="admin-confirm-button" @click="$emit('confirm', banner)">적용</button>
+          <button class="admin-confirm-button" @click="$emit('confirm', banner, index)">적용</button>
         </footer>
       </div>
     </div>
@@ -77,7 +77,7 @@ import DaumPostcode from "vuejs-daum-postcode";
 import axios from "axios";
 
 export default {
-    props:['banner'],
+    props:['banner', 'index'],
   components: {
     DaumPostcode,
   },

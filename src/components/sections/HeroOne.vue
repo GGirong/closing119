@@ -85,7 +85,7 @@
                         class="hero-slider__content hero-slider__content--center"
                       >
                         <h2 class="hero-slider__title head-title">
-                          복잡한 폐업절차, 누군가에게 전부 맡기고 싶으시다면?<br />
+                          복잡한 폐업절차, <div class="hero-slider__space"></div>누군가에게 전부 맡기고 싶으시다면?<br />
                           폐업119 원스탑 매장정리 서비스를 이용하세요!
                         </h2>
                         <div
@@ -133,7 +133,9 @@ export default {
         speed: 1500,
         loop: true,
         effect: "fade",
-        autoplay: false,
+        autoplay: {
+          delay: 5000
+        },
         spaceBetween: 30,
         navigation: {
           nextEl: ".ht-swiper-button-next",

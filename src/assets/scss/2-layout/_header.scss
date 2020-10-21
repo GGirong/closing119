@@ -569,7 +569,7 @@
 /* header info area */
 
 .header-info-area {
-    padding: 5px 0;
+    padding: 0;
 
     @media #{$desktop-device, $tablet-device, $large-mobile} {
         border-bottom: 1px solid #eee;

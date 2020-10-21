@@ -28,43 +28,45 @@
     <div class="head-swiper-section">
       <div class="head-swiper-container">
         <div class="head-swiper-wrapper">
-          <div class="swiper" v-swiper:swiper="swiperOption">
+          <div class="swiper" v-swiper:swiper="swiperOption" v-if="swiper_loading">
             <div class="swiper-wrapper">
               <div
                 class="swiper-slide"
-                v-for="item in slideList"
-                :key="item.id"
+                v-for="item in usecaseData"
+                :key="item.main_modal.id"
+                @click="openUsecaseModal(item.main_modal.id)"
+                style="cursor: pointer"
               >
                 <div
                   class="top-slide-headcircle"
                   :style="{
-                    backgroundColor: item.color,
-                    textShadow: item.subcolor,
+                    backgroundColor: item.main_modal.color,
+                    textShadow: item.main_modal.subcolor,
                   }"
                 >
                   <div class="headcircle-title">
-                    <span class="headcircle-bold-title">-{{ item.number }}</span
+                    <span class="headcircle-bold-title">-{{ item.main_modal.fund }}</span
                     >만원 <br />절감
                   </div>
                 </div>
                 <img
-                  src="../../public/assets/img/ex_1.png"
+                  :src="'https://new-api.closing119.com' + item.image.modal_image"
                   class="top-slide-image"
                 />
                 <div class="top-slide-content-container row">
                   <div class="col-8">
                     <div class="top-slide-sector">
-                      상가/매장
+                      {{ item.main_modal.sector }}
                     </div>
                     <div class="top-slide-title">
-                      아뜰리에 코스메틱 양재점
+                      {{item.main_modal.business_name}}
                     </div>
                     <div class="top-slide-address">
                       <span class="top-slide-margin-right"
-                        >서울특별시 양재동</span
+                        >{{item.main_modal.address}}</span
                       >
                       |
-                      <span class="top-slide-margin-left">30평</span>
+                      <span class="top-slide-margin-left">{{item.main_modal.py}}평</span>
                     </div>
                   </div>
                   <div class="col-4" style="position: relative">
@@ -85,7 +87,7 @@
                         정부지원금 적용
                       </div>
                       <div class="top-slide-check-text-2 col-12">
-                        {{ item.partners }}개업체 비교견적
+                        {{ item.main_modal.partners_num }}개업체 비교견적
                       </div>
                       <div class="top-slide-check-text-3 col-12">
                         책임공사제 시행
@@ -103,9 +105,12 @@
     </div>
     <!--====================  배너  ====================-->
     <div class="main-container">
-      <div class="banner-one">
-        배너 자리
-      </div>
+      <a :href="ad_u_banner[0].ad_link" target="_blank" class="banner-one">
+        <img
+        :src="ad_u_banner[0].ad_banner"
+        class="banner-one-image"
+        />
+      </a>
     </div>
 
     <!--====================  새로 올라온 매장  ====================-->
@@ -168,20 +173,18 @@
       </div>
     </div>
     <!--====================  하단 배너 ====================-->
-    <swiper class="swiper2" :options="swiperOption2">
-      <swiper-slide class="banner-swiper">배너자리 1</swiper-slide>
-      <swiper-slide class="banner-swiper">배너자리 2</swiper-slide>
-      <swiper-slide class="banner-swiper">배너자리 3</swiper-slide>
-      <swiper-slide class="banner-swiper">배너자리 4</swiper-slide>
-      <swiper-slide class="banner-swiper">배너자리 5</swiper-slide>
-      <swiper-slide class="banner-swiper">배너자리 6</swiper-slide>
-      <swiper-slide class="banner-swiper">배너자리 7</swiper-slide>
-      <swiper-slide class="banner-swiper">배너자리 8</swiper-slide>
-      <swiper-slide class="banner-swiper">배너자리 9</swiper-slide>
-      <swiper-slide class="banner-swiper">배너자리 10</swiper-slide>
+    <swiper class="swiper2" :options="swiperOption2" v-if="swiper_loading">
+      <swiper-slide class="banner-swiper" v-for="banner in ad_b_banner" :key="banner.id">
+        <a :href="banner.ad_link" target="_blank">
+          <img
+          :src="banner.ad_banner"
+          />
+      </a>
+      </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
     <MainModal :clientId="modalId" :status="modalStatus" v-if="modal" @close="closeModal" />
+    <MainUsecaseModal :usecaseId="usecaseId" v-if="usecaseModal" @close="closeModal"/>
   </div>
 </template>
 
@@ -189,6 +192,7 @@
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 import MainModal from "../components/MainModal";
+import MainUsecaseModal from "../components/MainUsecaseModal"
 
 import axios from "axios";
 
@@ -197,20 +201,28 @@ export default {
     Swiper,
     SwiperSlide,
     MainModal,
+    MainUsecaseModal,
   },
   data() {
     return {
       clientData: {},
       swiperOption: {
         slidesPerView: 3,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
         spaceBetween: 37,
-        initialSlide: 2,
+        initialSlide: 3,
+        centeredSlides: true,
         loop: true,
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         },
       },
+      usecaseModal: false,
+      usecaseId: 0,
       swiperOption2: {
         loop: true,
         pagination: {
@@ -224,48 +236,18 @@ export default {
           color: "#58bdb5",
           subcolor:
             "#009a8d 1px 1px, #009a8d 2px 2px, #009a8d 3px 3px,#009a8d 3px 3px,#009a8d 4px 4px,#009a8d 5px 5px,#009a8d 6px 6px,#009a8d 7px 7px,#009a8d 8px 8px, #009a8d 9px 9px,#009a8d 10px 10px,#009a8d 11px 11px,#009a8d 12px 12px,#009a8d 13px 13px,#009a8d 14px 14px,#009a8d 15px 15px,#009a8d 16px 16px,#009a8d 17px 17px,#009a8d 18px 18px,#009a8d 19px 19px,#009a8d 20px 20px, #009a8d 21px 21px, #009a8d 22px 22px, #009a8d 23px 23px,#009a8d 24px 24px,#009a8d 25px 25px,#009a8d 26px 26px,#009a8d 27px 27px,#009a8d 28px 28px, #009a8d 29px 29px, #009a8d 30px 30px, #009a8d 31px 31px, #009a8d 32px 32px, #009a8d 33px 33px, #009a8d 34px 34px,#009a8d 35px 35px,#009a8d 36px 36px, #009a8d 37px 37px, #009a8d 38px 38px, #009a8d 39px 39px, #009a8d 40px 40px, #009a8d 41px 41px, #009a8d 42px 42px",
-          number: 170,
-          partners: 5,
         },
         {
           id: 2,
           color: "#1574fe",
           subcolor:
             "#1052bf 1px 1px, #1052bf 2px 2px, #1052bf 3px 3px,#1052bf 3px 3px,#1052bf 4px 4px,#1052bf 5px 5px,#1052bf 6px 6px,#1052bf 7px 7px,#1052bf 8px 8px, #1052bf 9px 9px,#1052bf 10px 10px,#1052bf 11px 11px,#1052bf 12px 12px,#1052bf 13px 13px,#1052bf 14px 14px,#1052bf 15px 15px,#1052bf 16px 16px,#1052bf 17px 17px,#1052bf 18px 18px,#1052bf 19px 19px,#1052bf 20px 20px, #1052bf 21px 21px, #1052bf 22px 22px, #1052bf 23px 23px,#1052bf 24px 24px,#1052bf 25px 25px,#1052bf 26px 26px,#1052bf 27px 27px,#1052bf 28px 28px, #1052bf 29px 29px, #1052bf 30px 30px, #1052bf 31px 31px, #1052bf 32px 32px, #1052bf 33px 33px, #1052bf 34px 34px,#1052bf 35px 35px,#1052bf 36px 36px, #1052bf 37px 37px, #1052bf 38px 38px, #1052bf 39px 39px, #1052bf 40px 40px, #1052bf 41px 41px, #1052bf 42px 42px",
-          number: 150,
-          partners: 6,
         },
         {
           id: 3,
           color: "#f9db6d",
           subcolor:
             "#edb368 1px 1px, #edb368 2px 2px, #edb368 3px 3px,#edb368 3px 3px,#edb368 4px 4px,#edb368 5px 5px,#edb368 6px 6px,#edb368 7px 7px,#edb368 8px 8px, #edb368 9px 9px,#edb368 10px 10px,#edb368 11px 11px,#edb368 12px 12px,#edb368 13px 13px,#edb368 14px 14px,#edb368 15px 15px,#edb368 16px 16px,#edb368 17px 17px,#edb368 18px 18px,#edb368 19px 19px,#edb368 20px 20px, #edb368 21px 21px, #edb368 22px 22px, #edb368 23px 23px,#edb368 24px 24px,#edb368 25px 25px,#edb368 26px 26px,#edb368 27px 27px,#edb368 28px 28px, #edb368 29px 29px, #edb368 30px 30px, #edb368 31px 31px, #edb368 32px 32px, #edb368 33px 33px, #edb368 34px 34px,#edb368 35px 35px,#edb368 36px 36px, #edb368 37px 37px, #edb368 38px 38px, #edb368 39px 39px, #edb368 40px 40px, #edb368 41px 41px, #edb368 42px 42px",
-          number: 75,
-          partners: 4,
-        },
-        {
-          id: 4,
-          color: "#58bdb5",
-          subcolor:
-            "#009a8d 1px 1px, #009a8d 2px 2px, #009a8d 3px 3px,#009a8d 3px 3px,#009a8d 4px 4px,#009a8d 5px 5px,#009a8d 6px 6px,#009a8d 7px 7px,#009a8d 8px 8px, #009a8d 9px 9px,#009a8d 10px 10px,#009a8d 11px 11px,#009a8d 12px 12px,#009a8d 13px 13px,#009a8d 14px 14px,#009a8d 15px 15px,#009a8d 16px 16px,#009a8d 17px 17px,#009a8d 18px 18px,#009a8d 19px 19px,#009a8d 20px 20px, #009a8d 21px 21px, #009a8d 22px 22px, #009a8d 23px 23px,#009a8d 24px 24px,#009a8d 25px 25px,#009a8d 26px 26px,#009a8d 27px 27px,#009a8d 28px 28px, #009a8d 29px 29px, #009a8d 30px 30px, #009a8d 31px 31px, #009a8d 32px 32px, #009a8d 33px 33px, #009a8d 34px 34px,#009a8d 35px 35px,#009a8d 36px 36px, #009a8d 37px 37px, #009a8d 38px 38px, #009a8d 39px 39px, #009a8d 40px 40px, #009a8d 41px 41px, #009a8d 42px 42px",
-          number: 170,
-          partners: 5,
-        },
-        {
-          id: 5,
-          color: "#1574fe",
-          subcolor:
-            "#1052bf 1px 1px, #1052bf 2px 2px, #1052bf 3px 3px,#1052bf 3px 3px,#1052bf 4px 4px,#1052bf 5px 5px,#1052bf 6px 6px,#1052bf 7px 7px,#1052bf 8px 8px, #1052bf 9px 9px,#1052bf 10px 10px,#1052bf 11px 11px,#1052bf 12px 12px,#1052bf 13px 13px,#1052bf 14px 14px,#1052bf 15px 15px,#1052bf 16px 16px,#1052bf 17px 17px,#1052bf 18px 18px,#1052bf 19px 19px,#1052bf 20px 20px, #1052bf 21px 21px, #1052bf 22px 22px, #1052bf 23px 23px,#1052bf 24px 24px,#1052bf 25px 25px,#1052bf 26px 26px,#1052bf 27px 27px,#1052bf 28px 28px, #1052bf 29px 29px, #1052bf 30px 30px, #1052bf 31px 31px, #1052bf 32px 32px, #1052bf 33px 33px, #1052bf 34px 34px,#1052bf 35px 35px,#1052bf 36px 36px, #1052bf 37px 37px, #1052bf 38px 38px, #1052bf 39px 39px, #1052bf 40px 40px, #1052bf 41px 41px, #1052bf 42px 42px",
-          number: 150,
-          partners: 6,
-        },
-        {
-          id: 6,
-          color: "#f9db6d",
-          subcolor:
-            "#edb368 1px 1px, #edb368 2px 2px, #edb368 3px 3px,#edb368 3px 3px,#edb368 4px 4px,#edb368 5px 5px,#edb368 6px 6px,#edb368 7px 7px,#edb368 8px 8px, #edb368 9px 9px,#edb368 10px 10px,#edb368 11px 11px,#edb368 12px 12px,#edb368 13px 13px,#edb368 14px 14px,#edb368 15px 15px,#edb368 16px 16px,#edb368 17px 17px,#edb368 18px 18px,#edb368 19px 19px,#edb368 20px 20px, #edb368 21px 21px, #edb368 22px 22px, #edb368 23px 23px,#edb368 24px 24px,#edb368 25px 25px,#edb368 26px 26px,#edb368 27px 27px,#edb368 28px 28px, #edb368 29px 29px, #edb368 30px 30px, #edb368 31px 31px, #edb368 32px 32px, #edb368 33px 33px, #edb368 34px 34px,#edb368 35px 35px,#edb368 36px 36px, #edb368 37px 37px, #edb368 38px 38px, #edb368 39px 39px, #edb368 40px 40px, #edb368 41px 41px, #edb368 42px 42px",
-          number: 75,
-          partners: 4,
         },
       ],
       pagination: [
@@ -290,11 +272,15 @@ export default {
       modalId: false,
       modalStatus: false,
       loading: false,
+      swiper_loading: false,
+      ad_u_banner: [],
+      ad_b_banner: [],
       clientNIdList: [],
       clientIdList: [],
       newClientList: [],
       pageSize: 16,
       pageNum: 0,
+      usecaseData: []
     };
   },
   created() {
@@ -319,6 +305,33 @@ export default {
       }
     })
     this.getClientImgFunc()
+
+    await axios.get("https://new-api.closing119.com/api/main-modal/").then(res=> {
+      console.log(res)
+      this.usecaseData = res.data.results
+    })
+
+    for(var i in this.usecaseData) {
+      if(i % 3 == 0) {
+          this.usecaseData[i].main_modal.color = this.slideList[0].color
+          this.usecaseData[i].main_modal.subcolor = this.slideList[0].subcolor
+      }
+      else if(i % 3 == 1) {
+          this.usecaseData[i].main_modal.color = this.slideList[1].color
+          this.usecaseData[i].main_modal.subcolor = this.slideList[1].subcolor
+      }
+      else {
+          this.usecaseData[i].main_modal.color = this.slideList[2].color
+          this.usecaseData[i].main_modal.subcolor = this.slideList[2].subcolor
+      }
+    }
+    await axios.get("https://new-api.closing119.com/api/ad-u-banner/").then(res=> {
+      this.ad_u_banner = res.data
+    })
+    await axios.get("https://new-api.closing119.com/api/ad-b-banner/").then(res=> {
+      this.ad_b_banner = res.data
+    })
+    this.swiper_loading = true
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
@@ -354,6 +367,10 @@ export default {
       }
 
       return maskStr
+    },
+    openUsecaseModal(id) {
+      this.usecaseId = id
+      this.usecaseModal = true
     },
     getClientImgFunc() {
       for(var i in this.newClientList) {
@@ -430,6 +447,7 @@ export default {
     },
     closeModal() {
       this.modal = false;
+      this.usecaseModal = false
     },
     sectorShort(sector) {
       if (sector == "음식점 (식당/카페/호프/패스트푸드 등)") {
@@ -447,6 +465,12 @@ export default {
         sector == "여가 오락(pc방/노래방/당구장/골프장/헬스/기타)"
       ) {
         return "여가 오락";
+      }
+      else if( sector == "제조"){
+        return "제조"
+      }
+      else {
+        return sector
       }
     }
   },
@@ -466,8 +490,6 @@ export default {
   left: 550px;
 }
 .banner-swiper {
-  padding-left: 200px;
-  padding-top: 50px;
   color: #fff;
   font-size: 32px;
   font-weight: 400;
@@ -566,6 +588,7 @@ export default {
   line-height: 12px;
 }
 .top-slide-title {
+  font-family: NotoSansKR-Medium;
   font-size: 15.14px;
 }
 .top-slide-address {
@@ -625,11 +648,6 @@ export default {
 }
 .banner-one {
   margin-top: 70px;
-  height: 110px;
-  background-color: #f9db6d;
-  font-size: 33px;
-  color: #fff;
-  padding: 25px;
 }
 .new-board-title {
   margin-top: 75px;
@@ -671,6 +689,7 @@ export default {
   margin-bottom: 5.5px;
 }
 .board-content-title {
+  font-family: NotoSansKR-Medium;
   font-size: 17.42px;
   line-height: 17.42px;
   margin-bottom: 10px;
@@ -694,6 +713,9 @@ export default {
   margin-right: 5px;
   font-size: 18px;
 }
+.new-board-mobile-row {
+    min-height: 1392px;
+  }
 @media screen and (max-width: 1141px) {
   .mobile-spacing {
     display: block;
@@ -839,6 +861,11 @@ export default {
   }
   .banner-one {
     margin-top: 35px;
+    margin-left: 20px;
+  }
+  .banner-one-image {
+    width: 300px;
+    margin: 0 auto;
   }
   .new-board-title {
     margin-top: 40px;
@@ -902,8 +929,6 @@ export default {
     margin-left: 10px;
   }
   .banner-swiper {
-    padding-left: 100px;
-    padding-top: 50px;
     color: #fff;
     font-size: 32px;
     font-weight: 400;

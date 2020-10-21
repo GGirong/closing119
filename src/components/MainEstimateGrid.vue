@@ -134,5 +134,25 @@ export default {
     margin-top: 5px;
     font-size: 14px;
   }
+  .main-estimate-grid-text-container {
+    padding-left: 10px;
+    margin-bottom: 5px;
+  }
+  .left-padding {
+    padding-left: 10px;
+  }
+  .main-estimate-detail-title {
+    color: #8e8e8e;
+    font-size: 10px;
+    margin-bottom: 7px;
+  }
+  .main-estimate-detail-container {
+    margin-top: 14px;
+    padding: 0px 10px;
+    margin-bottom: 22px;
+  }
+  .main-estimate-detail-content {
+    font-size: 12px;
+  }
 }
 </style>
