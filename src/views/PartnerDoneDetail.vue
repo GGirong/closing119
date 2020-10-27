@@ -116,7 +116,6 @@ export default {
         params: { client: this.clientId },
       })
       .then((res) => {
-        console.log(res);
         this.clientData = res.data[0].client;
         this.estData = res.data;
       });

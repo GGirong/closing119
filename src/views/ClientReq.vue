@@ -51,24 +51,19 @@ export default {
   },
   methods: {
     registerDone(code, pk) {
-      console.log("레지스터 메서드");
       this.kakaoToPartnerEstMake(pk);
       this.$router.push("/clientcheck/" + code);
     },
     async kakaoToPartnerEstMake(pk) {
-      console.log("카카오톡 메서드");
       var kakaoData = {
         id: 1,
         pk: pk,
       };
-      console.log(kakaoData);
       await axios
         .post("https://new-api.closing119.com/api/kakaoapi/", kakaoData)
         .then((res) => {
-          console.log(res);
         })
         .catch((err) => {
-          console.log(err);
         });
     },
   },

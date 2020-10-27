@@ -58,7 +58,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.clientData.images);
   },
 };
 </script>

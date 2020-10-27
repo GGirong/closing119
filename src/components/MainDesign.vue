@@ -45,7 +45,7 @@
                   }"
                 >
                   <div class="headcircle-title">
-                    <span class="headcircle-bold-title">-{{ item.main_modal.fund }}</span
+                    <span class="headcircle-bold-title">-{{ item.main_modal.sale_price }}</span
                     >만원 <br />절감
                   </div>
                 </div>
@@ -104,10 +104,16 @@
       <div class="swiper-button-next" slot="button-next"></div>
     </div>
     <!--====================  배너  ====================-->
-    <div class="main-container">
-      <a :href="ad_u_banner[0].ad_link" target="_blank" class="banner-one">
+    <div class="main-container" style="text-align: center">
+      <a :href="ad_u_banner[0].banner_link" target="_blank" class="banner-one" v-if="!mobile">
         <img
-        :src="ad_u_banner[0].ad_banner"
+        :src="'https://new-api.closing119.com' + ad_u_banner[0].banner_image"
+        class="banner-one-image"
+        />
+      </a>
+      <a :href="ad_u_banner_m[0].banner_link" target="_blank" class="banner-one" v-if="mobile">
+        <img
+        :src="'https://new-api.closing119.com' + ad_u_banner_m[0].banner_image"
         class="banner-one-image"
         />
       </a>
@@ -173,11 +179,21 @@
       </div>
     </div>
     <!--====================  하단 배너 ====================-->
-    <swiper class="swiper2" :options="swiperOption2" v-if="swiper_loading">
+    <swiper class="swiper2" :options="swiperOption2" v-if="swiper_loading && !mobile">
       <swiper-slide class="banner-swiper" v-for="banner in ad_b_banner" :key="banner.id">
-        <a :href="banner.ad_link" target="_blank">
+        <a :href="banner.banner_link" target="_blank">
           <img
-          :src="banner.ad_banner"
+          :src="'https://new-api.closing119.com' + banner.banner_image"
+          />
+      </a>
+      </swiper-slide>
+      <div class="swiper-pagination" slot="pagination"></div>
+    </swiper>
+    <swiper class="swiper2" :options="swiperOption2" v-if="swiper_loading && mobile">
+      <swiper-slide class="banner-swiper" v-for="banner in ad_b_banner_m" :key="banner.id">
+        <a :href="banner.banner_link" target="_blank">
+          <img
+          :src="'https://new-api.closing119.com' + banner.banner_image"
           />
       </a>
       </swiper-slide>
@@ -220,6 +236,21 @@ export default {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         },
+        breakpoints: {
+          1141: {
+            slidesPerView: 3,
+            spaceBetween: 37
+          },
+          320: {
+            slidesPerView: 1,
+            spaceBetween: 20
+          }
+        },
+        on: {
+          reachEnd: function() {
+            this.slideTo(1)
+          }
+        }
       },
       usecaseModal: false,
       usecaseId: 0,
@@ -275,17 +306,16 @@ export default {
       swiper_loading: false,
       ad_u_banner: [],
       ad_b_banner: [],
+      ad_u_banner_m: [],
+      ad_b_banner_m: [],
       clientNIdList: [],
       clientIdList: [],
       newClientList: [],
       pageSize: 16,
       pageNum: 0,
-      usecaseData: []
+      usecaseData: [],
+      mobile: false,
     };
-  },
-  created() {
-    window.addEventListener("resize", this.handleResize);
-    this.handleResize();
   },
   async mounted() {
     await axios.get("https://new-api.closing119.com/api/client").then(res=>{
@@ -307,7 +337,6 @@ export default {
     this.getClientImgFunc()
 
     await axios.get("https://new-api.closing119.com/api/main-modal/").then(res=> {
-      console.log(res)
       this.usecaseData = res.data.results
     })
 
@@ -325,16 +354,19 @@ export default {
           this.usecaseData[i].main_modal.subcolor = this.slideList[2].subcolor
       }
     }
-    await axios.get("https://new-api.closing119.com/api/ad-u-banner/").then(res=> {
-      this.ad_u_banner = res.data
-    })
-    await axios.get("https://new-api.closing119.com/api/ad-b-banner/").then(res=> {
-      this.ad_b_banner = res.data
-    })
+     await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_u&banner_env=pc").then(res=> {
+          this.ad_u_banner = res.data.results
+        })
+        await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_u&banner_env=m").then(res=> {
+          this.ad_u_banner_m = res.data.results
+        })
+        await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_b&banner_env=pc").then(res=> {
+          this.ad_b_banner = res.data.results
+        })
+        await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_b&banner_env=m").then(res=> {
+          this.ad_b_banner_m = res.data.results
+        })
     this.swiper_loading = true
-  },
-  destroyed() {
-    window.removeEventListener("resize", this.handleResize);
   },
   computed: {
     pageCount() {
@@ -385,16 +417,6 @@ export default {
         this.loading = true
       }
     },
-    handleResize() {
-      this.window.width = window.innerWidth;
-      this.window.height = window.innerHeight;
-      if (this.window.width > 767) {
-        this.swiperOption.slidesPerView = 3;
-      } else {
-        this.swiperOption.slidesPerView = 1;
-        this.swiperOption.spaceBetween = 20;
-      }
-    },
     paginate(page) {
       for (var i in this.pagination) {
         if (this.pagination[i].num == page) {
@@ -405,7 +427,6 @@ export default {
       }
     },
     pageup() {
-      console.log(this.pagination);
       for (var i in this.pagination) {
         if (this.pagination[i].selected) {
           if (this.pagination[i].num != "03") {
@@ -472,7 +493,23 @@ export default {
       else {
         return sector
       }
-    }
+    },
+    handleResize() {
+      this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;
+      if (this.window.width > 1141) {
+        this.mobile = false
+      } else {
+        this.mobile = true
+      }
+    },
+  },
+  created() {
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
   },
 };
 </script>
@@ -750,7 +787,7 @@ export default {
     padding-left: 0px;
   }
   .main-head-image-size {
-    max-width: 300px;
+    display: none;
   }
   .head-swiper-section {
     max-width: 375px;

@@ -18,10 +18,16 @@
               {{ estData.partner.partner_name }}
             </div>
           </div>
-          <div class="col-sm-12 col-lg-4">
+          <div class="col-sm-12 col-lg-8">
             <div class="estimate-grid-title">견적 가격</div>
             <div class="estimate-grid-subtitle">
-              {{ estData.total_price }}원 (VAT 별도)
+              {{ numberWithCommas(estData.total_price) }}원 (VAT 별도)
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-4" v-if="done">
+            <div class="estimate-grid-title">연락처</div>
+            <div class="estimate-grid-subtitle">
+              {{ formatPhoneNumber(estData.partner.phone_num) }}
             </div>
           </div>
           <div class="col-12">
@@ -34,7 +40,7 @@
       </div>
 
       <p class="subtitle"></p>
-      <div class="see-more-link" @click="openModal">업체 선정하기</div>
+      <div class="see-more-link" @click="openModal" v-if="!done">업체 선정하기</div>
     </div>
     <EstimateModal
       @close="closeModal"
@@ -51,7 +57,7 @@ import EstimateModal from "../components/EstimateModal";
 import axios from "axios";
 
 export default {
-  props: ["estData", "clientId"],
+  props: ["estData", "clientId", "done"],
   components: {
     EstimateModal,
   },
@@ -74,14 +80,11 @@ export default {
         id: 3,
         pk: this.estData.id,
       };
-      console.log(kakaoData);
       await axios
         .post("https://new-api.closing119.com/api/kakaoapi/", kakaoData)
         .then((res) => {
-          console.log(res);
         })
         .catch((err) => {
-          console.log(err);
         });
     },
     async selectEst() {
@@ -101,9 +104,20 @@ export default {
     numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
+    formatPhoneNumber(str) {
+      //Filter only numbers from the input
+
+      //Check if the input is of correct length
+      let match = str.match(/^([\S]{3})([\S]{4})([\S]{4})$/);
+
+      if (match) {
+        return match[1] + "-" + match[2] + "-" + match[3];
+      }
+
+      return null;
+    },
   },
   async mounted() {
-    console.log(this.estData);
     await axios
       .get("https://new-api.closing119.com/api/partnerimage/", {
         params: { partner: this.estData.partner.id },
@@ -128,5 +142,18 @@ export default {
 .estimate-grid-text {
   margin-top: 5px;
   font-size: 16px;
+}
+
+@media(max-width:1141px) {
+  .estimate-grid-title {
+    font-size: 12px;
+  }
+  .estimate-grid-subtitle {
+    margin-top: 5px;
+    font-size: 14px;
+  }
+  .estimate-grid-text {
+    font-size: 12px;
+  }
 }
 </style>

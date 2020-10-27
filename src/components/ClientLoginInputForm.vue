@@ -15,14 +15,14 @@
                                         연락처 (숫자만 입력)
                                     </div>
                                     <div class="col-md-4 col-12  section-space--bottom--20">
-                                        <input class="form-control" name="up" type="text" placeholder="" v-model="loginData.phone_num">
+                                        <input class="form-control" name="up" type="text" placeholder="" v-model="loginData.phone_num" @keyup.enter="login">
                                     </div>
                                     <div class="line"></div>
                                     <div class="input-title col-md-4 col-12  section-space--bottom--20">
                                         비밀번호
                                     </div>
                                     <div class="col-md-4 col-12  section-space--bottom--20">
-                                        <input class="form-control" name="con_name" type="password" placeholder="" v-model="loginData.password">
+                                        <input class="form-control" name="con_name" type="password" placeholder="" v-model="loginData.password" @keyup.enter="login">
                                     </div>
                                     
                                     <div class="line"></div>
@@ -77,7 +77,6 @@
                         this.$emit('login')
                     }
                     else if(res.data.msg == "STATUS_D") {
-                        console.log(res)
                         this.$emit('setEstData', res.data.results)
                         this.$emit('setClientStatus', 'D')
                         this.$emit('login')

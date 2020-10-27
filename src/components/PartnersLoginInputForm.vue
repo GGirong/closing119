@@ -92,7 +92,6 @@ export default {
       await axios
         .post("https://new-api.closing119.com/api/login/", this.loginData)
         .then((res) => {
-          console.log(res);
           this.$emit("setLoginData", res.data.id);
         })
         .catch((err) => {

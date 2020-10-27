@@ -9,7 +9,8 @@
                 style="cursor: pointer; position:absolute; right: 0px;"
                 @click="$emit('close')"
               ></b-icon-x></div>
-              <div style="margin-bottom: 60px;">(1920 x 209) 사이즈</div>
+              <div style="margin-bottom: 60px;" v-if="banner.banner_env == 'pc'">(1920 x 209) 사이즈</div>
+              <div style="margin-bottom: 60px;" v-if="banner.banner_env == 'm'">(375 x 150) 사이즈</div>
                 <div class="admin-banner-row-container row">
                     <div
                     class="admin-input-title col-7"
@@ -38,13 +39,13 @@
                         name="con_name"
                         type="text"
                         placeholder=""
-                        v-model="banner.ad_link"
+                        v-model="banner.banner_link"
                     />
                     </div>
                     
                     <div class="col-12" style="text-align: center">
                         <img 
-                        :src="banner.ad_banner"
+                        :src="'https://new-api.closing119.com' + banner.banner_image"
                         width="720px"
                         />
                     </div>
@@ -75,7 +76,7 @@ export default {
     },
     methods: {
         handleFileUpload() {
-            this.banner.ad_banner = this.$refs.banner_image.files[0];
+            this.banner.banner_image = this.$refs.banner_image.files[0];
         },
     },
 };

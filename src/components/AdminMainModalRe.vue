@@ -40,7 +40,8 @@
                 </div>
             </div>
             <div class="main-modal-head-container">
-              <div class="main-modal-head-title"><input type="text" placeholder="업체명" class="form-control-file-title" v-model="usecase.main_modal.business_name"/></div>
+              <div class="admin-main-modal-sale-price"><input type="text" placeholder="절감 금액" class="form-control-file-title" v-model="usecase.main_modal.sale_price"/></div>
+              <div class="admin-main-modal-head-title"><input type="text" placeholder="업체명" class="form-control-file-title" v-model="usecase.main_modal.business_name"/></div>
               <div class="admin-main-modal-head-subtitle row"><input type="text" class="form-control-file-address col-7" placeholder="주소" v-model="usecase.main_modal.address"/> | <input type="text" placeholder="구분" class="form-control-file-sector col-3" v-model="usecase.main_modal.sector"/></div>
             </div>
             <div class="main-modal-info-container">
@@ -469,17 +470,11 @@ export default {
 .main-modal-estimate-container {
   width: 863px;
 }
-.main-modal-title {
+.admin-main-modal-title {
   font-size: 21px;
   display: flex;
   justify-content: space-between;
   position: relative;
-}
-.main-modal-reg-code {
-  position: absolute;
-  font-size: 12px;
-  top: 12px;
-  left: 280px;
 }
 .admin-main-modal-ongoing-reg-code {
   position: absolute;
@@ -488,67 +483,10 @@ export default {
   left: 200px;
   display: flex;
 }
-.main-modal-image-container {
-  max-width: 425px;
-  margin: 0 auto;
-}
-.main-modal-image {
-  max-width: 425px;
-  max-height: 287px;
-  object-fit: cover;
-  object-position: 50%;
-}
-.main-modal-no-partners-container {
-  height: 250px;
-  margin: 0 auto;
-  text-align: center;
-  padding-top: 35px;
-}
-.main-modal-partners-container {
-  overflow-y: scroll;
-  max-height: 450px;
-  width: 100%;
-}
-.main-modal-partners-title-container {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 15px;
-}
-.main-modal-partners-title-left {
-  width: 3px;
-  height: 22px;
-  margin-top: 25px;
-  margin-right: 5px;
-  margin-left: 3px;
-  background-color: #000;
-}
-.main-modal-partners-title {
-  margin-top: 17px;
-  font-size: 23px;
-  font-family: NotoSansKR-Medium;
-}
-.main-modal-head-container {
-  max-width: 425px;
-  margin: 0 auto;
-  padding: 15px;
-  text-align: center;
-}
-.main-modal-head-title {
-  font-size: 26.89px;
-  font-family: NotoSansKr-Medium;
-}
 .admin-main-modal-head-subtitle {
     padding-left: 45px;
   font-size: 12.55px;
   margin: 0 auto;
-}
-.main-modal-info-container {
-  width: 100%;
-  height: 125px;
-  border: 1px solid #f2f7ff;
-  margin-top: 5px;
-  border-radius: 5px;
-  padding: 3px;
 }
 .main-modal-info-wrapper {
   height: 100%;
@@ -566,16 +504,10 @@ export default {
 .admin-main-modal-info-light {
   margin-top: 10px;
 }
-.main-modal-info-bold {
+.admin-main-modal-info-bold {
   margin-top: 13px;
   color: #004eff;
-  font-size: 32.93px;
-}
-.main-modal-info-section-divider{
-  margin-top: 30px;
-  height: 67px;
-  width: 1px;
-  background: #e0e1e2;
+  font-size: 21px;
 }
 .main-estimate-text-title {
   color: rgb(94, 84, 84);
@@ -592,16 +524,8 @@ export default {
   padding: 3px;
 }
 @media (max-width: 1141px) {
-  .main-modal-head-container {
-    max-width: 300px;
-    margin: 0 auto;
-    padding: 5px;
-  }
   .main-estimate-mobile {
     display: none;
-  }
-  .main-modal-partners-container {
-    max-width: 300px;
   }
   .main-estimate-text-title {
     color: rgb(94, 84, 84);
@@ -612,18 +536,6 @@ export default {
   }
   .main-modal-head-image-container {
     padding-top: 5px;
-  }
-  .main-modal-partners-title {
-    margin-top: 10px;
-    margin-bottom: 5px;
-    font-size: 16px;
-  }
-  .main-modal-title {
-    font-size: 16px;
-    margin-top: 10px;
-    margin-left: 10px;
-    display: flex;
-    justify-content: space-between;
   }
   .main-estimate-text-box {
     padding: 0px;

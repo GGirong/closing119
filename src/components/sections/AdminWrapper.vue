@@ -21,7 +21,7 @@
                         >
                         <div class="headcircle-title">
                             <span class="headcircle-bold-title">
-                                -{{ item.main_modal.fund }}</span
+                                -{{ item.main_modal.sale_price }}</span
                             >만원 <br />절감
                         </div>
                         </div>
@@ -85,10 +85,11 @@
         <div class="ad-container">
           <div class="container-title">광고 배너 관리</div>
           <div class="ad-title-container">
-            상단 광고 이미지 (1200 x 110 px)
+            상단 광고 이미지
           </div>
+          <div class="container-subtitle">-PC (1200 x 110 px)-</div>
           <img
-          :src="ad_u_banner.ad_banner"
+          :src="'https://new-api.closing119.com' +ad_u_banner[0].banner_image"
           style="margin-bottom: 30px"
           />
           <div class="col-6" style="margin: 0 auto">
@@ -104,17 +105,50 @@
             <input
             type="text"
             class="form-control"
-            v-model="ad_u_banner.ad_link"
+            style="margin-bottom: 30px"
+            v-model="ad_u_banner[0].banner_link"
             />
           </div>
           <div class="col-12">
-              <button class="ad-num-button" @click="patchAd(ad_u_banner)">적용</button>
+              <button class="ad-num-button" @click="patchAd(ad_u_banner[0])">적용</button>
+          </div>
+          <div class="container-subtitle">-모바일 (325 x 90 px)-</div>
+          <img
+          :src="'https://new-api.closing119.com' +ad_u_banner_m[0].banner_image"
+          style="margin-bottom: 30px"
+          />
+          <div class="col-6" style="margin: 0 auto">
+            <input
+          class="form-control ad"
+          type="file"
+          id="ad_mobile_image"
+          ref="ad_mobile_image"
+          v-on:change="handleTwoFileUpload()"
+          />
+          </div>
+          <div class="col-6" style="margin: 0 auto">
+            <input
+            type="text"
+            class="form-control"
+            v-model="ad_u_banner_m[0].banner_link"
+            />
+          </div>
+          <div class="col-12">
+              <button class="ad-num-button" @click="patchAd(ad_u_banner_m[0])">적용</button>
           </div>
           <div class="ad2-title-container">
-            하단 광고 이미지 (1920 x 209 px)
+            하단 광고 이미지
           </div>
+          <div class="container-subtitle">-PC (1920 x 209 px)-</div>
           <div class="row" style="width: 600px; margin: 0 auto">
             <div v-for="(banner, i ) in ad_b_banner" :key="banner.id" class="col-6 admin-banner-link" 
+              @click="openAdModal(banner, i)">
+                  {{ i + 1 }}번째 배너 수정하기
+            </div>
+          </div>
+          <div class="container-subtitle">-모바일 (375 x 150 px)-</div>
+          <div class="row" style="width: 600px; margin: 0 auto">
+            <div v-for="(banner, i ) in ad_b_banner_m" :key="banner.id" class="col-6 admin-banner-link" 
               @click="openAdModal(banner, i)">
                   {{ i + 1 }}번째 배너 수정하기
             </div>
@@ -169,8 +203,16 @@
         </div>
         <div class="banner-container">
             <div class="container-title">메인페이지 파트너스 배너 관리</div>
-            <div class="row" style="width: 800px; margin: 0 auto;">
-              <div v-for="(banner, i ) in bannerData" :key="banner.id" class="col-4 admin-banner-link"
+            <div class="container-subtitle">-PC (914 x 542 px)-</div>
+            <div class="row" style="width: 600px; margin: 0 auto;">
+              <div v-for="(banner, i ) in bannerData" :key="banner.id" class="col-6 admin-banner-link"
+              @click="openModal(banner, i)">
+                  {{ i + 1 }}번째 배너 수정하기
+              </div>
+            </div>
+            <div class="container-subtitle">-모바일 (270 x 160 px)-</div>
+            <div class="row" style="width: 600px; margin: 0 auto;">
+              <div v-for="(banner, i ) in bannerData_m" :key="banner.id" class="col-6 admin-banner-link"
               @click="openModal(banner, i)">
                   {{ i + 1 }}번째 배너 수정하기
               </div>
@@ -190,7 +232,7 @@
         :index="index"
         v-if="Admodal"
         @close="closeModal"
-        @confirm="patchBAd"
+        @confirm="patchAd"
         />
         <AdminMainModal
         v-if="makeModal"
@@ -232,13 +274,20 @@ export default {
         ad_one: "",
         ad_two: "",
         bannerData: [],
+        bannerData_m: [],
         bannerConfirmData: [],
+        bannerConfirmData_m: [],
         main_num: {},
         ad_u_banner: [ {
           ad_banner: "",
           ad_link: "",
         }],
+        ad_u_banner_m: [ {
+          ad_banner: "",
+          ad_link: "",
+        }],
         ad_b_banner: [],
+        ad_b_banner_m: [],
         bannerUploadData: [],
         usecase: {},
         usecaseId: 0,
@@ -301,11 +350,14 @@ export default {
       async patchBanner(bannerData, index) {
           const bodyFormData = new FormData();
 
-          bodyFormData.append("upper_text", bannerData.upper_text)
-          bodyFormData.append("bottom_text", bannerData.bottom_text)
-          bodyFormData.append("banner_image", bannerData.banner_image)
+        bodyFormData.append("banner_link", bannerData.banner_link);
+        bodyFormData.append("banner_image", bannerData.banner_image);
+        bodyFormData.append("banner_env", bannerData.banner_env);
+        bodyFormData.append("banner_type", bannerData.banner_type);
+        bodyFormData.append("bottom_text", bannerData.bottom_text);
+        bodyFormData.append("upper_text", bannerData.upper_text);
+        bodyFormData.append("id", bannerData.id);
 
-          console.log(this.bannerConfirmData[index-1].banner_image)
         if(bannerData.banner_image == this.bannerConfirmData[index-1].banner_image || bannerData.upper_text.length == 0 || bannerData.bottom_text.length == 0) {
           alert("빈 데이터가 있으면 수정이 불가능합니다.")
         }
@@ -313,6 +365,8 @@ export default {
           await axios.patch("https://new-api.closing119.com/api/banner/" + bannerData.id + "/", bodyFormData).then(res => {
               this.modal = false
               alert("정상적으로 수정되었습니다!")
+          }).catch(err => {
+            alert("수정에 실패했습니다. 입력 양식을 확인해주세요.")
           })
         }
         
@@ -320,11 +374,14 @@ export default {
       async patchMainNum() {
           await axios.patch("https://new-api.closing119.com/api/main-num/1/", this.main_num).then(res => {
               alert("정상적으로 수정되었습니다!")
+          }).catch(err => {
+            alert("수정에 실패했습니다. 입력 양식을 확인해주세요.")
           })
       },
       async makeMainModal(usecase) {
           const bodyFormData = new FormData();
 
+            bodyFormData.append("sale_price", usecase.sale_price);
             bodyFormData.append("reg_code", usecase.reg_code);
             bodyFormData.append("business_name", usecase.business_name);
             bodyFormData.append("address", usecase.address);
@@ -345,11 +402,14 @@ export default {
           await axios.post("https://new-api.closing119.com/api/main-modal/", bodyFormData).then(res=> {
               alert("정상적으로 생성되었습니다!")
               this.closeModal()
+          }).catch(err => {
+            alert("생성에 실패했습니다. 입력 양식을 확인해주세요.")
           })
       },
       async patchMainModal(usecase) {
           const bodyFormData = new FormData();
 
+            bodyFormData.append("sale_price", usecase.main_modal.sale_price);
             bodyFormData.append("reg_code", usecase.main_modal.reg_code);
             bodyFormData.append("business_name", usecase.main_modal.business_name);
             bodyFormData.append("address", usecase.main_modal.address);
@@ -370,47 +430,56 @@ export default {
           await axios.patch("https://new-api.closing119.com/api/main-modal/" + usecase.main_modal.id + "/", bodyFormData).then(res=> {
               alert("정상적으로 수정되었습니다!")
               this.closeModal()
+          }).catch(err => {
+            alert("수정에 실패했습니다. 입력 양식을 확인해주세요.")
           })
       },
       async patchAd(bannerData) {
         const bodyFormData = new FormData();
 
-        bodyFormData.append("ad_link", bannerData.ad_link);
-        bodyFormData.append("ad_banner", bannerData.ad_banner);
+        bodyFormData.append("banner_link", bannerData.banner_link);
+        bodyFormData.append("banner_image", bannerData.banner_image);
+        bodyFormData.append("banner_env", bannerData.banner_env);
+        bodyFormData.append("banner_type", bannerData.banner_type);
+        bodyFormData.append("bottom_text", bannerData.bottom_text);
+        bodyFormData.append("upper_text", bannerData.upper_text);
+        bodyFormData.append("id", bannerData.id);
 
-        await axios.patch("https://new-api.closing119.com/api/ad-u-banner/" + bannerData.id + "/", bodyFormData).then(res=> {
-            alert("정상적으로 수정되었습니다!")
-        })
-      },
-      async patchBAd(bannerData) {
-        const bodyFormData = new FormData();
 
-        bodyFormData.append("ad_link", bannerData.ad_link);
-        bodyFormData.append("ad_banner", bannerData.ad_banner);
-        
-        await axios.patch("https://new-api.closing119.com/api/ad-b-banner/" + bannerData.id + "/", bodyFormData).then(res=> {
+        await axios.put("https://new-api.closing119.com/api/banner/" + bannerData.id + "/", bodyFormData).then(res=> {
             alert("정상적으로 수정되었습니다!")
-            this.closeModal()
-        })
+        }).catch(err => {
+            alert("수정에 실패했습니다. 입력 양식을 확인해주세요.")
+          })
       },
       handleOneFileUpload() {
-        this.ad_u_banner.ad_banner = this.$refs.ad_one_image.files[0]
+        this.ad_u_banner[0].banner_image = this.$refs.ad_one_image.files[0]
       },
       handleTwoFileUpload() {
-        this.ad_two = this.$refs.ad_two_image.files
+        this.ad_u_banner_m[0].banner_image = this.$refs.ad_mobile_image.files[0]
       }
       
   },
   async mounted() {
-        await axios.get("https://new-api.closing119.com/api/ad-u-banner/").then(res=> {
-          this.ad_u_banner = res.data[0]
+        await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_u&banner_env=pc").then(res=> {
+          this.ad_u_banner = res.data.results
         })
-        await axios.get("https://new-api.closing119.com/api/ad-b-banner/").then(res=>{
-          this.ad_b_banner = res.data
+        await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_u&banner_env=m").then(res=> {
+          this.ad_u_banner_m = res.data.results
         })
-        await axios.get("https://new-api.closing119.com/api/banner/").then(res => {
-            this.bannerData = res.data
-            this.bannerConfirmData = JSON.parse(JSON.stringify(this.bannerData))
+        await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_b&banner_env=pc").then(res=> {
+          this.ad_b_banner = res.data.results
+        })
+        await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_b&banner_env=m").then(res=> {
+          this.ad_b_banner_m = res.data.results
+        })
+        await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ptn&banner_env=pc").then(res=> {
+          this.bannerData = res.data.results
+          this.bannerConfirmData = JSON.parse(JSON.stringify(this.bannerData))
+        })
+        await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ptn&banner_env=m").then(res=> {
+          this.bannerData_m = res.data.results
+          this.bannerConfirmData_m = JSON.parse(JSON.stringify(this.bannerData))
         })
         await axios.get("https://new-api.closing119.com/api/main-num/1").then(res => {
             this.main_num = res.data
@@ -459,8 +528,13 @@ export default {
 .container-title {
     font-family: NotoSansKR-Bold;
     font-size: 32px;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 }
+.container-subtitle {
+    font-family: NotoSansKR-Medium;
+    font-size: 24px;
+    margin-bottom: 40px;
+} 
 .numbers-input-title {
     font-size: 21px;
     margin-bottom: 20px;

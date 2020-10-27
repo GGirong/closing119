@@ -2,12 +2,51 @@
     <div class="page-wrapper section-space--inner--60">
             <div class="project-section">
                 <div class="container">
-                    <div style="border: 1px solid #d4d4d4; padding: 25px">
-                        <div style="font-size:24px; font-weight:500; margin-bottom:15px">내 견적 요청서</div>
-                        <div style="margin-left:15px">이름: <span style="margin-left:45px">{{ estData.client.client_name}}</span></div>
-                        <div style="margin-left:15px">상호: <span style="margin-left:45px">{{ estData.client.business_name}}</span></div>
-                        <div style="margin-left:15px">주소: <span style="margin-left:45px">{{ estData.client.address}}</span></div>
-                        <div style="margin-left:15px">평수: <span style="margin-left:45px">{{ estData.client.py}}</span></div>
+                    <div v-if="loading">
+                        <div class="col-12" style="overflow: hidden">
+                        <carousel
+                        class="main-modal-image-container"
+                        :items="1"
+                        :margin="3"
+                        :loop="false"
+                        :dots="false"
+                        :nav="false"
+                        :autoplay="false"
+                        >
+                        <div v-for="image in clientData.images" :key="image.id">
+                            <img
+                            :src="'https://new-api.closing119.com' + image.image"
+                            alt="thumbnail"
+                            class="main-modal-image"
+                            />
+                        </div>
+                        </carousel>
+                        </div>
+                        <div class="main-modal-head-container">
+                        <div class="main-modal-head-title">{{ clientData.business_name }}</div>
+                        <div class="main-modal-head-subtitle">{{ clientData.district}} | {{ sectorShort(clientData.sector) }}</div>
+                        </div>
+                        <div class="main-modal-info-container">
+                            <div class="main-modal-info-wrapper">
+                                <div class="main-modal-info-section">
+                                <div class="main-modal-info-light">매장평수</div>
+                                <div class="main-modal-info-bold">
+                                    <ICountUp :endVal="clientData.py"/>평
+                                </div>
+                                </div>
+                                <div class="main-modal-info-section-divider"></div>
+                                <div class="main-modal-info-section">
+                                <div class="main-modal-info-light">파트너스</div>
+                                <div class="main-modal-info-bold"><ICountUp :endVal="estData.length"/>개 업체</div>
+                                </div>
+                                <div class="main-modal-info-section-divider"></div>
+                                <div class="main-modal-info-section">
+                                <div class="main-modal-info-light">최종견적</div>
+                                <div class="main-modal-info-bold" v-if="estimateDone"><ICountUp :endVal="numberWithThree((total_price * 1.1).toFixed(0))"/>만원</div>
+                                <div class="main-modal-info-bold" v-if="!estimateDone">입찰중</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="row">
@@ -28,22 +67,56 @@
 </template>
 
 <script>
+import axios from "axios";
+import ICountUp from "vue-countup-v2";
+import carousel from "vue-owl-carousel2";
 
     export default {
+        components: {
+            carousel,
+            ICountUp,
+        },
         props: ['estData'],
         data() {
             return {
-                eventbt: '1234'
+                eventbt: '1234',
+                loading: false,
+                clientData: {},
             }
         },
         methods: {
-            setClientData(code) {
-                console.log("레퍼에서 선정")
-                this.$emit('setstatus', code)
-            }
+            async getClient(id) {
+                await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: id}}).then(res=>{
+                    var images = [];
+                    for (var j in res.data.results.client_image) {
+                        images[j] = res.data.results.client_image[j];
+                    }
+                    this.clientData.images = images;
+                })
+                this.loading = true
+            },
+            sectorShort(sector) {
+                if (sector == "음식점 (식당/카페/호프/패스트푸드 등)") {
+                    return "음식점";
+                } else if (
+                    sector ==
+                    "도소매 (편의점/문구사무/애견/화장품/기타잡화 등)"
+                ) {
+                    return "도소매";
+                } else if (
+                    sector == "서비스업 (학원/미용/주유소/세탁/기타서비스업)"
+                ) {
+                    return "서비스업";
+                } else if (
+                    sector == "여가 오락(pc방/노래방/당구장/골프장/헬스/기타)"
+                ) {
+                    return "여가 오락";
+                }
+            },
         },
         mounted() {
-            console.log(this.estData.Estimate)
+            this.clientData = this.estData.client
+            this.getClient(this.estData.client.id)
         }
         
 

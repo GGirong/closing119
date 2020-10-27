@@ -25,8 +25,6 @@
             }
         },
         mounted() {
-            console.log("디테일 그리드 마운티드")
-            console.log(this.estData)
         }
     };
 </script>

@@ -6,53 +6,6 @@
         <div class="row">
           <div class="col-lg-12 col-12">
             <div class="contact-form">
-              <h4>개인정보수집동의</h4>
-              <div style="height: 20px;"></div>
-              <div class="privacy-container">
-                개인정보 제공 받는자 <br />
-                -폐업119 <br />
-                <br />
-                개인정보 수집범위 <br />
-                -고객명, 연락처, 이메일 <br />
-                <br />
-                개인정보 수집 및 이용목적 <br />
-                -폐업119 홈페이지 문의에 활용 (전화, SMS) <br />
-                <br />
-                개인정보 보유 및 이용기간<br />
-                -개인정보는 수집 및 이용 목적 달성 시까지 보유하며, 이용목적
-                달성 후 파기하는 것을 원칙으로함
-              </div>
-              <div style="height: 10px;"></div>
-              <div class="custom-control custom-radio custom-control-inline">
-                <input
-                  type="radio"
-                  id="customRadioInline1"
-                  name="customRadioInline1"
-                  value="Yes"
-                  class="custom-control-input"
-                  v-model="privacy"
-                />
-                <label class="custom-control-label" for="customRadioInline1"
-                  >동의합니다.</label
-                >
-              </div>
-              <div class="custom-control custom-radio custom-control-inline">
-                <input
-                  type="radio"
-                  id="customRadioInline2"
-                  name="customRadioInline1"
-                  value="No"
-                  class="custom-control-input"
-                  v-model="privacy"
-                />
-                <label class="custom-control-label" for="customRadioInline2"
-                  >동의하지 않습니다.</label
-                >
-              </div>
-              <div v-if="privacy == 'No'" class="password-validation">
-                개인정보수집에 동의하셔야 파트너스 등록이 가능합니다.
-              </div>
-
               <div style="height: 25px;"></div>
               <h4>업체 정보</h4>
               <div style="height: 20px;"></div>
@@ -371,7 +324,44 @@
 
                 <div class="line"></div>
               </div>
+              <div style="height: 20px;"></div>
+              <input
+                style="width: auto; height: auto"
+                type="checkbox"
+                v-model="selectAll"
+              />
+              <label for="false" style="margin-left: 15px">모두 동의</label>
+              <div class="line" style="margin-top: 20px"></div>
 
+              <div>
+                <input
+                  style="width: auto; height: auto"
+                  type="checkbox"
+                  v-model="selected"
+                  :value="users[0].id"
+                />
+                <label
+                  style="margin-left: 15px; text-decoration: underline; cursor:pointer"
+                  @click="agree(0)"
+                  >{{ users[0].name }}</label
+                ><span> 동의</span>
+              </div>
+              <div>
+                <input
+                  style="width: auto; height: auto"
+                  type="checkbox"
+                  v-model="selected"
+                  :value="users[1].id"
+                />
+                <label
+                  style="margin-left: 15px; text-decoration: underline; cursor:pointer"
+                  @click="agree(1)"
+                  >{{ users[1].name }}</label
+                ><span> 동의</span>
+              </div>
+              <div v-if="false" class="password-validation">
+                개인정보수집에 동의하셔야 파트너스 등록이 가능합니다.
+              </div>
               <p class="form-message"></p>
 
               <div style="margin:0 auto; text-align: center">
@@ -388,6 +378,8 @@
                 @confirm="confirmModal"
                 v-if="modal"
               />
+              <UserModal @close="closeModal" v-if="userModal" />
+              <PrivacyModal @close="closeModal" v-if="privacyModal" />
             </div>
           </div>
         </div>
@@ -401,6 +393,8 @@
 <script>
 import data from "../data/contact.json";
 import MyModal from "../components/MyModal";
+import UserModal from "../components/UserModal";
+import PrivacyModal from "../components/PrivacyModal";
 import Multiselect from "vue-multiselect";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
@@ -410,12 +404,18 @@ import axios from "axios";
 export default {
   components: {
     MyModal,
+    UserModal,
+    PrivacyModal,
     Multiselect,
     Loading,
   },
   data() {
     return {
       data,
+      users: [
+        { id: 1, name: "이용약관" },
+        { id: 2, name: "개인정보 처리방침" },
+      ],
       password: "",
       passwordCheck: "",
       email: "",
@@ -467,6 +467,9 @@ export default {
       partnerPk: null,
       isLoading: false,
       fullPage: true,
+      selected: [],
+      userModal: false,
+      privacyModal: false,
     };
   },
   methods: {
@@ -493,7 +496,6 @@ export default {
       if (this.checked_5) {
         this.partnersData.service_area_array.push("jeolla");
       }
-      console.log(this.partnersData);
       await axios
         .post("https://new-api.closing119.com/api/partner/", this.partnersData)
         .then((res) => {
@@ -548,6 +550,8 @@ export default {
     },
     closeModal() {
       this.modal = false;
+      this.userModal = false;
+      this.privacyModal = false;
     },
     idReset() {
       this.partnersData.username = "";
@@ -555,6 +559,14 @@ export default {
     idConfirm() {
       this.idConfirmed = true;
     },
+    agree(num) {
+      if(num == 0) {
+        this.userModal = true
+      }
+      else {
+        this.privacyModal = true
+      }
+     },
     async idCheck() {
       var username = { username: "" };
       username.username = this.partnersData.username;
@@ -568,6 +580,24 @@ export default {
           alert("중복된 아이디가 있습니다.");
           this.idReset();
         });
+    },
+  },
+  computed: {
+    selectAll: {
+      get: function() {
+        return this.users ? this.selected.length == this.users.length : false;
+      },
+      set: function(value) {
+        var selected = [];
+
+        if (value) {
+          this.users.forEach(function(user) {
+            selected.push(user.id);
+          });
+        }
+
+        this.selected = selected;
+      },
     },
   },
 };

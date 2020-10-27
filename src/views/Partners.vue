@@ -128,7 +128,6 @@ export default {
         .post("https://new-api.closing119.com/api/estimate/", this.requestData)
         .then((res) => {
           if (res.data) {
-            console.log(res.data);
             this.$router.push("/estimating");
           } else {
             alert("이미 방문 요청을 진행한 고객입니다.");
@@ -137,7 +136,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$store.state.partnerId);
   },
   computed: mapGetters(["getPartner", "getPartnerLogin"]),
   metaInfo: {
@@ -152,7 +150,7 @@ export default {
 
 <style>
 .confirmButton {
-  max-width: 200px;
+  width: 250px;
   height: 50px;
   border: none;
   border-radius: 10px;
@@ -163,7 +161,7 @@ export default {
   font-weight: 700;
 }
 .closeButton {
-  max-width: 200px;
+  width: 250px;
   height: 50px;
   border-radius: 10px;
   border: 1px solid #f0542d;
@@ -182,6 +180,13 @@ export default {
   }
   .partner-header-mobile {
     display: block;
+  }
+  .confirmButton {
+    width: 145px;
+    font-size: 14px;
+  }
+  .closeButton {
+    width: 145px;
   }
 }
 </style>

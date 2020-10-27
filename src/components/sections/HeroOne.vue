@@ -64,7 +64,7 @@
                           <div class="hero-slider__space"></div>
                         </div>
                         <router-link to="/client" class="hero-slider__mainbtn"
-                          >서비스 요청하기(무료)</router-link
+                          >견적 요청하기(무료)</router-link
                         >
                       </div>
                     </div>
@@ -98,7 +98,7 @@
                           원스탑 매장정리 서비스를 지원합니다.
                         </div>
                         <router-link to="/client" class="hero-slider__mainbtn"
-                          >서비스 요청하기(무료)</router-link
+                          >견적 요청하기(무료)</router-link
                         >
                       </div>
                     </div>

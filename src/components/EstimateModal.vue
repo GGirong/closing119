@@ -42,8 +42,8 @@
           </div>
         </div>
         <footer class="modal-footer">
-          <button class="closeButton" @click="$emit('close')">닫기</button>
-          <button class="confirmButton" @click="$emit('select')">
+          <button class="est-close-button" @click="$emit('close')">닫기</button>
+          <button class="est-confirm-button" @click="$emit('select')">
             업체 선정하기
           </button>
         </footer>
@@ -138,28 +138,6 @@ export default {
   }
 }
 
-.confirmButton {
-    max-width: 200px;
-    height: 50px;
-    border: none;
-    border-radius: 10px;
-    padding: 5px 30px;
-    background-color: #f0542d;
-    color: #ffffff;
-    text-transform: uppercase;
-    font-weight: 700;
-}
-.closeButton {
-    max-width: 200px;
-    height: 50px;
-    border-radius: 10px;
-    border: 1px solid #f0542d;
-    padding: 5px 30px;
-    color:  #f0542d;
-    text-transform: uppercase;
-    background-color: #fff;
-    font-weight: 700;
-}
 .estimate-modal-title {
   margin-top: 15px;
   color: #777
@@ -170,7 +148,28 @@ export default {
 .estimate-modal-content-container {
   padding: 30px
 }
-
+.est-confirm-button {
+  width: 250px;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 30px;
+  background-color: #f0542d;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.est-close-button {
+  width: 250px;
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid #f0542d;
+  padding: 5px 50px;
+  color: #f0542d;
+  text-transform: uppercase;
+  background-color: #fff;
+  font-weight: 700;
+}
 @media (max-width: 1141px) {
   .estimate-modal-title {
     margin-top: 5px;
@@ -184,7 +183,14 @@ export default {
     font-size: 10px
   }
   .estimate-modal-content-container {
-  padding: 10px
-}
+    padding: 10px
+  }
+  .est-confirm-button {
+    width: 145px;
+    font-size: 14px;
+  }
+  .est-close-button {
+    width: 145px;
+  }
 }
 </style>

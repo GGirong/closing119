@@ -135,7 +135,6 @@ export default {
   async mounted() {
     await axios.get("https://new-api.closing119.com/api/main-num/1").then(res=> {
       this.main_num = res.data
-      console.log(this.main_num)
     })
   },
   created() {

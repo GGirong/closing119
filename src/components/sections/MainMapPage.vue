@@ -81,7 +81,6 @@
         methods: {
             async getClientImg(i) {
                 await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: this.clientData[i].id}}).then(res=>{
-                    console.log(res.data.results)
                     this.clientData[i].imageurl = res.data.results.client_image[0].image
                     if(this.clientData.length - 1 == i) {
                         this.isInitialized = true

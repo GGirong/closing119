@@ -34,11 +34,32 @@
               :autoplay="true"
               :autoplayTimeout="5000"
               :autoplayHoverPause="true"
-              v-if="loading"
+              v-if="loading && !mobile"
             >
             <div class="partner-banner-image-container" v-for="item in bannerData" :key="item.id">
               <img
-                :src="item.banner_image"
+                :src="'https://new-api.closing119.com' + item.banner_image"
+                class="partner-banner-image"
+              />
+              <div class="partner-banner-upper-text">{{ item.upper_text }}</div>
+              <div class="partner-banner-bottom-text">{{ item.bottom_text }}</div>
+            </div>
+            </carousel>
+            <carousel
+              class="partner-banner-container"
+              :items="1"
+              :margin="15"
+              :loop="true"
+              :dots="false"
+              :nav="false"
+              :autoplay="true"
+              :autoplayTimeout="5000"
+              :autoplayHoverPause="true"
+              v-if="loading && mobile"
+            >
+            <div class="partner-banner-image-container" v-for="item in bannerData_m" :key="item.id">
+              <img
+                :src="'https://new-api.closing119.com' + item.banner_image"
                 class="partner-banner-image"
               />
               <div class="partner-banner-upper-text">{{ item.upper_text }}</div>
@@ -73,20 +94,50 @@ export default {
         },
       },
       bannerData: [],
+      bannerData_m: [],
       loading: false,
+      window: {
+        width: 0,
+        height: 0,
+      },
+      mobile: false,
     };
   },
+  methods: {
+    handleResize() {
+      this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;
+      if (this.window.width > 1141) {
+        this.mobile = false
+      } else {
+        this.mobile = true
+      }
+    },
+  },
   async mounted() {
-    await axios.get("https://new-api.closing119.com/api/banner/").then(res=> {
-      for(var i in res.data) {
-        if(res.data[i].upper_text != "none") {
-          this.bannerData.unshift(res.data[i])
+    await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ptn&banner_env=pc").then(res=> {
+      for(var i in res.data.results) {
+        if(res.data.results[i].upper_text != "") {
+          this.bannerData.unshift(res.data.results[i])
+        }
+      }
+    })
+    await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ptn&banner_env=m").then(res=> {
+      for(var i in res.data.results) {
+        if(res.data.results[i].upper_text != "") {
+          this.bannerData_m.unshift(res.data.results[i])
         }
       }
       this.loading = true
     })
-    
-  }
+  },
+  created() {
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
+  },
 };
 </script>
 
@@ -181,6 +232,16 @@ export default {
   .partner-banner-item {
     height: 167px;
     background-size: contain;
+  }
+  .partner-banner-upper-text {
+    top: 42px;
+    left: 21px;
+    font-size: 12px;
+  }
+  .partner-banner-bottom-text {
+    top: 58px;
+    left: 21px;
+    font-size: 12px;
   }
 }
 </style>

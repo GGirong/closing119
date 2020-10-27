@@ -462,8 +462,6 @@ export default {
       if (this.checked_5) {
         this.partnersData.service_area_array.push("jeolla");
       }
-
-      console.log(this.partnersData);
       await axios
         .patch(
           "https://new-api.closing119.com/api/partner/" + this.getPartner + "/",
@@ -530,7 +528,6 @@ export default {
         "https://new-api.closing119.com/api/partner/" + this.getPartner + "/"
       )
       .then((res) => {
-        console.log(res);
         this.partnersData = res.data;
       });
     for (var i in this.partnersData.service_area) {

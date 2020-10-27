@@ -33,7 +33,7 @@
                 >
                   연락처 (숫자만 입력)
                 </div>
-                <div class="col-md-4 col-12  section-space--bottom--20">
+                <div class="col-md-4 col-12  section-space--bottom--20" v-if="!authDone">
                   <input
                     class="form-control"
                     name="con_name"
@@ -50,6 +50,21 @@
                   >
                     연락처는 11자리 숫자로 이루어져야 합니다.
                   </div>
+                </div>
+                <div class="col-md-4 col-12  section-space--bottom--20" v-if="authDone">
+                  <input
+                    class="form-control"
+                    readonly
+                    name="con_name"
+                    type="text"
+                    placeholder=""
+                    v-model="reqData.phone_num"
+                  />
+                </div>
+                <div class="col-md-2 col-8  section-space--bottom--20" v-if="!authDone">
+                  <button style="margin-top:0px;" @click="openAuthModal">
+                    본인인증
+                  </button>
                 </div>
                 <div class="line"></div>
                 <div
@@ -202,7 +217,7 @@
                 <div
                   class="input-title col-md-4 col-12  section-space--bottom--20"
                 >
-                  현장 사진 (실내 1장, 외부 1장)
+                  현장 사진 (최소 실내 1장, 외부 1장)
                 </div>
                 <div class="col-md-4 col-12  section-space--bottom--20">
                   <input
@@ -219,7 +234,7 @@
                 <div
                   class="input-title col-md-4 col-12  section-space--bottom--20"
                 >
-                  견적 마감일
+                  희망 견적 마감일
                 </div>
                 <div class="col-md-3 col-6  section-space--bottom--20">
                   <vc-date-picker
@@ -327,6 +342,12 @@
                 @confirm="confirmModal"
                 v-if="modal"
               />
+              <AuthModal
+              :authCode="authCode"
+              @close="selfAuthClose"
+              @confirm="selfAuth"
+              v-if="authModal"
+              />
               <UserModal @close="closeModal" v-if="userModal" />
               <PrivacyModal @close="closeModal" v-if="privacyModal" />
               <loading
@@ -344,6 +365,7 @@
 
 <script>
 import MyModal from "../components/MyModal";
+import AuthModal from "../components/AuthModal";
 import UserModal from "../components/UserModal";
 import PrivacyModal from "../components/PrivacyModal";
 import Loading from "vue-loading-overlay";
@@ -353,12 +375,16 @@ import axios from "axios";
 export default {
   components: {
     MyModal,
+    AuthModal,
     Loading,
     UserModal,
     PrivacyModal,
   },
   data() {
     return {
+      authModal: false,
+      authDone: false,
+      authCode: "",
       passwordCheck: null,
       users: [
         { id: 1, name: "이용약관" },
@@ -456,7 +482,6 @@ export default {
                 "정상적으로 신청되었습니다. 견적서 등록시 연락처로 안내 될 예정입니다."
               );
               this.$emit("register", this.clientVC, this.clientPk);
-              console.log("왜 안돼?");
             })
             .catch((err) => {
               this.isLoading = false;
@@ -473,11 +498,36 @@ export default {
     openModal() {
       this.modal = true;
     },
+    async openAuthModal() {
+      var kakaoData = {
+        id: 4,
+        phone_num: this.reqData.phone_num,
+      };
+      await axios
+        .post("https://new-api.closing119.com/api/kakaoapi/", kakaoData, {
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+        })
+        .then((res) => {
+          this.authCode = res.data.results.v_code
+          this.authModal = true
+        })
+        .catch((err) => {
+          alert("휴대폰 번호를 다시 확인해주세요.")
+        });
+    },
+    selfAuthClose() {
+      alert("본인인증에 실패 했습니다. 다시 시도해주세요.")
+      this.authModal = false
+    },
+    selfAuth() {
+      alert("본인 인증에 성공했습니다.")
+      this.authDone = true
+      this.authModal = false
+    },
     confirmModal(data) {
       this.reqData.address = data.roadAddress;
       if (data.sido == "세종특별자치시") {
         this.reqData.district = "세종시";
-        console.log(this.reqData.district);
       } else {
         this.reqData.district = data.sigungu;
       }

@@ -128,8 +128,22 @@
               id="input-multiple-input-map-key"
               name="input-multiple-input-map-key"
               v-model="multiple_input_map_key"
+              v-if="multiple_input_map_key != '인건비' &&
+              multiple_input_map_key != '폐기물 처리비' &&
+              multiple_input_map_key != '장비 사용료' &&
+              multiple_input_map_key != '기타비용' &&
+              multiple_input_map_key != 'default'
+              "
             >
             </b-form-input>
+            <b-form-select v-model="multiple_input_map_key" :options="options"
+            v-if="multiple_input_map_key == '인건비' ||
+              multiple_input_map_key == '폐기물 처리비' ||
+              multiple_input_map_key == '장비 사용료' ||
+              multiple_input_map_key == '기타비용' ||
+              multiple_input_map_key == 'default'
+              ">
+            </b-form-select>
           </b-col>
           <b-col class="col-3">
             <b-form-input
@@ -165,12 +179,11 @@
             <i class="icon icon-plus"></i> 추가
           </b-button>
         </b-col>
-        <b-col class="col-12" style="margin-left: 25px; margin-top: 20px;">
+        <b-col class="col-12 est-detail-detail-title">
           세부사항 (선택)
         </b-col>
         <b-form-input
-          class="col-10"
-          style="height: 80px; margin-left: 40px; margin-top: 20px"
+          class="col-10 est-detail-detail"
           v-model="estData.detail"
         >
         </b-form-input>
@@ -260,9 +273,16 @@ export default {
       estStatus: true,
       estFinish: true,
       multiple_input_map_list: [], // 배열처리된 입력양식의 값
-      multiple_input_map_key: "", // 값 추가를 위한 입력양식의 키
+      multiple_input_map_key: "default", // 값 추가를 위한 입력양식의 키
       multiple_input_map_value: "",
-
+      options: [
+        {value: "default", text: '선택해주세요'},
+        {value: "인건비", text: '인건비'},
+        {value: "폐기물 처리비", text: '폐기물 처리비'},
+        {value: "장비 사용료", text: '장비 사용료'},
+        {value: "기타비용", text: '기타비용'},
+        {value: "", text: '직접 입력'},
+      ],
       details: {}, // 입력양식의 현재 데이터
       origin: {}, // 입력양식의 기본 데이터(리셋 버튼클릭시 초기화될 값)
       defaults: {
@@ -301,16 +321,13 @@ export default {
         id: 2,
         pk: this.estId,
       };
-      console.log(kakaoData);
       await axios
         .post("https://new-api.closing119.com/api/kakaoapi/", kakaoData, {
           headers: { "Content-Type": "application/json; charset=utf-8" },
         })
         .then((res) => {
-          console.log(res);
         })
         .catch((err) => {
-          console.log(err);
         });
     },
     onAddMultipleMapInput() {
@@ -342,7 +359,6 @@ export default {
     },
   },
   async mounted() {
-    console.log("디테일 마운티드");
     await axios
       .get("https://new-api.closing119.com/api/estimate/" + this.estId)
       .then((res) => {
@@ -403,6 +419,15 @@ export default {
 .est-detail-table {
   width: 1200px;
 }
+.est-detail-detail-title {
+  margin-left: 25px; 
+  margin-top: 20px;
+}
+.est-detail-detail {
+  height: 80px; 
+  margin-left: 40px; 
+  margin-top: 20px
+}
 @media (max-width: 1141px) {
   .est-detail-container {
     width: 300px;
@@ -411,6 +436,15 @@ export default {
   }
   .est-detail-table {
     width: 700px;
+  }
+  .est-detail-detail-title {
+    margin-left: 5px; 
+    margin-top: 20px;
+  }
+  .est-detail-detail {
+    height: 80px; 
+    margin-left: 20px; 
+    margin-top: 10px
   }
 }
 </style>

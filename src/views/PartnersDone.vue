@@ -16,12 +16,7 @@
                     v-for="est in estData"
                     :key="est.id"
                   >
-                    <DoneGrid :estData="est" @go-detail="goDetail" />
-                    <MainModal
-                      :clientData="est"
-                      v-if="modal"
-                      @close="closeModal"
-                    />
+                    <DoneGrid :estData="est" @go-detail="goDetail(est)" />
                   </div>
                   <div
                     class="col-lg-4 col-sm-6 col-12 section-space--bottom--30"
@@ -34,6 +29,12 @@
               </div>
             </div>
           </div>
+          <MainModal
+            :clientId="clientId"
+            :status="status"
+            v-if="modal"
+            @close="closeModal"
+          />
         </div>
       </div>
     </div>
@@ -87,10 +88,13 @@ export default {
       estData: null,
       emptyEsting: true,
       modal: false,
+      status: "D",
+      clientId: 0,
     };
   },
   methods: {
-    goDetail(clientId) {
+    goDetail(est) {
+      this.clientId= est.client.id
       this.modal = true;
     },
     closeModal() {

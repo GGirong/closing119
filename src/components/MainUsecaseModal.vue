@@ -4,7 +4,7 @@
       <div class="modal-window">
         <div class="modal-content">
           <div class="main-modal-estimate-container">
-            <div class="main-modal-title">
+            <div class="usecase-main-modal-title">
                 이용사례
               <div class="usecase-main-modal-ongoing-reg-code">(접수번호: {{usecase.main_modal.reg_code}})</div>
               <b-icon-x
@@ -141,7 +141,6 @@ export default {
   async mounted() {
     await axios.get("https://new-api.closing119.com/api/main-modal/" + this.usecaseId + "/").then(res=> {
       this.usecase = res.data.results
-      console.log(this.usecase)
     })
       this.editor = new Editor({
           extensions: [
@@ -280,7 +279,7 @@ export default {
 .main-modal-estimate-container {
   width: 863px;
 }
-.main-modal-title {
+.usecase-main-modal-title {
   font-size: 21px;
   display: flex;
   justify-content: space-between;
@@ -297,12 +296,6 @@ export default {
   display: flex;
   flex-direction: row;
   margin-bottom: 15px;
-}
-.main-modal-head-container {
-  max-width: 425px;
-  margin: 0 auto;
-  padding: 15px;
-  text-align: center;
 }
 .main-modal-info-wrapper {
   height: 100%;
@@ -354,11 +347,6 @@ export default {
   padding: 3px;
 }
 @media (max-width: 1141px) {
-  .main-modal-head-container {
-    max-width: 300px;
-    margin: 0 auto;
-    padding: 5px;
-  }
   .main-estimate-mobile {
     display: none;
   }
@@ -372,7 +360,7 @@ export default {
   .main-modal-head-image-container {
     padding-top: 5px;
   }
-  .main-modal-title {
+  .usecase-main-modal-title {
     font-size: 16px;
     margin-top: 10px;
     margin-left: 10px;
@@ -404,6 +392,7 @@ export default {
   }
   .editor {
     max-height: 160px;
+    overflow-y: scroll;
     margin: 0 auto;
   }
 }

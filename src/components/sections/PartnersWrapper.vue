@@ -118,7 +118,6 @@ export default {
     async rearrList() {
       this.loading = true;
       this.clientList = [];
-      console.log(this.area);
       var data;
       await axios
         .get("https://new-api.closing119.com/api/partnermaplist/", {

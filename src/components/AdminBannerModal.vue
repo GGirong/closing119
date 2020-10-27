@@ -9,6 +9,8 @@
                 style="cursor: pointer; position:absolute; right: 0px;"
                 @click="$emit('close')"
               ></b-icon-x></div>
+              <div style="margin-bottom: 60px;" v-if="banner.banner_env == 'pc'">(914 x 542) 사이즈</div>
+              <div style="margin-bottom: 60px;" v-if="banner.banner_env == 'm'">(270 x 160) 사이즈</div>
                 <div class="admin-banner-row-container row">
                     <div
                     class="admin-input-title col-2"
@@ -58,7 +60,7 @@
                     </div>
                     <div class="col-12" style="text-align: center">
                         <img 
-                        :src="banner.banner_image"
+                        :src="'https://new-api.closing119.com' + banner.banner_image"
                         width="400px"
                         />
                     </div>
@@ -165,7 +167,6 @@ export default {
 }
 .admin-modal-title {
     font-size: 21px;
-    margin-bottom: 60px;
     position: relative;
 }
 

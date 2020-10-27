@@ -95,28 +95,6 @@ export default {
 </script>
 
 <style>
-.confirmButton {
-  max-width: 200px;
-  height: 50px;
-  border: none;
-  border-radius: 10px;
-  padding: 5px 30px;
-  background-color: #f0542d;
-  color: #ffffff;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-.closeButton {
-  max-width: 200px;
-  height: 50px;
-  border-radius: 10px;
-  border: 1px solid #f0542d;
-  padding: 5px 50px;
-  color: #f0542d;
-  text-transform: uppercase;
-  background-color: #fff;
-  font-weight: 700;
-}
 .partner-header-mobile {
   display: none;
 }

@@ -72,7 +72,10 @@
             </div>
             
             <div class="main-modal-partners-title-container">
-              <div class="main-modal-partners-title-left"></div><div class="main-modal-partners-title">세부 견적 사항</div>
+              <div class="main-modal-partners-title-left"></div>
+              <div class="main-modal-partners-title">세부 견적 사항</div>
+              <div class="main-modal-partners-mobile-spacing"></div>
+              <div class="main-modal-partners-subtitle" v-if="!estimateDone">진행 중인 견적의 금액과 업체정보는 본인만 확인 가능합니다.</div>
             </div>
             <div class="main-modal-partners-container row" v-if="estimate">
               <div
@@ -87,7 +90,7 @@
               </div>
             </div>
             <div class="main-modal-no-partners-container" v-if="!estimate">
-              아직 제출된 견적서가 없습니다.
+              
             </div>
           </div>
         </div>
@@ -185,7 +188,6 @@ export default {
       await axios
       .get("https://new-api.closing119.com/api/client/" + this.clientId)
       .then((res) => {
-        console.log(res);
         this.clientData = res.data
       });
       await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: this.clientId}}).then(res=>{
@@ -203,7 +205,6 @@ export default {
         params: { client: this.clientId },
       })
       .then((res) => {
-        console.log(res);
         this.clientData = res.data[0].client
         this.estData = res.data
         this.estimate = true
@@ -360,6 +361,7 @@ export default {
 .main-modal-partners-title-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   margin-bottom: 15px;
 }
 .main-modal-partners-title-left {
@@ -374,6 +376,12 @@ export default {
   margin-top: 17px;
   font-size: 23px;
   font-family: NotoSansKR-Medium;
+}
+.main-modal-partners-subtitle {
+  margin-top: 27px;
+  margin-left: 10px;
+  font-size: 14px;
+  color: #6e6e6e;
 }
 .main-modal-head-container {
   max-width: 425px;
@@ -480,6 +488,11 @@ export default {
     font-size: 14px;
     font-family: NotoSansKr-Medium;
   }
+  .main-modal-partners-subtitle {
+    font-size: 10px;
+    margin-left: 10px;
+    margin-top: 0px;
+  }
   .main-modal-head-subtitle {
     font-size: 10px;
   }
@@ -530,6 +543,9 @@ export default {
     margin-top: 10px;
     font-size: 14px;
     font-family: NotoSansKR-Medium;
+  }
+  .main-modal-partners-mobile-spacing{
+    margin-left: 250px;
   }
   .main-modal-partners-container {
     overflow-y: scroll;
