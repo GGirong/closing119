@@ -75,8 +75,8 @@
                 </div>
               </div>
             </div>
-            <div class="editor" v-if="loading">
-                <editor-content class="editor__content main-modal-partners-container" :editor="editor" />
+            <div class="output ql-snow" v-if="loading">
+                <div class="ql-editor" v-html="content"></div>
             </div>
           </div>
         </div>
@@ -88,33 +88,6 @@
 import MainEstimateGrid from "../components/MainEstimateGrid";
 import ICountUp from "vue-countup-v2";
 import carousel from "vue-owl-carousel2";
-import LazyHydrate from 'vue-lazy-hydration';
-
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import {
-  Blockquote,
-  CodeBlock,
-  HardBreak,
-  Heading,
-  HorizontalRule,
-  OrderedList,
-  BulletList,
-  ListItem,
-  TodoItem,
-  TodoList,
-  Bold,
-  Code,
-  Italic,
-  Link,
-  Table,
-	TableHeader,
-	TableCell,
-	TableRow,
-  Strike,
-  Image,
-  Underline,
-  History,
-} from 'tiptap-extensions'
 
 import axios from "axios";
 
@@ -124,16 +97,15 @@ export default {
     MainEstimateGrid,
     carousel,
     ICountUp,
-    EditorContent,
-    EditorMenuBar,
-    LazyHydrate,
   },
   data() {
     return {
       loading: false,
       content: "",
-      editor: new Editor({}),
       usecase: {},
+      editorOption: {
+
+      },
     };
   },
   methods: {
@@ -141,43 +113,9 @@ export default {
   async mounted() {
     await axios.get("https://new-api.closing119.com/api/main-modal/" + this.usecaseId + "/").then(res=> {
       this.usecase = res.data.results
-    })
-      this.editor = new Editor({
-          extensions: [
-          new Blockquote(),
-          new BulletList(),
-          new CodeBlock(),
-          new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
-          new HorizontalRule(),
-          new ListItem(),
-          new OrderedList(),
-          new TodoItem(),
-          new TodoList(),
-          new Link(),
-          new Image(),
-          new Bold(),
-          new Code(),
-          new Italic(),
-          new Strike(),
-          new Underline(),
-          new History(),
-          new Table({
-                resizable: true,
-            }),
-            new TableHeader(),
-            new TableCell(),
-            new TableRow(),
-        ],
-        editable: false,
-        content: ``,
-      })
-      var tpl = eval('`'+ this.usecase.main_modal.content +'`')
-      this.editor.setContent(tpl)
+      this.content = this.usecase.main_modal.content
       this.loading =true
-  },
-  beforeDestroy() {
-    this.editor.destroy()
+    })
   },
 };
 </script>
@@ -253,8 +191,9 @@ export default {
 </style>
 
 <style>
-.editor {
-    width: 100%
+.output {
+  height: 400px;
+  overflow-y: scroll;
 }
 .form-control-file-reg-code {
     height: 25px;

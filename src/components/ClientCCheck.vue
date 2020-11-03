@@ -58,7 +58,6 @@
                           :estData="estData.Estimate[0]"
                           :clientId = "estData.client.id"
                           :done="true"
-                          @setclientstatus ="setClientData"
                           />
                       </div>
                   </div>

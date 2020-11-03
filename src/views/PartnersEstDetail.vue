@@ -5,7 +5,7 @@
 
     <Breadcrumb :items="items" title="견적서 작성하기" />
 
-    <PartnersEstDetailWrapper :estData="clientData" />
+    <PartnersEstDetailWrapper :estData="clientData" v-if="loading"/>
 
     <b-form-group
       class="est-detail-container"
@@ -289,6 +289,7 @@ export default {
         // 기본값
         multiple_input_map_form: "",
       },
+      loading: false,
     };
   },
   methods: {
@@ -371,6 +372,7 @@ export default {
           this.clientData = res.data;
           this.estFinish = false;
         }
+        this.loading = true
       });
     if (this.clientData.status == "D") {
       axios

@@ -18,7 +18,7 @@
                   <option value="destroying">공사 진행중</option>
                 </select>
               </div>
-              <div class="row">
+              <div class="row" v-if="loading">
                 <div
                   class="col-lg-12 col-sm-12 col-12 section-space--bottom--30"
                   v-for="est in estData.slice().reverse()"
@@ -61,6 +61,7 @@ export default {
       estData: null,
       emptyEsting: false,
       status: "all",
+      loading: false
     };
   },
   methods: {
@@ -109,6 +110,7 @@ export default {
         if (res.data.length == 0) {
           this.emptyEsting = true;
         }
+        this.loading = true
       });
   },
 };

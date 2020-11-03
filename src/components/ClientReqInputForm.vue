@@ -48,7 +48,7 @@
                     v-if="!numeric() && length()"
                     class="password-validation"
                   >
-                    연락처는 11자리 숫자로 이루어져야 합니다.
+                    연락처는 10자리 또는 11자리 숫자로 이루어져야 합니다.
                   </div>
                 </div>
                 <div class="col-md-4 col-12  section-space--bottom--20" v-if="authDone">
@@ -61,11 +61,11 @@
                     v-model="reqData.phone_num"
                   />
                 </div>
-                <div class="col-md-2 col-8  section-space--bottom--20" v-if="!authDone">
+                <!-- <div class="col-md-2 col-8  section-space--bottom--20" v-if="!authDone">
                   <button style="margin-top:0px;" @click="openAuthModal">
                     본인인증
                   </button>
-                </div>
+                </div> -->
                 <div class="line"></div>
                 <div
                   class="input-title col-md-4 col-12  section-space--bottom--20"
@@ -208,7 +208,7 @@
                   />
                 </div>
                 <div
-                  class="input-title col-md-2 col-12  section-space--bottom--20"
+                  class="input-title col-2  section-space--bottom--20"
                   style="font-size:18px; padding-top: 9px;"
                 >
                   평
@@ -220,23 +220,24 @@
                   현장 사진 (최소 실내 1장, 외부 1장)
                 </div>
                 <div class="col-md-4 col-12  section-space--bottom--20">
-                  <input
-                    type="file"
-                    class="form-control-file"
-                    multiple
-                    id="files"
-                    ref="files"
-                    style="padding-top:10px"
-                    v-on:change="handleFilesUpload()"
-                  />
+                  <vue-upload-multiple-image
+                  @upload-success="uploadImageSuccess"
+                  @before-remove="beforeRemove"
+                  :dragText="'클릭해서 업로드 하세요'"
+                  :browseText="'최대 5장'"
+                  :primaryText="'업로드 완료'"
+                  :showEdit="false"
+                  :showPrimary="false"
+                  ></vue-upload-multiple-image>
                 </div>
                 <div class="line"></div>
                 <div
                   class="input-title col-md-4 col-12  section-space--bottom--20"
                 >
-                  희망 견적 마감일
+                  희망 견적 마감일<br>
+                  <span class="alert-date">견적 마감일은 신청일로부터 4일 이후부터 가능합니다.</span>
                 </div>
-                <div class="col-md-3 col-6  section-space--bottom--20">
+                <div class="col-md-3 col-6  section-space--bottom--20" @click="alertDate()">
                   <vc-date-picker
                     :min-date="minVal()"
                     v-model="reqData.expire_date"
@@ -323,16 +324,13 @@
                   >{{ users[1].name }}</label
                 ><span> 동의</span>
               </div>
-              <div v-if="false" class="password-validation">
-                개인정보수집에 동의하셔야 파트너스 등록이 가능합니다.
-              </div>
               <p class="form-message"></p>
               <div style="margin:0 auto; text-align: center">
                 <button
                   type="button"
                   class="hero-slider__btn"
                   style="width:350px; height:60px; font-size:21px; font-weight: 400"
-                  @click="sendRegisterData"
+                  @click="validateRegisterData"
                 >
                   견적 요청 보내기
                 </button>
@@ -370,6 +368,7 @@ import UserModal from "../components/UserModal";
 import PrivacyModal from "../components/PrivacyModal";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
+import VueUploadMultipleImage from 'vue-upload-multiple-image'
 
 import axios from "axios";
 export default {
@@ -379,6 +378,7 @@ export default {
     Loading,
     UserModal,
     PrivacyModal,
+    VueUploadMultipleImage,
   },
   data() {
     return {
@@ -431,7 +431,7 @@ export default {
         },
       ],
       selected: [],
-      images: null,
+      images: [],
       clientPk: null,
       clientVC: null,
       today: new Date(),
@@ -447,8 +447,82 @@ export default {
       result.setDate(result.getDate() + 4);
       return result;
     },
+    alertDate() {
+      alert("견적 마감일은 신청일로부터 4일 이후부터 가능합니다.")
+    },
     handleFilesUpload() {
       this.images = this.$refs.files.files;
+    },
+    validateRegisterData() {
+      let user = true
+      let privacy = true
+      for(let i in this.selected) {
+        if(this.selected[i] == 1) {
+          user = false
+        }
+        else if(this.selected[i] == 2) {
+          privacy = false
+        }
+      }
+
+      if(this.reqData.client_name.length == 0) {
+        alert('이름을 입력해주세요!')
+      }
+      else if(this.reqData.phone_num.length == 0) {
+        alert('연락처를 입력해주세요!')
+      }
+      else if(this.numeric()) {
+        alert('연락처는 숫자로만 이루어져야 합니다!')
+      }
+      else if(this.length()) {
+        alert('연락처는 10자리 또는 11자리 숫자로 이루어져야 합니다!')
+      }
+      else if(this.reqData.password.length < 4) {
+        alert('비밀번호는 4자 이상이어야 합니다!')
+      }
+      else if(this.reqData.password != this.passwordCheck) {
+        alert('비밀번호와 비밀번호 확인이 일치하지 않습니다!')
+      }
+      else if(this.reqData.business_name.length == 0) {
+        alert('상호명을 입력해주세요!')
+      }
+      else if(this.reqData.sector.length == 0) {
+        alert('업종을 선택, 혹은 입력해주세요!')
+      }
+      else if(this.reqData.address.length == 0) {
+        alert('주소를 입력해주세요!')
+      }
+      else if(this.reqData.detail_address.length == 0) {
+        alert('상세 주소를 입력해주세요!')
+      }
+      else if(this.reqData.py < 1) {
+        alert('평수를 입력해주세요!')
+      }
+      else if(this.reqData.expire_date.length == 0) {
+        alert('희망 견적 마감일을 선택해주세요!')
+      }
+      else if(user) {
+        alert('이용약관에 동의하셔야 진행할 수 있습니다.')
+      }
+      else if(privacy) {
+        alert('개인정보 처리방침에 동의하셔야 진행할 수 있습니다.')
+      }
+      else {
+        this.sendRegisterData()
+      }
+    },
+    uploadImageSuccess(formData, index, fileList) {
+      for(let value of formData.values()) {
+        this.images.push(value)
+      }
+    },
+    beforeRemove (index, done, fileList) {
+      var r = confirm("해당 이미지를 삭제하겠습니까?")
+      if (r == true) {
+        this.images.splice(index, 1)
+        done()
+      } else {
+      }
     },
     async sendRegisterData() {
       this.isLoading = true;
@@ -462,16 +536,15 @@ export default {
           const bodyFormData = new FormData();
 
           if (this.images != null) {
-            for (var i = 0; i < this.images.length; i++) {
+            for (let i in this.images) {
               let file = this.images[i];
 
-              bodyFormData.append("client_image", file);
+              bodyFormData.append("file", file);
             }
           }
           bodyFormData.append("client", this.clientPk);
 
-          axios
-            .post(
+          axios.post(
               "https://new-api.closing119.com/api/clientimage/",
               bodyFormData,
               { headers: { "Content-Type": "multipart/form-data" } }
@@ -483,10 +556,7 @@ export default {
               );
               this.$emit("register", this.clientVC, this.clientPk);
             })
-            .catch((err) => {
-              this.isLoading = false;
-              alert("신청에 실패했습니다. 관리자에게 문의해주세요.");
-            });
+          
         })
         .catch((err) => {
           this.isLoading = false;
@@ -545,7 +615,7 @@ export default {
       }
     },
     length() {
-      if (this.reqData.phone_num && this.reqData.phone_num.length != 11) {
+      if (this.reqData.phone_num && this.reqData.phone_num.length != 10 && this.reqData.phone_num.length != 11) {
         return true;
       } else {
         return false;
@@ -575,7 +645,6 @@ export default {
             selected.push(user.id);
           });
         }
-
         this.selected = selected;
       },
     },
@@ -593,5 +662,15 @@ export default {
 }
 .custom-control-label {
   font-size: 18px;
+}
+.alert-date {
+  font-size: 12px;
+  color: #777;
+}
+
+@media (max-width: 1141px) {
+  .alert-date {
+    display: none;
+  }
 }
 </style>

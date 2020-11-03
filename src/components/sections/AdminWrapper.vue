@@ -1,5 +1,6 @@
 <template>
-    <div class="admin-container">
+<div>
+  <div class="admin-container">
         <div class="usecase-container">
             <div class="container-title">이용사례</div>
             <div class="head-swiper-section" v-if="loading">
@@ -217,35 +218,34 @@
                   {{ i + 1 }}번째 배너 수정하기
               </div>
             </div>
-            
-            
         </div>
-        <AdminBannerModal 
-        :banner="banner"
-        :index="index"
-        v-if="modal"
-        @close="closeModal"
-        @confirm="patchBanner"
-        />
-        <AdBannerModal 
-        :banner="banner"
-        :index="index"
-        v-if="Admodal"
-        @close="closeModal"
-        @confirm="patchAd"
-        />
-        <AdminMainModal
-        v-if="makeModal"
-        @close="closeModal"
-        @confirm="makeMainModal"
-        />
-        <AdminMainModalRe
-        :usecaseId="usecaseId"
-        v-if="mainModal"
-        @close="closeModal"
-        @confirm="patchMainModal"
-        />
     </div>
+    <AdminBannerModal 
+    :banner="banner"
+    :index="index"
+    v-if="modal"
+    @close="closeModal"
+    @confirm="patchBanner"
+    />
+    <AdBannerModal 
+    :banner="banner"
+    :index="index"
+    v-if="Admodal"
+    @close="closeModal"
+    @confirm="patchAd"
+    />
+    <AdminMainModal
+    v-if="makeModal"
+    @close="closeModal"
+    @confirm="makeMainModal"
+    />
+    <AdminMainModalRe
+    :usecaseId="usecaseId"
+    v-if="mainModal"
+    @close="closeModal"
+    @confirm="patchMainModal"
+    />
+</div>
 </template>
 <script>
 import AdminBannerModal from "../AdminBannerModal"

@@ -82,18 +82,19 @@ import carousel from "vue-owl-carousel2";
                 eventbt: '1234',
                 loading: false,
                 clientData: {},
+                estimateDone: false
             }
         },
         methods: {
-            async getClient(id) {
-                await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: id}}).then(res=>{
+            async getClient() {
+                await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: this.estData.client.id}}).then(res=>{
                     var images = [];
                     for (var j in res.data.results.client_image) {
                         images[j] = res.data.results.client_image[j];
                     }
                     this.clientData.images = images;
+                    this.loading = true
                 })
-                this.loading = true
             },
             sectorShort(sector) {
                 if (sector == "음식점 (식당/카페/호프/패스트푸드 등)") {
@@ -116,10 +117,8 @@ import carousel from "vue-owl-carousel2";
         },
         mounted() {
             this.clientData = this.estData.client
-            this.getClient(this.estData.client.id)
+            this.getClient()
         }
-        
-
     };
 </script>
 

@@ -12,7 +12,7 @@
       />
     </div>
 
-    <div v-if="getClientLogin && getClientStatus == 'X'">
+    <div v-if="getClientLogin && getClientStatus == 'X' && loading">
       <ClientXCheck :estData="estData" />
     </div>
 
@@ -81,6 +81,7 @@ export default {
       estData: {},
       isLogin: false,
       clientStatus: false,
+      loading: false,
     };
   },
   methods: {
@@ -135,6 +136,7 @@ export default {
             this.$store.commit("setClientStatus", "C");
             this.loginMounted();
           }
+          this.loading = true
         })
         .catch((err) => {
         });

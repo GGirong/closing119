@@ -4,8 +4,8 @@
       <div class="container">
         <div v-if="loading">
         <div class="main-modal-title">
-          {{ clientData.client_name}}님의 견적 요청서
-          <div class="main-modal-ongoing-reg-code">(접수번호: {{ clientData.reg_code }})</div>
+          {{ estData.client.client_name}}님의 견적 요청서
+          <div class="main-modal-ongoing-reg-code">(접수번호: {{ estData.client.reg_code }})</div>
         </div>
         <div class="title-line"></div>
           <div class="col-12" style="overflow: hidden">
@@ -94,7 +94,7 @@ export default {
       modal: null,
       clientData: {},
       loading: false,
-      clientId: 0,
+      clientId: 68,
     };
   },
   methods: {
@@ -128,17 +128,20 @@ export default {
             return Number(x.substr( 0 , 5 ))
         }
     },
-  },
-  async mounted() {
-    this.clientData = this.estData.client
+    async getClientImg() {
       await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: this.clientData.id}}).then(res=>{
-          var images = [];
-          for (var j in res.data.results.client_image) {
-              images[j] = res.data.results.client_image[j];
-          }
-          this.clientData.images = images;
+        let images = [];
+        for (let j in res.data.results.client_image) {
+            images[j] = res.data.results.client_image[j];
+        }
+        this.clientData.images = images;
       })
       this.loading = true
+    },
+  },
+  mounted() {
+    this.clientData = this.estData.client
+    this.getClientImg()
   },
 };
 </script>
@@ -151,9 +154,6 @@ export default {
 }
 .est-detail-content-title {
   color: rgb(94, 84, 84);
-}
-.est-detail-client-data-container {
-  
 }
 .est-detail-client-title {
   color: #555

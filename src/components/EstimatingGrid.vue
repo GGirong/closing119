@@ -1,6 +1,6 @@
 <template>
   <div class="service-grid-item service-grid-item--style2">
-    <div class="service-grid-item__content" style="position: relative">
+    <div class="service-grid-item__content" style="position: relative" v-if="loading">
       <div class="estimating-grid-status" :style="{ color: statuscolor }">
         {{ statusMsg }}
       </div>
@@ -90,8 +90,14 @@ export default {
 
       return null;
     },
+    async getClientImage() {
+      await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: this.estData.client.id}}).then(res=>{
+          this.imageURL = res.data.results.client_image[0]
+      })
+      this.loading = true
+    }
   },
-  async mounted() {
+  mounted() {
     this.clientStatus = this.estData.status;
     if (this.clientStatus == "D") {
       this.statusMsg = "공사 진행 중";
@@ -103,11 +109,7 @@ export default {
       this.statusMsg = "선정 대기 중";
       this.statuscolor = "blue";
     }
-    this.clientId = this.estData.client.id
-    await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: this.clientId}}).then(res=>{
-        this.imageURL = res.data.results.client_image[0]
-    })
-    this.loading = true
+    this.getClientImage()
   },
 };
 </script>

@@ -94,7 +94,7 @@
                     v-model.lazy="partnersData.email"
                   />
                   <div
-                    v-if="this.email && !this.validEmail(this.email)"
+                    v-if="partnersData.email && !validEmail(partnersData.email)"
                     class="password-validation"
                   >
                     올바른 이메일 양식이 아닙니다.
@@ -287,7 +287,7 @@
                 <div
                   class="input-title col-md-4 col-12  section-space--bottom--20"
                 >
-                  비밀번호
+                  비밀번호 (4자 이상)
                 </div>
                 <div class="col-md-4 col-12  section-space--bottom--20">
                   <input
@@ -368,7 +368,7 @@
                 <button
                   class="hero-slider__btn"
                   style="width:350px; height:60px; font-size:21px; font-weight: 400"
-                  @click="sendRegisterData"
+                  @click="validateRegisterData"
                 >
                   파트너스 신청하기
                 </button>
@@ -418,7 +418,6 @@ export default {
       ],
       password: "",
       passwordCheck: "",
-      email: "",
       partnersData: {
         phone_num: "",
         address: "",
@@ -478,6 +477,79 @@ export default {
     },
     handleRFileUpload() {
       this.registration_image = this.$refs.reg_image.files[0];
+    },
+    validateRegisterData() {
+      let user = true
+      let privacy = true
+      for(let i in this.selected) {
+        if(this.selected[i] == 1) {
+          user = false
+        }
+        else if(this.selected[i] == 2) {
+          privacy = false
+        }
+      }
+
+      if(this.partnersData.partner_name.length == 0) {
+        alert('업체명을 입력해주세요!')
+      }
+      else if(this.partnersData.ceo.length == 0) {
+        alert('대표자명을 입력해주세요!')
+      }
+      else if(this.partnersData.applicant.length == 0) {
+        alert('신청인 이름을 입력해주세요!')
+      }
+      else if(this.partnersData.phone_num.length == 0) {
+        alert('연락처를 입력해주세요!')
+      }
+      else if(this.numeric()) {
+        alert('연락처는 숫자로만 이루어져야 합니다!')
+      }
+      else if(this.length()) {
+        alert('연락처는 11자리 숫자로 이루어져야 합니다!')
+      }
+      else if(this.partnersData.email.length == 0) {
+        alert('이메일을 입력해주세요!')
+      }
+      else if(!this.validEmail(this.partnersData.email)) {
+        alert('올바른 이메일 양식이 아닙니다!')
+      }
+      else if(!this.checked_1 && !this.checked_2 && !this.checked_3 && !this.checked_4 && !this.checked_5 ) {
+        alert('서비스 가능 지역을 1개 이상 선택해주세요!')
+      }
+      else if(this.partnersData.address.length == 0) {
+        alert('주소를 입력해주세요!')
+      }
+      else if(this.partnersData.detail_address.length == 0) {
+        alert('상세 주소를 입력해주세요!')
+      }
+      else if(this.partnersData.partner_info.length == 0) {
+        alert('업체 설명을 작성해주세요!')
+      }
+      else if(this.registration_image == null) {
+        alert('사업자등록증을 업로드 해주세요!')
+      }
+      else if(this.profile_image == null) {
+        alert('업체 프로필 사진을 업로드 해주세요!')
+      }
+      else if(!this.idConfirmed) {
+        alert('아이디 중복확인을 진행해주세요!')
+      }
+      else if(this.partnersData.password.length < 4) {
+        alert('비밀번호는 4자 이상이어야 합니다!')
+      }
+      else if(this.partnersData.password != this.passwordCheck) {
+        alert('비밀번호와 비밀번호 확인이 일치하지 않습니다!')
+      }
+      else if(user) {
+        alert('이용약관에 동의하셔야 진행할 수 있습니다.')
+      }
+      else if(privacy) {
+        alert('개인정보 처리방침에 동의하셔야 진행할 수 있습니다.')
+      }
+      else {
+        this.sendRegisterData()
+      }
     },
     async sendRegisterData() {
       this.isLoading = true;
@@ -609,7 +681,7 @@ export default {
 .partner-reg-checkbox {
   padding-top: 15px;
 }
-@media (max-width: 1141px;) {
+@media (max-width: 1141px) {
   .partner-reg-checkbox {
     padding-top: 0px;
   }
