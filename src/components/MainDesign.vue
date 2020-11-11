@@ -104,7 +104,7 @@
       <div class="swiper-button-next" slot="button-next"></div>
     </div>
     <!--====================  배너  ====================-->
-    <div class="main-container" style="text-align: center">
+    <div style="text-align: center">
       <a :href="ad_u_banner[0].banner_link" target="_blank" class="banner-one" v-if="!mobile">
         <img
         :src="'https://new-api.closing119.com' + ad_u_banner[0].banner_image"
@@ -125,11 +125,11 @@
         <span style="color:#1574fe">NEW</span> 새로 올라온 매장
       </div>
       <div
-        class="new-board-mobile-row row"
+        class="new-board-mobile-row"
         v-if="loading"
       >
         <div
-          class="mobile-col-padding col-6 col-md-3 clickable"
+          class="new-board-col clickable"
           v-for="list in paginatedList"
           :key="list.id"
           @click="mainModal(list.id, list.status)"
@@ -167,6 +167,8 @@
         </div>
       </div>
       <div class="page-pagination-container col">
+        <!-- <v-pagination v-model="pageTest" :page-count="30" :classes="bootstrapPaginationClasses"
+                  :labels="paginationAnchorTexts"></v-pagination> -->
         <ul class="page-pagination">
           <li @click="prevPage" :disabled="pageNum == 0">
             <a><i class="fa fa-angle-left"></i> Prev</a>
@@ -181,9 +183,10 @@
     <!--====================  하단 배너 ====================-->
     <swiper class="swiper2" :options="swiperOption2" v-if="swiper_loading && !mobile">
       <swiper-slide class="banner-swiper" v-for="banner in ad_b_banner" :key="banner.id">
-        <a :href="banner.banner_link" target="_blank">
+        <a :href="banner.banner_link" target="_blank" class="main-banner-bottom-container">
           <img
           :src="'https://new-api.closing119.com' + banner.banner_image"
+          class="main-banner-bottom"
           />
       </a>
       </swiper-slide>
@@ -191,9 +194,10 @@
     </swiper>
     <swiper class="swiper2" :options="swiperOption2" v-if="swiper_loading && mobile">
       <swiper-slide class="banner-swiper" v-for="banner in ad_b_banner_m" :key="banner.id">
-        <a :href="banner.banner_link" target="_blank">
+        <a :href="banner.banner_link" target="_blank" class="main-banner-bottom-container">
           <img
           :src="'https://new-api.closing119.com' + banner.banner_image"
+          class="main-banner-bottom"
           />
       </a>
       </swiper-slide>
@@ -209,6 +213,7 @@ import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 import MainModal from "../components/MainModal";
 import MainUsecaseModal from "../components/MainUsecaseModal"
+import vPagination from 'vue-plain-pagination'
 
 import axios from "axios";
 
@@ -218,6 +223,7 @@ export default {
     SwiperSlide,
     MainModal,
     MainUsecaseModal,
+    vPagination
   },
   data() {
     return {
@@ -237,7 +243,7 @@ export default {
           prevEl: ".swiper-button-prev",
         },
         breakpoints: {
-          1141: {
+          1201: {
             slidesPerView: 3,
             spaceBetween: 37
           },
@@ -295,6 +301,20 @@ export default {
           selected: false,
         },
       ],
+      pageTest: 1,
+      bootstrapPaginationClasses: {
+        ul: 'pagination',
+        li: 'page-item',
+        liActive: 'active',
+        liDisable: 'disabled',
+        button: 'page-link'  
+      },
+      paginationAnchorTexts: {
+        first: '<<',
+        prev: '<',
+        next: '>',
+        last: '>>'
+      },
       window: {
         width: 0,
         height: 0,
@@ -519,7 +539,7 @@ export default {
   cursor: pointer;
 }
 .swiper2 {
-  height: 209px;
+  width: 100%;
   background-color: #3255cf;
 }
 .swiper-pagination {
@@ -751,14 +771,49 @@ export default {
   font-size: 18px;
 }
 .new-board-mobile-row {
-    min-height: 1392px;
+  min-height: 1392px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+.new-board-col {
+  width: 300px
+}
+.main-banner-bottom-container {
+  width: 100%;
+  height: 100%;
+}
+.main-banner-bottom {
+  max-width: 100%;
+  height: auto;
+}
+@media (max-width: 1200px) {
+  .banner-one {
+    width: 100%;
   }
-@media screen and (max-width: 1141px) {
+}
+@media screen and (max-width: 1200px) {
+  .output {
+    height: 200px;
+  }
   .mobile-spacing {
     display: block;
   }
   .mobile-spacing-reverse {
     display: none;
+  }
+  .swiper2 {
+    height: 150px;
+    background-color: #3255cf;
+  }
+  .main-banner-bottom-container {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+  .main-banner-bottom {
+    max-width: 100%;
+    height: auto;
   }
   .main-head-text-container {
     padding-top: 55px;
@@ -898,7 +953,6 @@ export default {
   }
   .banner-one {
     margin-top: 35px;
-    margin-left: 20px;
   }
   .banner-one-image {
     width: 300px;
@@ -911,6 +965,9 @@ export default {
   .new-board-mobile-row {
     max-width: 320px;
     margin: 0 auto;
+  }
+  .new-board-col {
+    width: 160px;
   }
   .mobile-col-padding {
     padding: 0;

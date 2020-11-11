@@ -132,11 +132,11 @@ export default {
     })
   },
   created() {
-    window.addEventListener("resize", this.handleResize);
+    this.window.addEventListener("resize", this.handleResize);
     this.handleResize();
   },
   destroyed() {
-    window.removeEventListener("resize", this.handleResize);
+    this.window.removeEventListener("resize", this.handleResize);
   },
 };
 </script>
@@ -202,9 +202,13 @@ export default {
 .owl-item.active {
   opacity: 1;
 }
-@media screen and (max-width: 767px) {
+@media (max-width: 1270px) {
   .partner-banner-head-container {
     margin-left: 0px;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .partner-banner-head-container {
     text-align: center;
   }
   .partner-banner-head-tag {

@@ -867,11 +867,6 @@ export default {
   }
   .banner-one {
     margin-top: 35px;
-    margin-left: 20px;
-  }
-  .banner-one-image {
-    width: 300px;
-    margin: 0 auto;
   }
   .new-board-title {
     margin-top: 40px;

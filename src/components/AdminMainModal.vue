@@ -278,9 +278,6 @@ export default {
 .main-estimate-text-subtitle {
   font-size: 16px;
 }
-.main-modal-partner-container {
-  padding: 3px;
-}
 @media (max-width: 1141px) {
   .main-estimate-mobile {
     display: none;

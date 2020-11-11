@@ -192,7 +192,7 @@ export default {
 
 <style>
 .output {
-  height: 400px;
+  max-height: 400px;
   overflow-y: scroll;
 }
 .form-control-file-reg-code {
@@ -281,9 +281,6 @@ export default {
 }
 .main-estimate-text-subtitle {
   font-size: 16px;
-}
-.main-modal-partner-container {
-  padding: 3px;
 }
 @media (max-width: 1141px) {
   .main-estimate-mobile {

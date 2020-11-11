@@ -2,9 +2,9 @@
   <!--====================  footer area ====================-->
   <div class="footer-area dark-bg">
     <div class="footer-container">
-      <div class="row">
+      <div class="row" style="margin: 0">
         <div
-          class="footer-head-container col-12 col-lg-8"
+          class="footer-head-container col-12 col-lg-7"
           style="padding: 30px"
         >
           <div style="font-size: 16px; font-weight: 300; color: #fff">
@@ -39,7 +39,7 @@
             COPYRIGHT (C) 2019 CLOSING119. ALLRIGHT RESERVED
           </div>
         </div>
-        <div class="footer-tail-container col-12 col-lg-4">
+        <div class="footer-tail-container col-12 col-lg-5">
           <img
             src="../../public/assets/img/share_facebook.png"
             style="margin-right: 10px"
@@ -60,7 +60,7 @@
     <!--====================  End of footer area  ====================-->
     <div class="footer-container-mobile">
       <div class="row" style="margin-left: 0; margin-right: 0">
-        <div class="footer-head-container col-12 col-lg-8" style="padding: 0px">
+        <div class="footer-head-container col-12" style="padding: 0px">
           <div
             style="font-size: 16px; font-weight: 300; color: #fff; margin-top: 25px"
           >
@@ -97,7 +97,7 @@
             팩스: 02-3461-7886 이메일: jae037@with365.co.kr
           </div>
         </div>
-        <div class="footer-tail-container col-12 col-lg-4">
+        <div class="footer-tail-container col-12">
           <div style=";color: #fff; font-size: 14px; opacity: 0.5;">
             상호명:주)동행365&nbsp;&nbsp;&nbsp;&nbsp;사업자등록번호:855-87-00885&nbsp;&nbsp;&nbsp;&nbsp;
             <div class="footer-spacing"></div>
@@ -167,7 +167,7 @@ export default {
   text-align: right;
   margin-top: 50px;
 }
-@media screen and (max-width: 767px) {
+@media (max-width: 1200px) {
   .footer-container {
     display: none;
   }

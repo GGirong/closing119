@@ -25,10 +25,10 @@
           </div>
         </div>
         <div
-          class="row text-center"
+          class="believe-row text-center"
           style="margin-left: 0px; margin-right: 0px;"
         >
-          <div class="col-6 col-lg-2">
+          <div class="believe-col-2 believe-col-6">
             <div class="believe-left-title">
               국내최초 폐업재기<br />
               박람회 개최
@@ -38,7 +38,7 @@
               class="believe-image-1"
             />
           </div>
-          <div class="col-6 col-lg-3">
+          <div class="believe-col-3 believe-col-6">
             <div class="believe-left-title">
               소상공인시장공단<br />
               지정 교육 기관
@@ -51,7 +51,7 @@
               class="believe-image-2"
             />
           </div>
-          <div class="col-4 col-lg-2">
+          <div class="believe-col-2 believe-col-4">
             <div class="believe-right-title">
               상담완료건수
             </div>
@@ -62,7 +62,7 @@
               >개
             </div>
           </div>
-          <div class="col-4 col-lg-3">
+          <div class="believe-col-3 believe-col-4">
             <div class="believe-right-title">
               서비스 수행건수
             </div>
@@ -73,7 +73,7 @@
               >개
             </div>
           </div>
-          <div class="col-4 col-lg-2">
+          <div class="believe-col-2 believe-col-4">
             <div class="believe-right-title">
               협력 업체 수
             </div>
@@ -138,7 +138,7 @@ export default {
     })
   },
   created() {
-    window.addEventListener("resize", this.handleResize);
+    this.window.addEventListener("resize", this.handleResize);
     this.handleResize();
   },
   created: function() {
@@ -148,7 +148,7 @@ export default {
   beforeDestroy: function() {
     // 핸들러 제거하기(컴포넌트 또는 SPA의 경우 절대 잊지 말아 주세요!)
     window.removeEventListener("scroll", this.handleScroll);
-    window.removeEventListener("resize", this.handleResize);
+    this.window.removeEventListener("resize", this.handleResize);
   },
 };
 </script>
@@ -218,13 +218,35 @@ export default {
 .mobile-tap {
   display: none;
 }
-@media screen and (max-width: 767px) {
+.believe-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.believe-col-2 {
+  width: 16.6667%
+}
+.believe-col-3 {
+  width: 25%
+}
+@media (max-width: 1270px) {
+  .believe-head-container {
+    margin-left: 0
+  }
+  .swiper-button-prev {
+    left: 10px;
+    color: white
+  }
+  .swiper-button-next {
+    right: 10px;
+    color: white
+  }
+}
+@media screen and (max-width: 1200px) {
   .believe-section {
     padding-top: 50px;
     padding-bottom: 50px;
   }
   .believe-head-container {
-    margin-left: 0px;
     text-align: center;
   }
   .believe-head-tag {
@@ -273,6 +295,12 @@ export default {
   .believe-image-2 {
     margin-top: 40px;
     width: 95px;
+  }
+  .believe-col-6 {
+    width: 50%
+  }
+  .believe-col-4 {
+    width: 33.333%
   }
 }
 </style>

@@ -355,8 +355,9 @@ export default {
 }
 .main-modal-partners-container {
   overflow-y: scroll;
-  max-height: 450px;
+  max-height: 250px;
   margin: 0 auto;
+  text-align: left;
 }
 .main-modal-partners-title-container {
   display: flex;
@@ -439,12 +440,10 @@ export default {
 }
 .main-modal-partner-container {
   margin-bottom: 13px;
+  padding: 0;
 }
 .main-estimate-text-subtitle {
   font-size: 16px;
-}
-.main-modal-partner-container {
-  padding: 3px;
 }
 @media (max-width: 1141px) {
   .main-modal-estimate-container{
@@ -551,6 +550,9 @@ export default {
     overflow-y: scroll;
     max-height: 160px;
     margin: 0 auto;
+  }
+  .main-modal-partners-container .row {
+    margin: 0;
   }
 }
 </style>
