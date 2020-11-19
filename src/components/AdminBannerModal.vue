@@ -48,7 +48,7 @@
                     </div>
                     
                     
-                    <div class="col-6  section-space--bottom--20">
+                    <div class="col-10  section-space--bottom--20">
                     <input
                         type="file"
                         class="form-control-file"
@@ -56,6 +56,19 @@
                         id="banner_image"
                         ref="banner_image"
                         v-on:change="handleFileUpload()"
+                    />
+                    </div>
+                    <div
+                    class="admin-input-title col-2"
+                    style="text-align: left; padding-top: 0"
+                    >
+                    표시
+                    </div>
+                    <div class="col-6  section-space--bottom--20">
+                    <input
+                        type="checkbox"
+                        v-model="banner.show_content"
+                        style="padding-top:10px"
                     />
                     </div>
                     <div class="col-12" style="text-align: center">

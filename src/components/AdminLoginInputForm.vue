@@ -82,18 +82,21 @@ export default {
     };
   },
   methods: {
-    login() {
-      if(this.loginData.username == "with365") {
-          if(this.loginData.password == "vPdjq119!") {
-              this.$emit("setLoginData")
+    async login() {
+      await axios
+        .post("https://new-api.closing119.com/api/login/", this.loginData)
+        .then((res) => {
+          this.$emit("setLoginData");
+        })
+        .catch((err) => {
+          if (err.response.data.code == "WRONG_USERNAME") {
+            alert("아이디가 틀렸습니다. 다시 한 번 확인해주세요.");
+          } else if (err.response.data.code == "ADMISSION_FAILED") {
+            alert("파트너스 신청중입니다. 관리자에게 문의하세요.");
+          } else if (err.response.data.code == "WRONG_PASSWORD") {
+            alert("비밀번호가 틀렸습니다. 다시 한 번 확인해주세요.");
           }
-          else {
-              alert("비밀번호가 틀렸습니다.")
-          }
-      }
-      else {
-          alert("아이디가 틀렸습니다.")
-      }
+        });
     },
     authFind() {
       this.$router.push("/authfind");

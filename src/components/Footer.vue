@@ -21,7 +21,7 @@
               개인정보취급방침</span
             >
             |
-            <router-link to="/partners">파트너스·제휴 신청</router-link>
+            <router-link to="/partnersregister">파트너스·제휴 신청</router-link>
           </div>
 
           <div
@@ -77,7 +77,7 @@
               개인정보취급방침</span
             >
             |
-            <router-link to="/partners">파트너스·제휴 신청</router-link>
+            <router-link to="/partnersregister">파트너스·제휴 신청</router-link>
           </div>
 
           <img

@@ -28,7 +28,7 @@
               class="main-modal-image-container"
               :items="1"
               :margin="3"
-              :loop="false"
+              :loop="true"
               :dots="false"
               :nav="false"
               :autoplay="false"
@@ -62,7 +62,7 @@
                 <div class="main-modal-info-section-divider"></div>
                 <div class="main-modal-info-section">
                   <div class="main-modal-info-light">최종견적</div>
-                  <div class="main-modal-info-bold" v-if="estimateDone"><ICountUp :endVal="numberWithThree((total_price * 1.1).toFixed(0))"/>만원</div>
+                  <div class="main-modal-info-bold" v-if="estimateDone"><ICountUp :endVal="numberWithThree(total_price)"/>만원</div>
                   <div class="main-modal-info-bold" v-if="!estimateDone">입찰중</div>
                 </div>
                 
@@ -308,7 +308,12 @@ export default {
   }
 }
 </style>
+<style scoped>
+.owl-nav {
+  position: absolute;
+}
 
+</style>
 <style>
 .main-modal-estimate-container {
   width: 863px;

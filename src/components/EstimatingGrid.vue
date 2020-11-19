@@ -35,17 +35,18 @@
       <div class="estimating-button-container" v-if="clientStatus == 'B'">
         <div class="estimating-grid-notice">연락처를 통해 미팅을 진행한 후 견적서 작성을 진행해주세요!→</div>
         <div class="estimating-grid-notice-mobile">연락처를 통해 미팅을 진행한 후 견적서 작성을 진행해주세요.</div>
-
-        <div
-          class="estimating-button"
-          @click="$emit('go-detail', estData.id)"
-        >          견적서 작성하기
+        <div class="estimating-button-mobile-container">
+          <div
+            class="estimating-button"
+            @click="$emit('go-detail', estData.id)"
+          >          견적서 작성하기
+          </div>
         </div>
       </div>
       <div class="estimating-button-container" v-if="clientStatus == 'D'">
         <div
           class="estimating-button"
-          @click="$emit('go-detail', estData.id)"
+          @click="finishEst()"
         >
           공사 완료하기
         </div>
@@ -80,9 +81,15 @@ export default {
   methods: {
     formatPhoneNumber(str) {
       //Filter only numbers from the input
-
+      let match
       //Check if the input is of correct length
-      let match = str.match(/^([\S]{3})([\S]{4})([\S]{4})$/);
+      if(str.length == 10) {
+        match = str.match(/^([\S]{3})([\S]{3})([\S]{4})$/);
+      }
+      else {
+        match = str.match(/^([\S]{3})([\S]{4})([\S]{4})$/);
+      }
+      
 
       if (match) {
         return match[1] + "-" + match[2] + "-" + match[3];
@@ -95,7 +102,18 @@ export default {
           this.imageURL = res.data.results.client_image[0]
       })
       this.loading = true
-    }
+    },
+    async finishEst() {
+      var estData = {
+        estimate_id: this.estData.id,
+      };
+      await axios
+        .post("https://new-api.closing119.com/api/estcomplete/", estData)
+        .then((res) => {
+          alert("공사 완료 처리 되었습니다.");
+          this.$router.push("/done");
+        });
+    },
   },
   mounted() {
     this.clientStatus = this.estData.status;
@@ -188,6 +206,15 @@ export default {
   .estimating-grid-notice {
     display: none;
   }
+  .estimating-button-mobile-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+  }
+  .estimating-button {
+    max-width: 140px;
+    margin: 0 auto;
+  }
   .estimating-grid-notice-mobile {
     margin-top: 15px;
     margin-bottom: 10px;
@@ -195,14 +222,14 @@ export default {
     color: #f0542d;
     display: block;
     position: relative;
-width: 180px;
-height: 55px;
-padding: 0px;
-background: #FFFFFF;
--webkit-border-radius: 5px;
--moz-border-radius: 5px;
-border-radius: 5px;
-border: #f0542d solid 1px;
+    width: 180px;
+    height: 55px;
+    padding: 0px;
+    background: #FFFFFF;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: #f0542d solid 1px;
     font-family: NotoSansKR-Bold;
     padding: 8px;
     padding-top: 10px;

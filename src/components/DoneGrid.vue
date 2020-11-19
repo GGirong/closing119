@@ -45,24 +45,27 @@ export default {
       statusMsg: "",
       statuscolor: "",
       complete_date: "",
+      loading: false
     };
   },
   mounted() {
-    this.complete_date = this.estData.client.complete_date.split("T")[0];
+    let complete_date = this.estData.client.complete_date.split("T")[0];
     this.complete_date =
-      this.complete_date.split("-")[0] +
+      complete_date.split("-")[0] +
       "년 " +
-      this.complete_date.split("-")[1] +
+      complete_date.split("-")[1] +
       "월 " +
-      this.complete_date.split("-")[2] +
+      complete_date.split("-")[2] +
       "일";
+      console.log(this.complete_date)
     if (this.estData.status == "C") {
-      this.statusMsg = "선정됨";
+      this.statusMsg = "공사완료";
       this.statuscolor = "blue";
     } else {
-      this.statusMsg = "선정실패";
+      this.statusMsg = "선정안됨";
       this.statuscolor = "red";
     }
+    this.loading = true
   },
 };
 </script>

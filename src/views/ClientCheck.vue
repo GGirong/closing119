@@ -93,6 +93,7 @@ export default {
     },
     setClientStatus(code) {
       this.$store.commit("setClientStatus", code);
+      this.loading = true
     },
   },
   computed: mapGetters(["getClient", "getClientLogin", "getClientStatus"]),

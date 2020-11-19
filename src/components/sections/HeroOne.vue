@@ -3,11 +3,11 @@
     <div class="hero-slider__container-area">
       <div class="swiper-container hero-slider__container">
         <div class="swiper-wrapper hero-slider__wrapper">
-          <swiper :options="swiperOption">
+          <swiper :options="swiperOption" v-if="loading">
             <!--=======  single slider item  =======-->
             <div
               class="swiper-slide hero-slider__single-item"
-              :style="{ backgroundImage: `url(assets/img/slider/slider3.jpg)` }"
+              :style="{ backgroundImage: imgURL[0].url }"
             >
               <div class="hero-slider__content-wrapper">
                 <div class="main-container">
@@ -38,10 +38,11 @@
                 </div>
               </div>
             </div>
+            
             <!--=======  single slider item  =======-->
             <div
               class="swiper-slide hero-slider__single-item"
-              :style="{ backgroundImage: `url(assets/img/slider/slider2.jpg)` }"
+              :style="{ backgroundImage: imgURL[1].url }"
             >
               <div class="hero-slider__content-wrapper">
                 <div class="main-container">
@@ -75,7 +76,7 @@
             <!--=======  single slider item  =======-->
             <div
               class="swiper-slide hero-slider__single-item"
-              :style="{ backgroundImage: `url(assets/img/slider/slider1.jpg)` }"
+              :style="{ backgroundImage: imgURL[2].url }"
             >
               <div class="hero-slider__content-wrapper">
                 <div class="main-container">
@@ -125,6 +126,8 @@
 </template>
 
 <script>
+import axios from "axios"
+
 export default {
   props: ["sliderData"],
   data() {
@@ -142,8 +145,31 @@ export default {
           prevEl: ".ht-swiper-button-prev",
         },
       },
+      imgURL: "",
+      imgURL_m: "",
+      loading: false
     };
   },
+  async mounted() {
+    await axios.get("https://new-api.closing119.com/api/banner/?banner_type=main&banner_env=pc").then(res=> {
+      this.imgURL = res.data.results
+    })
+    await axios.get("https://new-api.closing119.com/api/banner/?banner_type=main&banner_env=m").then(res=> {
+      this.imgURL_m = res.data.results
+    })
+    if(window.innerWidth > 500) {
+      for(let i in this.imgURL) {
+        this.imgURL[i].url = `url(https://new-api.closing119.com` + this.imgURL[i].banner_image + `)`
+      }
+    }
+    else {
+      console.log("true")
+      for(let i in this.imgURL_m) {
+        this.imgURL[i].url = `url(https://new-api.closing119.com` + this.imgURL_m[i].banner_image + `)`
+      }
+    }
+    this.loading = true
+  }
 };
 </script>
 

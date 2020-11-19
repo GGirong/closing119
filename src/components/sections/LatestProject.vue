@@ -32,9 +32,9 @@
               :dots="false"
               :nav="false"
               :autoplay="true"
-              :autoplayTimeout="5000"
+              :autoplayTimeout="3000"
               :autoplayHoverPause="true"
-              v-if="loading && !mobile"
+              v-if="loading"
             >
             <div class="partner-banner-image-container" v-for="item in bannerData" :key="item.id">
               <img
@@ -46,16 +46,16 @@
             </div>
             </carousel>
             <carousel
-              class="partner-banner-container"
+              class="partner-banner-container mobile"
               :items="1"
               :margin="15"
               :loop="true"
               :dots="false"
               :nav="false"
               :autoplay="true"
-              :autoplayTimeout="5000"
+              :autoplayTimeout="3000"
               :autoplayHoverPause="true"
-              v-if="loading && mobile"
+              v-if="loading"
             >
             <div class="partner-banner-image-container" v-for="item in bannerData_m" :key="item.id">
               <img
@@ -114,29 +114,34 @@ export default {
       }
     },
   },
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
+  },
   async mounted() {
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
     await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ptn&banner_env=pc").then(res=> {
       for(var i in res.data.results) {
-        if(res.data.results[i].upper_text != "") {
+        if(res.data.results[i].show_content) {
           this.bannerData.unshift(res.data.results[i])
         }
       }
     })
     await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ptn&banner_env=m").then(res=> {
       for(var i in res.data.results) {
-        if(res.data.results[i].upper_text != "") {
+        if(res.data.results[i].show_content) {
           this.bannerData_m.unshift(res.data.results[i])
         }
+        this.loading = true
       }
-      this.loading = true
     })
   },
   created() {
-    this.window.addEventListener("resize", this.handleResize);
+    window.addEventListener("resize", this.handleResize);
     this.handleResize();
   },
   destroyed() {
-    this.window.removeEventListener("resize", this.handleResize);
+    window.removeEventListener("resize", this.handleResize);
   },
 };
 </script>
@@ -165,6 +170,9 @@ export default {
 }
 .partner-banner-container {
   overflow: visible !important;
+}
+.partner-banner-container.mobile {
+  display: none;
 }
 .partner-banner-row {
   width: 944px;
@@ -201,6 +209,14 @@ export default {
 }
 .owl-item.active {
   opacity: 1;
+}
+@media (max-width: 501px) {
+  .partner-banner-container {
+    display: none;
+  }
+  .partner-banner-container.mobile {
+    display: block;
+  }
 }
 @media (max-width: 1270px) {
   .partner-banner-head-container {
@@ -246,6 +262,9 @@ export default {
     top: 58px;
     left: 21px;
     font-size: 12px;
+  }
+  .partner-banner-image {
+    max-width: 270px;
   }
 }
 </style>

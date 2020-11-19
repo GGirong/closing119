@@ -3,6 +3,9 @@
             <div class="project-section">
                 <div class="container">
                     <div v-if="loading">
+                        <div @click="goProfile()" class="client-edit-container" >
+                            <b-icon-pencil-square></b-icon-pencil-square><span style="margin-left: 7px;">견적요청서 수정하기</span>
+                        </div>
                         <div class="col-12" style="overflow: hidden">
                         <carousel
                         class="main-modal-image-container"
@@ -37,12 +40,12 @@
                                 <div class="main-modal-info-section-divider"></div>
                                 <div class="main-modal-info-section">
                                 <div class="main-modal-info-light">파트너스</div>
-                                <div class="main-modal-info-bold"><ICountUp :endVal="estData.length"/>개 업체</div>
+                                <div class="main-modal-info-bold">0개 업체</div>
                                 </div>
                                 <div class="main-modal-info-section-divider"></div>
                                 <div class="main-modal-info-section">
                                 <div class="main-modal-info-light">최종견적</div>
-                                <div class="main-modal-info-bold" v-if="estimateDone"><ICountUp :endVal="numberWithThree((total_price * 1.1).toFixed(0))"/>만원</div>
+                                <div class="main-modal-info-bold" v-if="estimateDone"><ICountUp :endVal="numberWithThree(total_price)"/>만원</div>
                                 <div class="main-modal-info-bold" v-if="!estimateDone">입찰중</div>
                                 </div>
                             </div>
@@ -61,6 +64,7 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
@@ -70,6 +74,7 @@
 import axios from "axios";
 import ICountUp from "vue-countup-v2";
 import carousel from "vue-owl-carousel2";
+import ClientProfileVue from '../views/ClientProfile.vue';
 
     export default {
         components: {
@@ -86,6 +91,9 @@ import carousel from "vue-owl-carousel2";
             }
         },
         methods: {
+            goProfile() {
+                this.$router.push({name: "ClientProfile", params: { clientId: this.clientData.id}})
+            },
             async getClient() {
                 await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: this.estData.client.id}}).then(res=>{
                     var images = [];
@@ -114,6 +122,19 @@ import carousel from "vue-owl-carousel2";
                     return "여가 오락";
                 }
             },
+            numberWithThree(x) {
+            x += " "
+            if(x.length == 8 ) {
+                return Number(x.substr( 0 , 3 ))
+            }
+            else if( x.length == 9) {
+                return Number(x.substr( 0 , 4 ))
+            }
+            else if( x.length == 10) {
+                return Number(x.substr( 0 , 5 ))
+            }
+            
+            },
         },
         mounted() {
             this.clientData = this.estData.client
@@ -123,5 +144,12 @@ import carousel from "vue-owl-carousel2";
 </script>
 
 <style lang="scss">
-
+.client-edit-container {
+    width: 425px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+    font-size: 15px;
+    text-align: right;
+    cursor: pointer;
+}
 </style>

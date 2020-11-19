@@ -314,7 +314,7 @@
                   />
                 </div>
                 <div class="col-md-3 col-6  section-space--bottom--20">
-                  <button style="margin-top:0px;" @click="passwordChange">
+                  <button style="margin-top:0px; width: 100%" @click="passwordChange">
                     비밀번호 변경
                   </button>
                 </div>

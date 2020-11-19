@@ -85,14 +85,33 @@
         </div>
         <div class="ad-container">
           <div class="container-title">광고 배너 관리</div>
+          <div class="ad2-title-container">
+            메인 일러스트
+          </div>
+          <div class="container-subtitle">-PC (1920 x 710 px)-</div>
+          <div class="row" style="width: 600px; margin: 0 auto">
+            <div v-for="(banner, i ) in main_illu" :key="banner.id" class="col-12 admin-banner-link" 
+              @click="openIlluModal(banner, i)">
+                  {{ i + 1 }}번째 배너 수정하기
+            </div>
+          </div>
+          <div class="container-subtitle">-모바일 (1000 x 800 px)-</div>
+          <div class="row" style="width: 600px; margin: 0 auto">
+            <div v-for="(banner, i ) in main_illu_m" :key="banner.id" class="col-12 admin-banner-link" 
+              @click="openIlluModal(banner, i)">
+                  {{ i + 1 }}번째 배너 수정하기
+            </div>
+          </div>
           <div class="ad-title-container">
             상단 광고 이미지
           </div>
-          <div class="container-subtitle">-PC (1200 x 110 px)-</div>
-          <img
-          :src="'https://new-api.closing119.com' +ad_u_banner[0].banner_image"
-          style="margin-bottom: 30px"
-          />
+          <div class="container-subtitle">-PC (2400 x 220 px)-</div>
+          <div style="width: 1200px; margin: 0 auto;">
+              <img
+              :src="'https://new-api.closing119.com' +ad_u_banner[0].banner_image"
+              style="margin-bottom: 30px; width: 100%;"
+              />
+          </div>
           <div class="col-6" style="margin: 0 auto">
             <input
           class="form-control ad"
@@ -113,7 +132,7 @@
           <div class="col-12">
               <button class="ad-num-button" @click="patchAd(ad_u_banner[0])">적용</button>
           </div>
-          <div class="container-subtitle">-모바일 (325 x 90 px)-</div>
+          <div class="container-subtitle">-모바일 (650 x 180 px)-</div>
           <img
           :src="'https://new-api.closing119.com' +ad_u_banner_m[0].banner_image"
           style="margin-bottom: 30px"
@@ -130,8 +149,16 @@
           <div class="col-6" style="margin: 0 auto">
             <input
             type="text"
-            class="form-control"
+            class="form-control ad"
             v-model="ad_u_banner_m[0].banner_link"
+            />
+          </div>
+          <div class="col-6" style="margin: 0 auto">
+            <input
+            type="text"
+            class="form-control"
+            v-model="ad_u_banner_m[0].banner_color"
+            placeholder="컬러코드 (ex. #000000)"
             />
           </div>
           <div class="col-12">
@@ -140,14 +167,14 @@
           <div class="ad2-title-container">
             하단 광고 이미지
           </div>
-          <div class="container-subtitle">-PC (1920 x 209 px)-</div>
+          <div class="container-subtitle">-PC (3840 x 418 px)-</div>
           <div class="row" style="width: 600px; margin: 0 auto">
             <div v-for="(banner, i ) in ad_b_banner" :key="banner.id" class="col-6 admin-banner-link" 
               @click="openAdModal(banner, i)">
                   {{ i + 1 }}번째 배너 수정하기
             </div>
           </div>
-          <div class="container-subtitle">-모바일 (375 x 150 px)-</div>
+          <div class="container-subtitle">-모바일 (750 x 300 px)-</div>
           <div class="row" style="width: 600px; margin: 0 auto">
             <div v-for="(banner, i ) in ad_b_banner_m" :key="banner.id" class="col-6 admin-banner-link" 
               @click="openAdModal(banner, i)">
@@ -234,6 +261,13 @@
     @close="closeModal"
     @confirm="patchAd"
     />
+    <AdminIlluModal 
+    :banner="banner"
+    :index="index"
+    v-if="Illumodal"
+    @close="closeModal"
+    @confirm="patchAd"
+    />
     <AdminMainModal
     v-if="makeModal"
     @close="closeModal"
@@ -252,6 +286,7 @@ import AdminBannerModal from "../AdminBannerModal"
 import AdBannerModal from "../AdBannerModal"
 import AdminMainModal from "../AdminMainModal"
 import AdminMainModalRe from "../AdminMainModalRe"
+import AdminIlluModal from "../AdIlluModal"
 import axios from "axios";
 
 
@@ -261,12 +296,16 @@ export default {
         AdBannerModal,
         AdminMainModal,
         AdminMainModalRe,
+        AdminIlluModal
       },
   data() {
     return {
+        main_illu: "",
+        main_illu_m: "",
         banner: "",
         modal: false,
         Admodal: false,
+        Illumodal: false,
         index: 0,
         mainModal: false,
         makeModal: false,
@@ -332,6 +371,11 @@ export default {
           this.index = i + 1
           this.modal = true
       },
+      openIlluModal(banner, i) {
+        this.banner = banner
+        this.index = i + 1
+        this.Illumodal = true
+      },
       openAdModal(banner, i) {
         this.banner = banner
         this.index = i + 1
@@ -346,29 +390,27 @@ export default {
           this.mainModal = false
           this.makeModal = false
           this.Admodal = false
+          this.Illumodal = false
       },
       async patchBanner(bannerData, index) {
           const bodyFormData = new FormData();
 
         bodyFormData.append("banner_link", bannerData.banner_link);
-        bodyFormData.append("banner_image", bannerData.banner_image);
+        if(!Array.isArray(bannerData.banner_image)) {
+          bodyFormData.append("banner_image", bannerData.banner_image);
+        }
         bodyFormData.append("banner_env", bannerData.banner_env);
         bodyFormData.append("banner_type", bannerData.banner_type);
         bodyFormData.append("bottom_text", bannerData.bottom_text);
+        bodyFormData.append("show_content", bannerData.show_content);
         bodyFormData.append("upper_text", bannerData.upper_text);
         bodyFormData.append("id", bannerData.id);
-
-        if(bannerData.banner_image == this.bannerConfirmData[index-1].banner_image || bannerData.upper_text.length == 0 || bannerData.bottom_text.length == 0) {
-          alert("빈 데이터가 있으면 수정이 불가능합니다.")
-        }
-        else {
-          await axios.patch("https://new-api.closing119.com/api/banner/" + bannerData.id + "/", bodyFormData).then(res => {
-              this.modal = false
-              alert("정상적으로 수정되었습니다!")
-          }).catch(err => {
-            alert("수정에 실패했습니다. 입력 양식을 확인해주세요.")
-          })
-        }
+        await axios.patch("https://new-api.closing119.com/api/banner/" + bannerData.id + "/", bodyFormData).then(res => {
+            this.modal = false
+            alert("정상적으로 수정되었습니다!")
+        }).catch(err => {
+          alert("수정에 실패했습니다. 입력 양식을 확인해주세요.")
+        })
         
       },
       async patchMainNum() {
@@ -384,6 +426,7 @@ export default {
             bodyFormData.append("sale_price", usecase.sale_price);
             bodyFormData.append("reg_code", usecase.reg_code);
             bodyFormData.append("business_name", usecase.business_name);
+            bodyFormData.append("show_content", usecase.show_content);
             bodyFormData.append("address", usecase.address);
             bodyFormData.append("sector", usecase.sector);
             bodyFormData.append("content", usecase.content);
@@ -412,6 +455,7 @@ export default {
             bodyFormData.append("sale_price", usecase.main_modal.sale_price);
             bodyFormData.append("reg_code", usecase.main_modal.reg_code);
             bodyFormData.append("business_name", usecase.main_modal.business_name);
+            bodyFormData.append("show_content", usecase.main_modal.show_content);
             bodyFormData.append("address", usecase.main_modal.address);
             bodyFormData.append("sector", usecase.main_modal.sector);
             bodyFormData.append("content", usecase.main_modal.content);
@@ -420,13 +464,13 @@ export default {
             bodyFormData.append("avg_est", usecase.main_modal.avg_est);
             bodyFormData.append("min_est", usecase.main_modal.min_est);
             bodyFormData.append("fund", usecase.main_modal.fund);
+            if(!Array.isArray(usecase.images[0].modal_image)) {
+              for (var i = 0; i < usecase.images.length; i++) {
+                let file = usecase.images[i];
 
-            for (var i = 0; i < usecase.images.length; i++) {
-              let file = usecase.images[i];
-
-              bodyFormData.append("modal_image", file);
+                bodyFormData.append("modal_image", file);
+              }
             }
-
           await axios.patch("https://new-api.closing119.com/api/main-modal/" + usecase.main_modal.id + "/", bodyFormData).then(res=> {
               alert("정상적으로 수정되었습니다!")
               this.closeModal()
@@ -436,17 +480,21 @@ export default {
       },
       async patchAd(bannerData) {
         const bodyFormData = new FormData();
-
+        
         bodyFormData.append("banner_link", bannerData.banner_link);
-        bodyFormData.append("banner_image", bannerData.banner_image);
+        if(!Array.isArray(bannerData.banner_image)) {
+          bodyFormData.append("banner_image", bannerData.banner_image);
+        }
         bodyFormData.append("banner_env", bannerData.banner_env);
         bodyFormData.append("banner_type", bannerData.banner_type);
         bodyFormData.append("bottom_text", bannerData.bottom_text);
+        bodyFormData.append("banner_color", bannerData.banner_color);
+        bodyFormData.append("show_content", bannerData.show_content);
         bodyFormData.append("upper_text", bannerData.upper_text);
         bodyFormData.append("id", bannerData.id);
 
 
-        await axios.put("https://new-api.closing119.com/api/banner/" + bannerData.id + "/", bodyFormData).then(res=> {
+        await axios.patch("https://new-api.closing119.com/api/banner/" + bannerData.id + "/", bodyFormData).then(res=> {
             alert("정상적으로 수정되었습니다!")
         }).catch(err => {
             alert("수정에 실패했습니다. 입력 양식을 확인해주세요.")
@@ -461,6 +509,12 @@ export default {
       
   },
   async mounted() {
+        await axios.get("https://new-api.closing119.com/api/banner/?banner_type=main&banner_env=pc").then(res=> {
+          this.main_illu = res.data.results
+        })
+        await axios.get("https://new-api.closing119.com/api/banner/?banner_type=main&banner_env=m").then(res=> {
+          this.main_illu_m = res.data.results
+        })
         await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_u&banner_env=pc").then(res=> {
           this.ad_u_banner = res.data.results
         })
@@ -721,19 +775,29 @@ export default {
   font-size: 18px;
   margin-bottom: 20px;
 }
-
-@media screen and (max-width: 1141px) {
+@media screen and (max-width: 500px) {
+  .output {
+    height: 200px;
+  }
   .mobile-spacing {
     display: block;
   }
   .mobile-spacing-reverse {
     display: none;
   }
+  .swiper2 {
+    height: 150px;
+  }
+  .main-banner-bottom-container {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
   .main-head-text-container {
     padding-top: 55px;
     padding-bottom: 35px;
-    max-width: 375px;
-    margin: 0 auto;
+    width: 100%;
+    text-align: center;
   }
   .main-head-text-wrapper {
     flex: 0 0 100%;
@@ -742,13 +806,13 @@ export default {
     font-size: 18px;
     font-weight: 700;
     line-height: 24px;
-    padding-left: 25px;
+    padding-left: 0px;
   }
   .main-head-text {
     font-size: 14px;
     margin-top: 5px;
     line-height: 20px;
-    padding-left: 25px;
+    padding-left: 0px;
   }
 
   .main-head-image {
@@ -756,15 +820,15 @@ export default {
     padding-left: 0px;
   }
   .main-head-image-size {
-    max-width: 300px;
+    display: none;
   }
   .head-swiper-section {
-    max-width: 375px;
+    width: 100%;
     margin: 0 auto;
     position: relative;
   }
   .head-swiper-container {
-    max-width: 375px;
+    width: 100%;
     margin: 0 auto;
     overflow: hidden;
   }
@@ -866,22 +930,32 @@ export default {
     padding-left: 0px;
   }
   .banner-one {
+    width: 100%;
+    background: #000;
     margin-top: 35px;
+  }
+  .banner-one-image {
+    width: 300px;
+    margin: 0 auto;
   }
   .new-board-title {
     margin-top: 40px;
     text-align: center;
   }
   .new-board-mobile-row {
-    max-width: 320px;
+    width: 90%;
     margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+  }
+  .new-board-col {
+    width: 47%;
   }
   .mobile-col-padding {
     padding: 0;
   }
   .board-item-container {
-    width: 150px;
-    margin: 0 auto;
+    width: 100%;
     padding: 0;
     position: relative;
   }
@@ -898,7 +972,7 @@ export default {
   }
   .board-item-image {
     border-radius: 5px;
-    width: 150px;
+    width: 100%;
     height: 114px;
     object-fit: cover;
   }
@@ -938,8 +1012,10 @@ export default {
     margin-top: 10px;
     margin-bottom: 40px;
   }
+  .main-design-container {
+    width: 100%;
+  }
 }
-
 </style>
 
 <style lang="scss" scope>

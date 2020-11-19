@@ -39,6 +39,20 @@
                     />
                 </div>
             </div>
+            <div class="row" style="margin: 0 auto">   
+                  <div
+                    class="admin-input-title col-1"
+                    style="text-align: left; padding-top: 0"
+                    >
+                    표시
+                    </div>
+                    <div class="col-1  section-space--bottom--20">
+                    <input
+                        type="checkbox"
+                        v-model="usecase.main_modal.show_content"
+                    />
+                  </div>
+            </div>
             <div class="main-modal-head-container">
               <div class="admin-main-modal-sale-price"><input type="text" placeholder="절감 금액" class="form-control-file-title" v-model="usecase.main_modal.sale_price"/></div>
               <div class="admin-main-modal-head-title"><input type="text" placeholder="업체명" class="form-control-file-title" v-model="usecase.main_modal.business_name"/></div>

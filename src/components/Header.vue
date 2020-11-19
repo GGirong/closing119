@@ -54,8 +54,8 @@
                       </div>
                       <div class="header-info-single-item__content">
                         <p class="header-info-single-item__subtitle">
-                          <router-link to="/partnersregister"
-                            >파트너스 신청하기</router-link
+                          <router-link to="/partners"
+                            >파트너스 로그인</router-link
                           >
                         </p>
                       </div>

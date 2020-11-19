@@ -498,6 +498,9 @@ export default {
       else if(this.reqData.py < 1) {
         alert('평수를 입력해주세요!')
       }
+      else if(this.images.length == 0) {
+        alert('사진을 최소 1장 이상 등록해주세요!')
+      }
       else if(this.reqData.expire_date.length == 0) {
         alert('희망 견적 마감일을 선택해주세요!')
       }

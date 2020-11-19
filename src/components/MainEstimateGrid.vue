@@ -12,7 +12,7 @@
           <div class="main-estimate-grid-text left-padding col-6">
             <div class="main-estimate-grid-title">견적 가격</div>
             <div class="main-estimate-grid-subtitle">
-              {{ numberWithThree((estData.total_price * 1.1).toFixed(0)) }}원
+              {{ numberWithThree(estData.total_price) }}원
             </div>
           </div>
         </div>

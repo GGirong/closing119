@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="main-design-container">
     <!--====================  텍스트와 이미지 ====================-->
     <div class="main-head-text-container">
@@ -111,7 +112,7 @@
         class="banner-one-image"
         />
       </a>
-      <a :href="ad_u_banner_m[0].banner_link" target="_blank" class="banner-one" v-if="mobile">
+      <a :href="ad_u_banner_m[0].banner_link" target="_blank" class="banner-one" v-if="mobile" :style="{backgroundColor: ad_u_banner_m[0].banner_color,}">
         <img
         :src="'https://new-api.closing119.com' + ad_u_banner_m[0].banner_image"
         class="banner-one-image"
@@ -120,7 +121,7 @@
     </div>
 
     <!--====================  새로 올라온 매장  ====================-->
-    <div class="main-container">
+    <div class="main-design-container">
       <div class="new-board-title">
         <span style="color:#1574fe">NEW</span> 새로 올라온 매장
       </div>
@@ -143,11 +144,23 @@
             >
               {{ list.statusText }}
             </div>
-            <img
-              :src="'https://new-api.closing119.com'+ list.imageUrl"
-              class="board-item-image"
-              :style="{ filter: list.brightness }"
-            />
+            <div class="board-item-image-container">
+              <img 
+              src="../../public/assets/img/umbrella.png"
+              class="board-item-image-um-img"
+              :style="{ display: list.umb}"
+              />
+              <img 
+              src="../../public/assets/img/umb-text.png"
+              class="board-item-image-um"
+              :style="{ display: list.umb}"
+              />
+              <img
+                :src="'https://new-api.closing119.com'+ list.imageUrl"
+                class="board-item-image"
+                :style="{ filter: list.brightness }"
+              />
+            </div>
             <div class="board-content-container">
               <div class="board-content-sector">
                 {{ sectorShort(list.sector) }}
@@ -166,22 +179,20 @@
           </div>
         </div>
       </div>
-      <div class="page-pagination-container col">
-        <!-- <v-pagination v-model="pageTest" :page-count="30" :classes="bootstrapPaginationClasses"
-                  :labels="paginationAnchorTexts"></v-pagination> -->
-        <ul class="page-pagination">
-          <li @click="prevPage" :disabled="pageNum == 0">
-            <a><i class="fa fa-angle-left"></i> Prev</a>
-          </li>
-          <span class="page-pagination-pagenum">{{ pageNum + 1 }} / {{ pageCount}} 페이지</span>
-          <li @click="nextPage" :disabled="pageNum >= pageCount - 1">
-            <a><i class="fa fa-angle-right"></i> Next</a>
-          </li>
-        </ul>
+      <div class="page-pagination-container">
+        <v-pagination 
+          v-model="pageNum" 
+          :page-count="pageCount"
+          :classes="bootstrapPaginationClasses"
+          :labels="paginationAnchorTexts">
+        </v-pagination>
       </div>
     </div>
     <!--====================  하단 배너 ====================-->
-    <swiper class="swiper2" :options="swiperOption2" v-if="swiper_loading && !mobile">
+    <MainModal :clientId="modalId" :status="modalStatus" v-if="modal" @close="closeModal" />
+    <MainUsecaseModal :usecaseId="usecaseId" v-if="usecaseModal" @close="closeModal"/>
+  </div>
+  <swiper class="swiper2" :options="swiperOption2" v-if="swiper_loading && !mobile">
       <swiper-slide class="banner-swiper" v-for="banner in ad_b_banner" :key="banner.id">
         <a :href="banner.banner_link" target="_blank" class="main-banner-bottom-container">
           <img
@@ -194,7 +205,7 @@
     </swiper>
     <swiper class="swiper2" :options="swiperOption2" v-if="swiper_loading && mobile">
       <swiper-slide class="banner-swiper" v-for="banner in ad_b_banner_m" :key="banner.id">
-        <a :href="banner.banner_link" target="_blank" class="main-banner-bottom-container">
+        <a :href="banner.banner_link" target="_blank" class="main-banner-bottom-container" :style="{backgroundColor: banner.banner_color,}">
           <img
           :src="'https://new-api.closing119.com' + banner.banner_image"
           class="main-banner-bottom"
@@ -203,8 +214,6 @@
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
-    <MainModal :clientId="modalId" :status="modalStatus" v-if="modal" @close="closeModal" />
-    <MainUsecaseModal :usecaseId="usecaseId" v-if="usecaseModal" @close="closeModal"/>
   </div>
 </template>
 
@@ -229,12 +238,12 @@ export default {
     return {
       clientData: {},
       swiperOption: {
-        slidesPerView: 3,
+        slidesPerView: 1,
         autoplay: {
           delay: 3000,
           disableOnInteraction: false,
         },
-        spaceBetween: 37,
+        spaceBetween: 20,
         initialSlide: 3,
         centeredSlides: true,
         loop: true,
@@ -243,14 +252,10 @@ export default {
           prevEl: ".swiper-button-prev",
         },
         breakpoints: {
-          1201: {
+          501: {
             slidesPerView: 3,
             spaceBetween: 37
           },
-          320: {
-            slidesPerView: 1,
-            spaceBetween: 20
-          }
         },
         on: {
           reachEnd: function() {
@@ -332,12 +337,15 @@ export default {
       clientIdList: [],
       newClientList: [],
       pageSize: 16,
-      pageNum: 0,
+      pageNum: 1,
       usecaseData: [],
       mobile: false,
     };
   },
   async mounted() {
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+
     await axios.get("https://new-api.closing119.com/api/client").then(res=>{
       this.clientIdList = res.data
       for(var i in this.clientIdList) {
@@ -345,19 +353,25 @@ export default {
           this.newClientList.unshift(this.clientIdList[i])
           this.newClientList[0].statusText = "진행중"
           this.newClientList[0].brightness = "brightness(100%)"
+          this.newClientList[0].umb = 'none'
         }
         else {
           this.newClientList.unshift(this.clientIdList[i])
           this.newClientList[0].statusText = "마감"
           this.newClientList[0].brightness = "brightness(50%)"
           this.newClientList[0].color = "#ee5335"
+          this.newClientList[0].umb = 'block'
         }
       }
     })
     this.getClientImgFunc()
 
     await axios.get("https://new-api.closing119.com/api/main-modal/").then(res=> {
-      this.usecaseData = res.data.results
+      for(let i in res.data.results) {
+        if(res.data.results[i].main_modal.show_content) {
+          this.usecaseData.push(res.data.results[i])
+        }
+      }
     })
 
     for(var i in this.usecaseData) {
@@ -381,10 +395,20 @@ export default {
           this.ad_u_banner_m = res.data.results
         })
         await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_b&banner_env=pc").then(res=> {
-          this.ad_b_banner = res.data.results
+          for(let i in res.data.results) {
+            if(res.data.results[i].show_content) {
+              this.ad_b_banner.push(res.data.results[i])
+            }
+          }
+          
         })
         await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_b&banner_env=m").then(res=> {
-          this.ad_b_banner_m = res.data.results
+          for(let i in res.data.results) {
+            if(res.data.results[i].show_content) {
+              this.ad_b_banner_m.push(res.data.results[i])
+            }
+          }
+          
         })
     this.swiper_loading = true
   },
@@ -399,7 +423,7 @@ export default {
       return page
     },
     paginatedList() {
-      const start = this.pageNum * this.pageSize,
+      const start = (this.pageNum - 1) * this.pageSize,
             end = start + this.pageSize;
 
       return this.newClientList.slice(start, end)
@@ -514,19 +538,15 @@ export default {
         return sector
       }
     },
-    handleResize() {
+    handleResize(event) {
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
-      if (this.window.width > 1141) {
+      if (this.window.width > 500) {
         this.mobile = false
       } else {
         this.mobile = true
       }
     },
-  },
-  created() {
-    window.addEventListener("resize", this.handleResize);
-    this.handleResize();
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
@@ -540,7 +560,6 @@ export default {
 }
 .swiper2 {
   width: 100%;
-  background-color: #3255cf;
 }
 .swiper-pagination {
   top: 170px;
@@ -562,7 +581,7 @@ export default {
 .main-head-text-container {
   padding-top: 86px;
   padding-bottom: 25px;
-  max-width: 1135px;
+  width: 1135px;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
@@ -588,17 +607,17 @@ export default {
   padding-left: 30px;
 }
 .head-swiper-section {
-  max-width: 1200px;
+  width: 1200px;
   margin: 0 auto;
   position: relative;
 }
 .head-swiper-container {
-  max-width: 1200px;
+  width: 1200px;
   margin: 0 auto;
   overflow: hidden;
 }
 .head-swiper-wrapper {
-  max-width: 1054px;
+  width: 1054px;
   margin: 0 auto;
 }
 .top-slide-headcircle {
@@ -692,18 +711,23 @@ export default {
   padding-left: 10px;
 }
 .page-pagination-container {
+  display: flex;
+  justify-content: center;
   margin-top: 37.5px;
   margin-bottom: 56px;
 }
 .swiper-button-prev {
-  left: -35px;
+  left: -35px !important;
+  background-image: url('') !important;
   color: #000;
 }
 .swiper-button-next {
-  right: -35px;
+  right: -35px !important;
+  background-image: url('') !important;
   color: #000;
 }
 .banner-one {
+  width: 100%;
   margin-top: 70px;
 }
 .new-board-title {
@@ -727,11 +751,44 @@ export default {
   padding: 7px;
   z-index: 1;
 }
+.banner-one-image {
+  width: 100%;
+}
 .board-item-image {
   border-radius: 5px;
   width: 277px;
   height: 212px;
   object-fit: cover;
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;
+}
+.board-item-image-container:hover .board-item-image{
+  transform: scale(1.05);
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  -o-transform: scale(1.05);
+}
+.board-item-image-um {
+  position: absolute;
+  top: 0;
+  z-index: 10;
+}
+.board-item-image-um-img {
+  position: absolute;
+  top: 0;
+  z-index: 10;
+}
+.board-item-image-container:hover .board-item-image-um-img {
+  animation: motion 0.3s linear 0s infinite alternate; top: 0;
+}
+@keyframes motion {
+	0% {top: 0px;}
+	100% {top: 8px;}
 }
 .board-content-container {
   padding-top: 23px;
@@ -784,15 +841,19 @@ export default {
   height: 100%;
 }
 .main-banner-bottom {
-  max-width: 100%;
+  width: 100%;
   height: auto;
 }
-@media (max-width: 1200px) {
+.main-design-container {
+  width: 1200px;
+  margin: 0 auto;
+}
+@media (max-width: 500px) {
   .banner-one {
     width: 100%;
   }
 }
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 500px) {
   .output {
     height: 200px;
   }
@@ -804,7 +865,6 @@ export default {
   }
   .swiper2 {
     height: 150px;
-    background-color: #3255cf;
   }
   .main-banner-bottom-container {
     width: 100%;
@@ -812,14 +872,14 @@ export default {
     text-align: center;
   }
   .main-banner-bottom {
-    max-width: 100%;
+    max-width: 375px;
     height: auto;
   }
   .main-head-text-container {
     padding-top: 55px;
     padding-bottom: 35px;
-    max-width: 375px;
-    margin: 0 auto;
+    width: 100%;
+    text-align: center;
   }
   .main-head-text-wrapper {
     flex: 0 0 100%;
@@ -828,13 +888,13 @@ export default {
     font-size: 18px;
     font-weight: 700;
     line-height: 24px;
-    padding-left: 25px;
+    padding-left: 0px;
   }
   .main-head-text {
     font-size: 14px;
     margin-top: 5px;
     line-height: 20px;
-    padding-left: 25px;
+    padding-left: 0px;
   }
 
   .main-head-image {
@@ -845,12 +905,12 @@ export default {
     display: none;
   }
   .head-swiper-section {
-    max-width: 375px;
+    width: 100%;
     margin: 0 auto;
     position: relative;
   }
   .head-swiper-container {
-    max-width: 375px;
+    width: 100%;
     margin: 0 auto;
     overflow: hidden;
   }
@@ -952,6 +1012,8 @@ export default {
     padding-left: 0px;
   }
   .banner-one {
+    width: 100%;
+    background: #000;
     margin-top: 35px;
   }
   .banner-one-image {
@@ -963,18 +1025,19 @@ export default {
     text-align: center;
   }
   .new-board-mobile-row {
-    max-width: 320px;
+    width: 90%;
     margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
   }
   .new-board-col {
-    width: 160px;
+    width: 47%;
   }
   .mobile-col-padding {
     padding: 0;
   }
   .board-item-container {
-    width: 150px;
-    margin: 0 auto;
+    width: 100%;
     padding: 0;
     position: relative;
   }
@@ -991,7 +1054,7 @@ export default {
   }
   .board-item-image {
     border-radius: 5px;
-    width: 150px;
+    width: 100%;
     height: 114px;
     object-fit: cover;
   }
@@ -1031,5 +1094,20 @@ export default {
     margin-top: 10px;
     margin-bottom: 40px;
   }
+  .main-design-container {
+    width: 100%;
+  }
+  .board-item-image-um {
+    width: 100%;
+    top: -20px;
+  }
+  .board-item-image-um-img {
+    width: 100%;
+    top: -20px;
+  }
+  @keyframes motion {
+	0% {top: -20px;}
+	100% {top: -12px;}
+}
 }
 </style>

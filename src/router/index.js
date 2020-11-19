@@ -31,6 +31,12 @@ const routes = [
         component: () => import(/* webpackChunkName: "contact" */ '../views/ClientCheck.vue')
     },
     {
+        path: '/clientprofile',
+        name: 'ClientProfile',
+        props: true,
+        component: () => import(/* webpackChunkName: "contact" */ '../views/ClientProfile.vue')
+    },
+    {
         path: '/partners',
         name: 'Partners',
         component: () => import(/* webpackChunkName: "contact" */ '../views/Partners.vue')

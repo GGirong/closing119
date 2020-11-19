@@ -7,7 +7,7 @@
 
     <PartnersEstDetailWrapper :estData="clientData" v-if="loading"/>
 
-    <b-form-group
+    <!-- <b-form-group
       class="est-detail-container"
       v-if="!estFinish"
       style="margin-bottom: 30px"
@@ -168,17 +168,48 @@
       </b-form-group>
     </div>
 
+     -->
+
     <b-form-group class="container" v-if="estFinish">
       <b-row>
-        <b-col class="col-12" style="text-align: center">
-          <b-button
-            @click.stop.prevent="onAddMultipleMapInput"
-            variant="primary"
-            style="width: 150px; margin-top: 20px"
-          >
-            <i class="icon icon-plus"></i> 추가
-          </b-button>
-        </b-col>
+          <b-row class="mb-1 col-12">
+            <b-col class="col-4">
+              <div class="est-detail-est-title">
+                가격
+              </div>
+            </b-col>
+            <b-col class="col-4">
+              <div class="est-detail-est-title">
+                부가세
+              </div>
+            </b-col>
+            <b-col class="col-4">
+              <div class="est-detail-est-title">
+                총액
+              </div>
+            </b-col>
+          </b-row>
+          <b-row class="col-12">
+            <b-col class="col-4">
+            <b-form-input
+              name="input-multiple-input-map-value"
+              v-model.lazy="estData.total_price"
+            >
+            </b-form-input>
+          </b-col>
+          <b-col class="col-4">
+            <div class="input-bugase">
+              {{ numberWithCommas(estData.total_price * 0.1) }}
+            </div>
+          </b-col>
+          <b-col class="col-4">
+            <div class="input-bugase">
+              {{
+                numberWithCommas((estData.total_price * 1.1).toFixed(0))
+              }}
+            </div>
+          </b-col>
+          </b-row>
         <b-col class="col-12 est-detail-detail-title">
           세부사항 (선택)
         </b-col>
@@ -188,13 +219,7 @@
         >
         </b-form-input>
       </b-row>
-      <!-- <b-row>
-            <b-col class="col-12">
-            {{ multipleInputToMap }}
-            </b-col>
-        </b-row> -->
     </b-form-group>
-
     <div style="text-align: center; margin-bottom: 50px">
       <button
         class="confirmButton"
@@ -219,7 +244,7 @@
       >
         공사 완료하기
       </button>
-    </div>
+    </div> 
     <Footer />
 
     <OffCanvasMobileMenu />
@@ -268,7 +293,7 @@ export default {
       clientData: {},
       estData: {
         detail: "",
-        prices_data: [],
+        total_price: 0,
       },
       estStatus: true,
       estFinish: true,
@@ -305,7 +330,6 @@ export default {
         });
     },
     async makeEst() {
-      this.estData.prices_data = this.multiple_input_map_list;
       await axios
         .patch(
           "https://new-api.closing119.com/api/estimate/" + this.estId + "/",
@@ -370,19 +394,11 @@ export default {
           this.estStatus = false;
         } else if (res.data.status == "D") {
           this.clientData = res.data;
+          this.estData = res.data;
           this.estFinish = false;
         }
         this.loading = true
       });
-    if (this.clientData.status == "D") {
-      axios
-        .get("https://new-api.closing119.com/api/estpriceset/", {
-          params: { estimate: this.clientData.id },
-        })
-        .then((res) => {
-          this.multiple_input_map_list = res.data;
-        });
-    }
   },
   metaInfo: {
     title: "폐업119 - 파트너스",
@@ -406,7 +422,6 @@ export default {
   font-weight: 400;
   line-height: 1.5;
   color: #495057;
-  background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;

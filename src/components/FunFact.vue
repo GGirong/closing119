@@ -138,7 +138,7 @@ export default {
     })
   },
   created() {
-    this.window.addEventListener("resize", this.handleResize);
+    window.addEventListener("resize", this.handleResize);
     this.handleResize();
   },
   created: function() {
@@ -148,7 +148,7 @@ export default {
   beforeDestroy: function() {
     // 핸들러 제거하기(컴포넌트 또는 SPA의 경우 절대 잊지 말아 주세요!)
     window.removeEventListener("scroll", this.handleScroll);
-    this.window.removeEventListener("resize", this.handleResize);
+    window.removeEventListener("resize", this.handleResize);
   },
 };
 </script>
@@ -227,19 +227,6 @@ export default {
 }
 .believe-col-3 {
   width: 25%
-}
-@media (max-width: 1270px) {
-  .believe-head-container {
-    margin-left: 0
-  }
-  .swiper-button-prev {
-    left: 10px;
-    color: white
-  }
-  .swiper-button-next {
-    right: 10px;
-    color: white
-  }
 }
 @media screen and (max-width: 1200px) {
   .believe-section {

@@ -228,7 +228,7 @@
                 <div
                   class="input-title col-md-4 col-12  section-space--bottom--20"
                 >
-                  업체 프로필 사진
+                  업체 프로필 사진 (선택)
                 </div>
                 <div class="col-md-6 col-12  section-space--bottom--20">
                   <input
@@ -528,9 +528,6 @@ export default {
       }
       else if(this.registration_image == null) {
         alert('사업자등록증을 업로드 해주세요!')
-      }
-      else if(this.profile_image == null) {
-        alert('업체 프로필 사진을 업로드 해주세요!')
       }
       else if(!this.idConfirmed) {
         alert('아이디 중복확인을 진행해주세요!')

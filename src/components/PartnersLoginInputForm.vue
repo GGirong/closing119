@@ -55,6 +55,7 @@
 
                 <div class="line"></div>
               </div>
+              <router-link to="/partnersregister" style="text-decoration: underline">파트너스·제휴 신청</router-link>
 
               <p class="form-message"></p>
               <div style="margin:0 auto; text-align: center">

@@ -26,7 +26,7 @@
               class="main-modal-image-container"
               :items="1"
               :margin="3"
-              :loop="false"
+              :loop="true"
               :dots="false"
               :nav="false"
               :autoplay="false"
@@ -56,22 +56,22 @@
                 <div class="main-modal-info-section-divider"></div>
                 <div class="usecase-modal-info-section">
                   <div class="usecase-main-modal-info-light">파트너스</div>
-                  <div class="usecase-main-modal-info-bold"><span class="usecase-bold">{{usecase.main_modal.partners_num}}</span>개</div>
+                  <div class="usecase-main-modal-info-bold"><span class="usecase-bold"><ICountUp :endVal="usecase.main_modal.partners_num"/></span>개</div>
                 </div>
                 <div class="main-modal-info-section-divider"></div>
                 <div class="usecase-modal-info-section">
                   <div class="usecase-main-modal-info-light">평균견적</div>
-                  <div class="usecase-main-modal-info-bold"><span class="usecase-bold">{{usecase.main_modal.avg_est}}</span>만원</div>
+                  <div class="usecase-main-modal-info-bold"><span class="usecase-bold"><ICountUp :endVal="usecase.main_modal.avg_est"/></span>만원</div>
                 </div>
                 <div class="main-modal-info-section-divider"></div>
                 <div class="usecase-modal-info-section">
                   <div class="usecase-main-modal-info-light">최저견적</div>
-                  <div class="usecase-main-modal-info-bold"><span class="usecase-bold">{{usecase.main_modal.min_est}}</span>만원</div>
+                  <div class="usecase-main-modal-info-bold"><span class="usecase-bold"><ICountUp :endVal="usecase.main_modal.min_est"/></span>만원</div>
                 </div>
                 <div class="main-modal-info-section-divider"></div>
                 <div class="usecase-modal-info-section">
                   <div class="usecase-main-modal-info-light">정부지원금</div>
-                  <div class="usecase-main-modal-info-bold"><span class="usecase-bold">{{usecase.main_modal.fund}}</span>만원</div>
+                  <div class="usecase-main-modal-info-bold"><span class="usecase-bold"><ICountUp :endVal="usecase.main_modal.fund"/></span>만원</div>
                 </div>
               </div>
             </div>

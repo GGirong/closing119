@@ -85,7 +85,7 @@
         }
 
         @media #{$large-mobile} {
-            height: 450px;
+            height: 400px;
         }
 
         &>* {
@@ -108,7 +108,7 @@
     &__space {
         display: none;
 
-        @media (max-width: 500px) {
+        @media (max-width: 1141px) {
             display: block;
         }
     }
@@ -134,7 +134,7 @@
         }
 
         @media #{$small-mobile} {
-            margin-top: 80px;
+            margin-top: 60px;
             font-size: 21px;
         }
     }

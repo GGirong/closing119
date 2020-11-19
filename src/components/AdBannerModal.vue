@@ -42,7 +42,33 @@
                         v-model="banner.banner_link"
                     />
                     </div>
-                    
+                    <div
+                    class="admin-input-title col-7"
+                    >
+                    컬러 코드
+                    </div>
+                    <div class="col-12  section-space--bottom--20">
+                    <input
+                        class="form-control"
+                        name="con_name"
+                        type="text"
+                        placeholder=""
+                        v-model="banner.banner_color"
+                    />
+                    </div>
+                    <div
+                    class="admin-input-title col-2"
+                    style="text-align: left; padding-top: 0"
+                    >
+                    표시
+                    </div>
+                    <div class="col-6  section-space--bottom--20">
+                    <input
+                        type="checkbox"
+                        v-model="banner.show_content"
+                        style="padding-top:10px"
+                    />
+                    </div>
                     <div class="col-12" style="text-align: center">
                         <img 
                         :src="'https://new-api.closing119.com' + banner.banner_image"

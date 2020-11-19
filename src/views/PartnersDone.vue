@@ -10,10 +10,10 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="project-item-wrapper">
-                <div class="row">
+                <div class="row" v-if="loading">
                   <div
                     class="col-lg-12 col-sm-12 col-12 section-space--bottom--30"
-                    v-for="est in estData"
+                    v-for="est in estData.reverse()"
                     :key="est.id"
                   >
                     <DoneGrid :estData="est" @go-detail="goDetail(est)" />
@@ -85,11 +85,12 @@ export default {
         text2: "",
         image: "assets/img/backgrounds/slider3.jpg",
       },
-      estData: null,
+      estData: {},
       emptyEsting: true,
       modal: false,
       status: "D",
       clientId: 0,
+      loading: false,
     };
   },
   methods: {
@@ -100,22 +101,28 @@ export default {
     closeModal() {
       this.modal = false;
     },
+    async getData() {
+      await axios
+      .get("https://new-api.closing119.com/api/complete/", {
+        params: { partner: this.getPartner },
+      })
+      .then(res => {
+        this.estData = res.data;
+        if (this.estData.length > 0) {
+          this.emptyEsting = false;
+        }
+        this.loading = true
+      });
+    }
   },
   async mounted() {
     if (!this.getPartnerLogin) {
       alert("로그인을 먼저 해주세요.");
       this.$router.push("/partners");
     }
-    await axios
-      .get("https://new-api.closing119.com/api/complete/", {
-        params: { partner: this.getPartner },
-      })
-      .then((res) => {
-        this.estData = res.data;
-        if (this.estData.length > 0) {
-          this.emptyEsting = false;
-        }
-      });
+    else {
+      this.getData()
+    }
   },
   computed: mapGetters(["getPartner", "getPartnerLogin"]),
   metaInfo: {

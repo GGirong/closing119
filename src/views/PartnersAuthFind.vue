@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container">
+  <div>
     <PartnersHeader />
 
     <Breadcrumb :items="items" title="아이디/비밀번호 찾기" />
@@ -8,7 +8,7 @@
       <div class="container">
         <div class="contact-form">
           <div class="row">
-            <div class="row col-6">
+            <div class="row col-12 col-md-6">
               <div class="col-12">
                 <span style="font-size: 21px; font-weight: 700"
                   >아이디 찾기</span
@@ -55,9 +55,9 @@
                 </button>
               </div>
             </div>
-            <div class="row col-6">
+            <div class="row col-12 col-md-6 auth-find-margin">
               <div class="col-12">
-                <span style="font-size: 21px; font-weight: 700"
+                <span style="font-size: 21px; font-weight: 700;"
                   >비밀번호 찾기</span
                 >
                 <br />
@@ -255,3 +255,12 @@ export default {
   },
 };
 </script>
+
+<style>
+@media(max-width: 768px) {
+  .auth-find-margin {
+    margin-top: 40px;
+  }
+}
+
+</style>
