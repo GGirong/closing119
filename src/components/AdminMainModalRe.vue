@@ -239,7 +239,7 @@ export default {
     height: 40px;
 }
 .main-modal-estimate-container {
-  width: 1148px;
+  max-width: 863px;
 }
 .admin-main-modal-title {
   font-size: 21px;

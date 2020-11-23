@@ -21,7 +21,9 @@ import 'quill/dist/quill.core.css' // import styles
 import 'quill/dist/quill.snow.css' // for snow theme
 import 'quill/dist/quill.bubble.css' // for bubble theme
 import VueLazyload from 'vue-lazyload'
- 
+import browserDetect from "vue-browser-detect-plugin";
+
+Vue.use(browserDetect);
 Vue.use(VueLazyload)
 Vue.use(VueQuillEditor, /* { default global options } */)
 Vue.use(SimpleVueValidation);

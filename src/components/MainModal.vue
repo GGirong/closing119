@@ -316,10 +316,10 @@ export default {
 </style>
 <style>
 .main-modal-estimate-container {
-  width: 863px;
+  max-width: 863px;
 }
 .main-modal-title {
-  font-size: 21px;
+  font-size: 1.2vw;
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -343,7 +343,7 @@ export default {
   margin-bottom: 20px;
 }
 .main-modal-image-container {
-  max-width: 425px;
+  max-width: 50%;
   margin: 0 auto;
 }
 .main-modal-image {
@@ -368,23 +368,22 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: center;
   margin-bottom: 15px;
+  margin-top: 15px;
 }
 .main-modal-partners-title-left {
   width: 3px;
-  height: 22px;
-  margin-top: 25px;
+  height: 1.2vw;
   margin-right: 5px;
   margin-left: 3px;
   background-color: #000;
 }
 .main-modal-partners-title {
-  margin-top: 17px;
-  font-size: 23px;
+  font-size: 1.15vw;
   font-family: NotoSansKR-Medium;
 }
 .main-modal-partners-subtitle {
-  margin-top: 27px;
   margin-left: 10px;
   font-size: 14px;
   color: #6e6e6e;
@@ -396,15 +395,15 @@ export default {
   text-align: center;
 }
 .main-modal-head-title {
-  font-size: 26.89px;
+  font-size: 1.5vw;
   font-family: NotoSansKr-Medium;
 }
 .main-modal-head-subtitle {
-  font-size: 12.55px;
+  font-size: 0.7vw;
 }
 .main-modal-info-container {
   width: 100%;
-  height: 125px;
+  height: 13vh;
   border: 1px solid #f2f7ff;
   margin-top: 5px;
   border-radius: 5px;
@@ -413,7 +412,7 @@ export default {
 .main-modal-info-wrapper {
   height: 100%;
   background-color: #f2f7ff;
-  font-size: 20.47px;
+  font-size: 1.3vw;
   display: flex;
   flex-direction: row;
 }
@@ -421,15 +420,17 @@ export default {
   width: 33%;
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  padding: 1.1vw;
 }
 .main-modal-info-light {
-  margin-top: 25px;
+  display: flex;
+  align-items: center;
 }
 .main-modal-info-bold {
-  margin-top: 13px;
+  display: flex;
+  align-items: center;
   color: #004eff;
-  font-size: 32.93px;
+  font-size: 2vw;
   font-family: NotoSansKR-Medium;
 }
 .main-modal-info-section-divider{
@@ -512,10 +513,12 @@ export default {
     padding: 5px;
   }
   .main-modal-info-light {
+    display: block;
     margin-top: 10px;
     font-size: 12px;
   }
   .main-modal-info-bold {
+    display: block;
     margin-top:0px;
     margin-bottom: 10px;
     color: #004eff;

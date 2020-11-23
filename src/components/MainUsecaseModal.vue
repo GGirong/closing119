@@ -236,13 +236,6 @@ export default {
   flex-direction: row;
   margin-bottom: 15px;
 }
-.main-modal-info-wrapper {
-  height: 100%;
-  background-color: #f2f7ff;
-  font-size: 20.47px;
-  display: flex;
-  flex-direction: row;
-}
 .usecase-main-modal-info-container {
   width: 100%;
   height: 125px;

@@ -345,7 +345,7 @@ export default {
   async mounted() {
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
-
+    console.log(this.$browserDetect.isChrome)
     await axios.get("https://new-api.closing119.com/api/client").then(res=>{
       this.clientIdList = res.data
       for(var i in this.clientIdList) {
@@ -766,12 +766,15 @@ export default {
   -o-transform: scale(1);
   transition: all 0.3s ease-in-out;
 }
+.board-item-image-container {
+  overflow: hidden;
+}
 .board-item-image-container:hover .board-item-image{
-  transform: scale(1.05);
-  -webkit-transform: scale(1.05);
-  -moz-transform: scale(1.05);
-  -ms-transform: scale(1.05);
-  -o-transform: scale(1.05);
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
 }
 .board-item-image-um {
   position: absolute;

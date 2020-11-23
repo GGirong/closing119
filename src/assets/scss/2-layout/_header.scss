@@ -52,8 +52,8 @@
                     display: flex;
                     justify-content: flex-end;
 
-                    @media (max-width: 1300px) {
-                        width: 375px
+                    @media (max-width: 1200px) {
+                        width: 50%;
                     }
 
                     @media #{$large-mobile} {
@@ -86,7 +86,7 @@
 
 
 
-                    @media (max-width: 1300px) {
+                    @media (max-width: 1200px) {
                         width: 375px;
                         padding: 10px 10px;
                         font-size: 21px;
@@ -591,7 +591,9 @@
 
     .header-contact-info {
         width: calc(100% - 280px);
-
+        @media (max-width: 1200px) {
+            width: 50%;
+        }
         @media #{$tablet-device} {
             display: none;
         }

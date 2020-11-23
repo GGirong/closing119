@@ -239,7 +239,8 @@ export default {
 }
 .main-modal-estimate-container {
   text-align: center;
-  width: 1148px;
+  max-width: 863px;
+  max-height: 100%;
 }
 .admin-main-modal-ongoing-reg-code {
   position: absolute;

@@ -1,7 +1,7 @@
+const ansiRegex = require("ansi-regex");
 module.exports = {
-	publicPath: '/',
-	transpileDependencies: ["vuetify"],
-	configureWebpack: {
-		entry: ["babel-polyfill", "./src/main.js"],
-	}
-}
+  lintOnSave: false,
+  publicPath: "/",
+  assetsDir: process.env.BASE_URL,
+  transpileDependencies: [ansiRegex],
+};

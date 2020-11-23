@@ -24,6 +24,7 @@
     "vue": "^2.6.11",
     "vue-awesome-swiper": "^4.0.4",
     "vue-backtotop": "^1.6.1",
+    "vue-browser-detect-plugin": "^0.1.13",
     "vue-countup-v2": "^4.0.0",
     "vue-daum-postcode": "^0.9.0",
     "vue-fixed-header": "^3.2.14",
