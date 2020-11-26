@@ -104,6 +104,7 @@ export default {
           params: { client: data[i].id },
         })
         .then((res) => {
+          console.log(res)
           this.clientList.unshift(res.data.results.client);
           let images = [];
           for (var j in res.data.results.client_image) {
@@ -293,9 +294,16 @@ export default {
       .then((res) => {
         data = res.data.results;
       });
-    for (var i in data) {
-      this.setClient(data, i);
-    }
+      if( data.length == 0) {
+        this.loading = false
+        alert("현재 등록된 새로운 견적서가 없습니다.")
+      }
+      else {
+        for (var i in data) {
+          this.setClient(data, i);
+        }
+      }
+    
   },
 };
 </script>

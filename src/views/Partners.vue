@@ -135,8 +135,6 @@ export default {
         });
     },
   },
-  mounted() {
-  },
   computed: mapGetters(["getPartner", "getPartnerLogin"]),
   metaInfo: {
     title: "폐업119 - 파트너스",

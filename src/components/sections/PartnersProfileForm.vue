@@ -219,22 +219,6 @@
                 >
                   사업자등록증
                 </div>
-                <div
-                  class="col-md-6 col-12  section-space--bottom--20"
-                  v-if="registration_image_url != null"
-                >
-                  <img
-                    :src="
-                      'https://new-api.closing119.com' + registration_image_url
-                    "
-                    style="width: 150px; height: 150px"
-                    alt="사업자등록증"
-                  />
-                </div>
-                <div
-                  class="input-title col-md-4 col-12"
-                  v-if="registration_image_url != null"
-                ></div>
                 <div class="col-md-6 col-12  section-space--bottom--20">
                   <input
                     type="file"
