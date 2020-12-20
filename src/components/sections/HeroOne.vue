@@ -172,15 +172,3 @@ export default {
   }
 };
 </script>
-
-<style>
-@font-face {
-  font-family: "LotteMartHappyBold";
-  src: url("../../assets/fonts/12롯데마트행복Bold.ttf");
-}
-
-.head-title {
-  font-family: LotteMartHappyBold;
-  color: #1574fe;
-}
-</style>

@@ -258,7 +258,7 @@
                 </div>
                 <div class="line"></div>
                 <div
-                  class="input-title col-md-4 col-12  section-space--bottom--20"
+                  class="input-title col-md-4 col-12  section-space--bottom--20 help-tip-container"
                 >
                   폐업119 원스탑 매장정리 서비스<div class="mobile-br"></div><span class="input-title-small">(무료)</span>
                   <div class="help-tip">
@@ -703,7 +703,7 @@ export default {
     content: '?';
     font-size: 12.5px;
 }
-.help-tip:hover p {
+.help-tip-container:hover p {
     display: block;
     transform-origin: 100% 0%;
     -webkit-animation: fadeIn 0.3s ease-in-out;
@@ -719,7 +719,7 @@ export default {
     position: absolute;
     border-radius: 3px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-    top: -70px;
+    top: 24px;
     left: -240px;
     color: #2f5597;
     font-size: 13px;
@@ -732,17 +732,17 @@ export default {
     width: 0;
     height: 0;
     border: 6px solid transparent;
-    border-top-color: #deebf7;
+    border-bottom-color: #deebf7;
     left: 242px;
-    bottom: -12px;
+    top: -12px;
 
 }
 .help-tip p:after {
-    width: 100%;
+    width: 300px;
     height: 40px;
     content: '';
     position: absolute;
-    bottom: -40px;
+    top: -40px;
     left: 0;
 
 }

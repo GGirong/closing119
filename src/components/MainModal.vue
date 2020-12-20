@@ -30,7 +30,7 @@
               :margin="3"
               :loop="true"
               :dots="false"
-              :nav="false"
+              :nav="true"
               :autoplay="false"
             >
               <div v-for="image in clientData.images" :key="image.id">
@@ -317,9 +317,14 @@ export default {
   }
 }
 </style>
-<style scoped>
+<style>
 .owl-nav {
   position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 </style>
