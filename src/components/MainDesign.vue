@@ -555,6 +555,9 @@ export default {
 </script>
 
 <style>
+.page-link {
+  color:#6c757d;
+}
 .clickable {
   cursor: pointer;
 }
@@ -711,6 +714,7 @@ export default {
   padding-left: 10px;
 }
 .page-pagination-container {
+  font-size: 14px;
   display: flex;
   justify-content: center;
   margin-top: 37.5px;

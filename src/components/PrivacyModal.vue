@@ -150,7 +150,7 @@
           </div>
         </div>
         <footer class="modal-footer">
-          <button @click="$emit('close')">확인</button>
+          <button class="modal-confirm-btn" @click="$emit('close')">확인</button>
         </footer>
       </div>
     </div>
@@ -185,7 +185,7 @@
   &-footer {
     background: #ccc;
     padding: 10px;
-    text-align: right;
+    justify-content: center;
   }
 }
 .address {
@@ -227,5 +227,9 @@
     padding: 50px;
     overflow: scroll;
     text-align: left;
+}
+.modal-confirm-btn {
+  border: 0;
+  background: transparent;
 }
 </style>

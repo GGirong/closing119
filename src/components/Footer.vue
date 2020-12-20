@@ -9,17 +9,15 @@
         >
           <div style="font-size: 16px; font-weight: 300; color: #fff">
             <span
+              class="a-tag"
               @click="agree(0)"
-              style="text-decoration:underline; cursor:pointer"
-              >이용약관</span
-            >
+              >이용약관</span>
             |
             <span
+            class="a-tag"
               @click="agree(1)"
-              style="text-decoration:underline; cursor:pointer"
             >
-              개인정보취급방침</span
-            >
+              개인정보취급방침</span>
             |
             <router-link to="/partnersregister">파트너스·제휴 신청</router-link>
           </div>
@@ -65,17 +63,15 @@
             style="font-size: 16px; font-weight: 300; color: #fff; margin-top: 25px"
           >
             <span
+            class="a-tag"
               @click="agree(0)"
-              style="text-decoration:underline; cursor:pointer"
-              >이용약관</span
-            >
+              >이용약관</span>
             |
             <span
+            class="a-tag"
               @click="agree(1)"
-              style="text-decoration:underline; cursor:pointer"
             >
-              개인정보취급방침</span
-            >
+              개인정보취급방침</span>
             |
             <router-link to="/partnersregister">파트너스·제휴 신청</router-link>
           </div>
@@ -153,6 +149,12 @@ export default {
 </script>
 
 <style lang="scss">
+.a-tag {
+  cursor: pointer;
+}
+.a-tag:hover {
+  color: #0056b3;
+}
 .footer-container {
   width: 1200px;
   margin: 0 auto;

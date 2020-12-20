@@ -233,25 +233,6 @@
                 </div>
                 <div class="line"></div>
               </div>
-
-              <div style="height: 20px;"></div>
-              <div class="row">
-                  <div
-                  class="input-title col-6  section-space--bottom--20"
-                >
-                  비밀번호 (비밀번호 변경은 관리자에게 문의하세요)
-                </div>
-                <div class="col-6  section-space--bottom--20">
-                  <input
-                    class="form-control"
-                    name="up"
-                    type="password"
-                    placeholder=""
-                    v-model="password"
-                  />
-                </div>
-              </div>
-                <div class="line"></div>
               <p class="form-message"></p>
               <div style="margin:0 auto; text-align: center">
                 <button
@@ -425,7 +406,7 @@ export default {
       else {
           this.loginData.phone_num = this.reqData.phone_num
           this.loginData.password = this.password
-        this.login()
+        this.sendRegisterData()
       }
     },
     uploadImageSuccess(formData, index, fileList) {

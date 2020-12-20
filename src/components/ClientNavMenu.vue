@@ -10,7 +10,7 @@
           <router-link to="/clientcheck/homepage">내 견적 확인하기</router-link>
         </li>
         <li>
-          <router-link to="/partnersregister">파트너스 신청하기</router-link>
+          <router-link to="/partners">파트너스 로그인</router-link>
         </li>
       </ul>
     </nav>

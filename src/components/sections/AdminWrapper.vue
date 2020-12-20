@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="admin-container">
-        <div class="usecase-container">
+        <div class="usecase-container"> 
             <div class="container-title">이용사례</div>
             <div class="head-swiper-section" v-if="loading">
             <div class="head-swiper-container">
@@ -302,6 +302,8 @@ export default {
     return {
         main_illu: "",
         main_illu_m: "",
+        pw_phone_num: '',
+        pw_new_pw: '',
         banner: "",
         modal: false,
         Admodal: false,
@@ -392,6 +394,23 @@ export default {
           this.Admodal = false
           this.Illumodal = false
       },
+      async pwChange() {
+        let pwid
+        await axios.get("https://new-api.closing119.com/api/clientid/", {params: {phone_num: this.pw_phone_num}}).then(res=> {
+          pwid = res.data.results.id
+        })
+        let newPw ={
+          password: this.pw_new_pw
+        }
+        await axios.patch("https://new-api.closing119.com/api/client/" + pwid + "/", newPw).then(res => {
+          alert("정상적으로 수정되었습니다!")
+          this.pw_phone_num = ''
+          this.pw_new_pw = ''
+        }).catch(err => {
+          alert("수정에 실패 했습니다. 연락처를 확인해주세요.")
+        })
+        
+      },
       async patchBanner(bannerData, index) {
           const bodyFormData = new FormData();
 
@@ -441,6 +460,7 @@ export default {
 
               bodyFormData.append("modal_image", file);
             }
+            console.log(usecase)
 
           await axios.post("https://new-api.closing119.com/api/main-modal/", bodyFormData).then(res=> {
               alert("정상적으로 생성되었습니다!")
@@ -589,6 +609,18 @@ export default {
     font-size: 24px;
     margin-bottom: 40px;
 } 
+.pw-input-container {
+  margin-bottom: 50px;
+}
+.pw-input-title {
+  font-size: 21px;
+  margin-bottom: 5px;
+}
+.pw-input {
+  width: 320px;
+  padding: 10px;
+  margin-bottom: 25px;
+}
 .numbers-input-title {
     font-size: 21px;
     margin-bottom: 20px;

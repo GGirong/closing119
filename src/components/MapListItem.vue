@@ -2,10 +2,12 @@
   <div class="item-container" @click="setClient">
       <div class="item-head">
           <div class="head-left">
-                <img 
-                :src="'https://new-api.closing119.com' + source.images[0].image"
-                width="150px"
-                />
+              <div class="maplist-item-img-container">
+                  <img 
+                    :src="'https://new-api.closing119.com' + source.images[0].image"
+                    class="maplist-item-img"
+                    />
+              </div>
           </div>
           <div class="head-right">
                 <div class="head-right-title">
@@ -74,5 +76,14 @@
 }
 .item-address {
     margin-top: 10px
+}
+.maplist-item-img-container {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+}
+.maplist-item-img {
+    width: 100%;
+    object-fit: contain;
 }
 </style>

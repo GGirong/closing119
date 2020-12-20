@@ -159,7 +159,13 @@ export default {
     },
     numberWithThree(x) {
       x += " "
-      if(x.length == 8 ) {
+      if(x.length == 6 ) {
+        return Number(x.substr( 0 , 1 ))
+      }
+      else if(x.length == 7 ) {
+        return Number(x.substr( 0 , 2 ))
+      }
+      else if(x.length == 8 ) {
         return Number(x.substr( 0 , 3 ))
       }
       else if( x.length == 9) {
@@ -216,6 +222,7 @@ export default {
           }
           this.clientData.images = images;
        })
+       console.log(this.estData)
       for(var i in this.estData) {
         if(this.estData[i].status == 'D' || this.estData[i].status == 'C') {
           this.estimateDone = true
@@ -223,6 +230,7 @@ export default {
           this.total_price = this.estData[i].total_price
         }
       }
+      console.log(this.total_price)
       this.loading = true
     },
   },
@@ -254,7 +262,8 @@ export default {
   &-window {
     background: #fff;
     border-radius: 4px;
-    
+    max-height: 90%;
+    overflow: auto;
   }
 
   &-content {
@@ -319,7 +328,7 @@ export default {
   max-width: 863px;
 }
 .main-modal-title {
-  font-size: 1.2vw;
+  font-size: 22px;
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -328,7 +337,7 @@ export default {
   position: absolute;
   font-size: 12px;
   top: 12px;
-  left: 280px;
+  left: 290px;
 }
 .main-modal-ongoing-reg-code {
   position: absolute;
@@ -353,7 +362,7 @@ export default {
   object-position: 50%;
 }
 .main-modal-no-partners-container {
-  height: 250px;
+  height: 150px;
   margin: 0 auto;
   text-align: center;
   padding-top: 35px;
@@ -395,15 +404,15 @@ export default {
   text-align: center;
 }
 .main-modal-head-title {
-  font-size: 1.5vw;
+  font-size: 26.89px;
   font-family: NotoSansKr-Medium;
 }
 .main-modal-head-subtitle {
-  font-size: 0.7vw;
+  font-size: 12.55px;
 }
 .main-modal-info-container {
   width: 100%;
-  height: 13vh;
+  height: 118px;
   border: 1px solid #f2f7ff;
   margin-top: 5px;
   border-radius: 5px;
@@ -412,7 +421,7 @@ export default {
 .main-modal-info-wrapper {
   height: 100%;
   background-color: #f2f7ff;
-  font-size: 1.3vw;
+  font-size: 20.47px;
   display: flex;
   flex-direction: row;
 }
@@ -430,11 +439,11 @@ export default {
   display: flex;
   align-items: center;
   color: #004eff;
-  font-size: 2vw;
+  font-size: 32.93px;
   font-family: NotoSansKR-Medium;
 }
 .main-modal-info-section-divider{
-  margin-top: 30px;
+  margin-top: 25px;
   height: 67px;
   width: 1px;
   background: #e0e1e2;

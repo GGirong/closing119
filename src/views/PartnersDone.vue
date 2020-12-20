@@ -4,40 +4,7 @@
     <WrapperHeader :screen="'done'" class="partner-header-mobile" />
 
     <Breadcrumb :items="items" title="완료된 견적 확인" />
-    <div class="page-wrapper section-space--inner--120">
-      <div class="project-section">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="project-item-wrapper">
-                <div class="row" v-if="loading">
-                  <div
-                    class="col-lg-12 col-sm-12 col-12 section-space--bottom--30"
-                    v-for="est in estData.reverse()"
-                    :key="est.id"
-                  >
-                    <DoneGrid :estData="est" @go-detail="goDetail(est)" />
-                  </div>
-                  <div
-                    class="col-lg-4 col-sm-6 col-12 section-space--bottom--30"
-                    v-if="emptyEsting"
-                    style="margin: 0 auto; text-align: center"
-                  >
-                    완료된 견적이 없습니다.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <MainModal
-            :clientId="clientId"
-            :status="status"
-            v-if="modal"
-            @close="closeModal"
-          />
-        </div>
-      </div>
-    </div>
+    <PartnersDoneWrapper />
 
     <Footer />
 
@@ -52,10 +19,9 @@
 </template>
 
 <script>
-import DoneGrid from "../components/DoneGrid";
+import PartnersDoneWrapper from "../components/sections/PartnersDoneWrapper"
 import PartnersHeader from "@/components/PartnersHeader";
 import WrapperHeader from "../components/WrapperHeader";
-import MainModal from "../components/MainModal";
 import Breadcrumb from "../components/Breadcrumb";
 import PartnersEstimatingWrapper from "../components/sections/PartnersEstimatingWrapper";
 import BrandCarousel from "../components/BrandCarousel";
@@ -75,8 +41,7 @@ export default {
     Footer,
     OffCanvasMobileMenu,
     PartnersEstimatingWrapper,
-    DoneGrid,
-    MainModal,
+    PartnersDoneWrapper
   },
   data() {
     return {
@@ -93,35 +58,11 @@ export default {
       loading: false,
     };
   },
-  methods: {
-    goDetail(est) {
-      this.clientId= est.client.id
-      this.modal = true;
-    },
-    closeModal() {
-      this.modal = false;
-    },
-    async getData() {
-      await axios
-      .get("https://new-api.closing119.com/api/complete/", {
-        params: { partner: this.getPartner },
-      })
-      .then(res => {
-        this.estData = res.data;
-        if (this.estData.length > 0) {
-          this.emptyEsting = false;
-        }
-        this.loading = true
-      });
-    }
-  },
-  async mounted() {
+  
+  mounted() {
     if (!this.getPartnerLogin) {
       alert("로그인을 먼저 해주세요.");
       this.$router.push("/partners");
-    }
-    else {
-      this.getData()
     }
   },
   computed: mapGetters(["getPartner", "getPartnerLogin"]),

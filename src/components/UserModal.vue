@@ -523,7 +523,7 @@
           </div>
         </div>
         <footer class="modal-footer">
-          <button @click="$emit('close')">확인</button>
+          <button class="modal-confirm-btn" @click="$emit('close')">확인</button>
         </footer>
       </div>
     </div>
@@ -558,7 +558,8 @@
   &-footer {
     background: #ccc;
     padding: 10px;
-    text-align: right;
+    text-align: center;
+    justify-content: center;
   }
 }
 .address {
@@ -618,5 +619,9 @@
 }
 .user-modal-small-content {
     margin-left: 25px;
+}
+.modal-confirm-btn {
+  border: 0;
+  background: transparent;
 }
 </style>

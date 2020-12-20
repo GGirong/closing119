@@ -11,18 +11,14 @@
           style="padding: 30px"
         >
           <div style="font-size: 16px; font-weight: 300; color: #fff">
-            <span
+            <a
               @click="agree(0)"
-              style="text-decoration:underline; cursor:pointer"
-              >이용약관</span
-            >
+              >이용약관</a>
             |
-            <span
+            <a
               @click="agree(1)"
-              style="text-decoration:underline; cursor:pointer"
             >
-              개인정보취급방침</span
-            >
+              개인정보취급방침</a>
             |
             <router-link to="/partners">파트너스·제휴 신청</router-link>
           </div>
@@ -68,18 +64,14 @@
           style="padding: 30px"
         >
           <div style="font-size: 16px; font-weight: 300; color: #fff">
-            <span
+            <a
               @click="agree(0)"
-              style="text-decoration:underline; cursor:pointer"
-              >이용약관</span
-            >
+              >이용약관</a>
             |
-            <span
+            <a
               @click="agree(1)"
-              style="text-decoration:underline; cursor:pointer"
             >
-              개인정보취급방침</span
-            >
+              개인정보취급방침</a>
             |
             <router-link to="/partners">파트너스·제휴 신청</router-link>
           </div>

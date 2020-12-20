@@ -1,6 +1,6 @@
 <template>
   <div class="service-grid-item service-grid-item--style2">
-    <div class="service-grid-item__content">
+    <div class="service-grid-item__content" v-if="loading">
       <div class="estimating-grid-status" :style="{ color: statuscolor }">
         {{ statusMsg }}
       </div>
@@ -57,7 +57,6 @@ export default {
       "월 " +
       complete_date.split("-")[2] +
       "일";
-      console.log(this.complete_date)
     if (this.estData.status == "C") {
       this.statusMsg = "공사완료";
       this.statuscolor = "blue";

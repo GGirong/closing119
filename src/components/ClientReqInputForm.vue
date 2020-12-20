@@ -260,7 +260,10 @@
                 <div
                   class="input-title col-md-4 col-12  section-space--bottom--20"
                 >
-                  폐업119 원스탑 매장정리 서비스
+                  폐업119 원스탑 매장정리 서비스<div class="mobile-br"></div><span class="input-title-small">(무료)</span>
+                  <div class="help-tip">
+                    <p>철거·원상복구/중고집기매각서비스/정부·지자체의 각종 지원 제도 연계 등 폐업의 전 과정을 일괄 처리 할 수 있도록 폐업119 원스탑 매장 정리 서비스를 제공해드립니다.</p>
+                  </div>
                 </div>
                 <div class="col-md-3 col-6  section-space--bottom--20">
                   <input
@@ -674,6 +677,123 @@ export default {
 @media (max-width: 1141px) {
   .alert-date {
     display: none;
+  }
+}
+</style>
+
+<style scoped>
+.input-title-small{
+  font-size: 12.5px;
+  margin-left: 2px;
+  padding-bottom: 3px;
+}
+.help-tip {
+    position: absolute;
+    top: 18px;
+    left: 240px;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #000;
+    text-align: center;
+    line-height: 14px;
+    cursor: pointer;
+}
+.help-tip:before {
+    content: '?';
+    font-size: 12.5px;
+}
+.help-tip:hover p {
+    display: block;
+    transform-origin: 100% 0%;
+    -webkit-animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.help-tip p {
+    display: none;
+    text-align: left;
+    background-color: #deebf7;
+    padding: 10px;
+    width: 640px;
+    position: absolute;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    top: 25px;
+    left: -240px;
+    color: #2f5597;
+    font-size: 13px;
+    line-height: 1.4;
+    z-index:50;
+}
+.help-tip p:before {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-bottom-color: #deebf7;
+    left: 242px;
+    top: -12px;
+
+}
+.help-tip p:after {
+    width: 100%;
+    height: 40px;
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: 0;
+
+}
+.mobile-br {
+  display: none;
+}
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.6);
+    }
+
+    100% {
+        opacity: 100%;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+@media (min-width: 768px) {
+  .input-title-small{
+    margin-left: 0px;
+  }
+  .mobile-br {
+    display: block;
+  }
+  .help-tip {
+    left: 205px
+  }
+  .help-tip p {
+    left: -205px
+  }
+  .help-tip p:before {
+    left: 207px
+  }
+}
+@media (max-width: 768px) {
+  .help-tip p {
+    width: 80vw;
+  }
+}
+@media (max-width: 660px) {
+  .help-tip p {
+    width: 90vw;
   }
 }
 </style>

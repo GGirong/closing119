@@ -11,7 +11,7 @@
           <div class="col-lg-12">
             <div style="position: relative">
               <!-- logo -->
-              <router-link to="/partners">
+              <router-link to="/">
                 <img
                   src="assets/img/logo/closing_logo.png"
                   class="img-fluid"
