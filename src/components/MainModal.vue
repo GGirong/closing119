@@ -31,6 +31,7 @@
               :loop="true"
               :dots="false"
               :nav="true"
+              :navText="prev"
               :autoplay="false"
             >
               <div v-for="image in clientData.images" :key="image.id">
@@ -120,6 +121,7 @@ export default {
       estimateDone: false,
       total_price: 0,
       addData: "",
+      prev: ["<div class='custom-prev'><div/>", "<div class='custom-next'><div/>"],
       estData: {
       },
       clientData: {
@@ -318,15 +320,19 @@ export default {
 }
 </style>
 <style>
-.owl-nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+.custom-prev {
+  background-image: url('../../public/assets/next.png') !important;
+  width: 23.75px;
+  height: 44.77px;
+  background-size: cover !important;
+  background-color: transparent;
 }
-
+.custom-next {
+  background-image: url('../../public/assets/prev.png') !important;
+  width: 23.75px;
+  height: 44.77px;
+  background-size: cover !important;
+}
 </style>
 <style>
 .main-modal-estimate-container {

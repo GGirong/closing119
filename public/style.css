@@ -7,3 +7,22 @@
     font-family: LotteMartHappyBold;
     color: #1574fe !important;
 }
+
+.owl-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.owl-prev {
+    background: transparent !important;
+    position: absolute;
+    top: 96px;
+    left: -110px;
+}
+.owl-next {
+    background: transparent !important;
+    position: absolute;
+    top: 96px;
+    right: -110px;
+}
