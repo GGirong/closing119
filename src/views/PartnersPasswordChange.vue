@@ -2,8 +2,6 @@
   <div class="main-container">
     <PartnersHeader class="partenr-header-pc" />
     <WrapperHeader :screen="'login'" class="partner-header-mobile" />
-
-    <Breadcrumb :items="items" title="비밀번호 변경" />
     <div class="page-wrapper section-space--inner--60">
       <div class="container">
         <div class="contact-form">
@@ -91,7 +89,6 @@
 import PartnersHeader from "@/components/PartnersHeader";
 import WrapperHeader from "../components/WrapperHeader";
 
-import Breadcrumb from "../components/Breadcrumb";
 import PartnersEstimatingWrapper from "../components/sections/PartnersEstimatingWrapper";
 import BrandCarousel from "../components/BrandCarousel";
 import Footer from "../components/Footer";
@@ -114,7 +111,6 @@ export default {
   components: {
     PartnersHeader,
     WrapperHeader,
-    Breadcrumb,
     BrandCarousel,
     Footer,
     OffCanvasMobileMenu,

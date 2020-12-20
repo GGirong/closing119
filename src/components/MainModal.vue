@@ -343,7 +343,7 @@ export default {
   position: absolute;
   font-size: 12px;
   top: 12px;
-  left: 300px;
+  left: 310px;
 }
 .title-line {
   height: 1px;

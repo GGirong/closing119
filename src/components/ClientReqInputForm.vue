@@ -70,7 +70,7 @@
                 <div
                   class="input-title col-md-4 col-12  section-space--bottom--20"
                 >
-                  비밀번호 (4자 이상)
+                  비밀번호 (8자 이상)
                 </div>
                 <div class="col-md-4 col-12  section-space--bottom--20">
                   <input
@@ -480,8 +480,8 @@ export default {
       else if(this.length()) {
         alert('연락처는 10자리 또는 11자리 숫자로 이루어져야 합니다!')
       }
-      else if(this.reqData.password.length < 4) {
-        alert('비밀번호는 4자 이상이어야 합니다!')
+      else if(this.reqData.password.length < 8) {
+        alert('비밀번호는 8자 이상이어야 합니다!')
       }
       else if(this.reqData.password != this.passwordCheck) {
         alert('비밀번호와 비밀번호 확인이 일치하지 않습니다!')
@@ -719,7 +719,7 @@ export default {
     position: absolute;
     border-radius: 3px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-    top: 25px;
+    top: -70px;
     left: -240px;
     color: #2f5597;
     font-size: 13px;
@@ -732,9 +732,9 @@ export default {
     width: 0;
     height: 0;
     border: 6px solid transparent;
-    border-bottom-color: #deebf7;
+    border-top-color: #deebf7;
     left: 242px;
-    top: -12px;
+    bottom: -12px;
 
 }
 .help-tip p:after {
@@ -742,7 +742,7 @@ export default {
     height: 40px;
     content: '';
     position: absolute;
-    top: -40px;
+    bottom: -40px;
     left: 0;
 
 }

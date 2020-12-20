@@ -3,8 +3,6 @@
     <PartnersHeader class="partenr-header-pc" />
     <WrapperHeader :screen="'profile'" class="partner-header-mobile" />
 
-    <Breadcrumb :items="items" title="프로필 수정하기" />
-
     <PartnersProfileForm />
 
     <Footer />
@@ -22,7 +20,6 @@
 <script>
 import PartnersHeader from "@/components/PartnersHeader";
 import WrapperHeader from "../components/WrapperHeader";
-import Breadcrumb from "../components/Breadcrumb";
 import PartnersProfileForm from "../components/sections/PartnersProfileForm";
 import BrandCarousel from "../components/BrandCarousel";
 import Footer from "../components/Footer";
@@ -34,7 +31,6 @@ export default {
   components: {
     PartnersHeader,
     WrapperHeader,
-    Breadcrumb,
     BrandCarousel,
     Footer,
     OffCanvasMobileMenu,

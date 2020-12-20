@@ -3,8 +3,6 @@
     <PartnersHeader class="partenr-header-pc" />
     <WrapperHeader :screen="'estimating'" class="partner-header-mobile" />
 
-    <Breadcrumb :items="items" title="진행 중인 견적 확인" />
-
     <PartnersEstimatingWrapper />
 
     <OffCanvasMobileMenu />
@@ -22,7 +20,6 @@
 import PartnersHeader from "@/components/PartnersHeader";
 import WrapperHeader from "../components/WrapperHeader";
 
-import Breadcrumb from "../components/Breadcrumb";
 import PartnersEstimatingWrapper from "../components/sections/PartnersEstimatingWrapper";
 import BrandCarousel from "../components/BrandCarousel";
 import FixFooter from "../components/FixFooter";
@@ -36,7 +33,6 @@ export default {
   components: {
     PartnersHeader,
     WrapperHeader,
-    Breadcrumb,
     BrandCarousel,
     FixFooter,
     Footer,

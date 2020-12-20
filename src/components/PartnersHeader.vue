@@ -43,14 +43,14 @@
                                         <nav>
                                             <ul>
                                                 <li>
-                                                    <router-link to="/partners">견적 요청서 확인</router-link>
+                                                    <router-link to="/partners">견적 요청서</router-link>
                                                 </li>
                                                 <li>
-                                                    <router-link to="/estimating" >진행중인 견적 확인</router-link>
+                                                    <router-link to="/estimating" >진행중인 건</router-link>
                                                 </li>
 
                                                 <li>
-                                                    <router-link to="/done">완료된 견적 확인</router-link>
+                                                    <router-link to="/done">완료된 건</router-link>
                                                 </li>
 
                                                 <li>

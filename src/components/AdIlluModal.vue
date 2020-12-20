@@ -97,7 +97,8 @@ export default {
   &-window {
     background: #fff;
     border-radius: 4px;
-    overflow: hidden;
+    overflow: auto;
+    max-height: 90%;
   }
 
   &-content {

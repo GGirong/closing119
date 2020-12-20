@@ -54,7 +54,8 @@ export default {
   &-window {
     background: #fff;
     border-radius: 4px;
-    overflow: hidden;
+    max-height: 90%;
+    overflow: auto;
   }
 
   &-content {

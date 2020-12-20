@@ -2,8 +2,6 @@
   <div>
     <PartnersHeader />
 
-    <Breadcrumb :items="items" title="아이디/비밀번호 찾기" />
-
     <div class="page-wrapper section-space--inner--60">
       <div class="container">
         <div class="contact-form">
@@ -148,7 +146,6 @@
 
 <script>
 import PartnersHeader from "@/components/PartnersHeader";
-import Breadcrumb from "../components/Breadcrumb";
 import PartnersEstimatingWrapper from "../components/sections/PartnersEstimatingWrapper";
 import BrandCarousel from "../components/BrandCarousel";
 import Footer from "../components/Footer";
@@ -160,7 +157,6 @@ import axios from "axios";
 export default {
   components: {
     PartnersHeader,
-    Breadcrumb,
     BrandCarousel,
     Footer,
     OffCanvasMobileMenu,

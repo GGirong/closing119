@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "node --max_old_space_size=1024 node_modules/@vue/cli-service/bin/vue-cli-service.js build --open"
   },
   "dependencies": {
     "@toast-ui/vue-editor": "^2.5.0",

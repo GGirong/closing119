@@ -6,11 +6,6 @@
       :screen="'login'"
       class="partner-header-mobile"
     />
-    <Breadcrumb
-      :items="items"
-      title="파트너스 로그인하기"
-      v-if="!getPartnerLogin"
-    />
     <div v-if="!getPartnerLogin">
       <PartnersLoginInputForm @setLoginData="setLoginData" />
     </div>
@@ -45,7 +40,6 @@
 <script>
 import PartnersHeader from "@/components/PartnersHeader";
 import WrapperHeader from "../components/WrapperHeader";
-import Breadcrumb from "../components/Breadcrumb";
 import PartnersWrapper from "../components/sections/PartnersWrapper";
 import PartnersLoginInputForm from "../components/PartnersLoginInputForm";
 import BrandCarousel from "../components/BrandCarousel";
@@ -61,7 +55,6 @@ export default {
   props: ["id"],
   components: {
     PartnersHeader,
-    Breadcrumb,
     BrandCarousel,
     FixFooter,
     Footer,

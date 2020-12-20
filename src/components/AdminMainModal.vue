@@ -164,8 +164,9 @@ export default {
 
   &-window {
     background: #fff;
+    max-height: 90%;
     border-radius: 4px;
-    
+    overflow: auto;
   }
 
   &-content {

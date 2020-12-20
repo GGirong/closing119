@@ -35,15 +35,15 @@
         <div class="wrapper-header-container">
           <div class="wrapper-header-navigation">
             <span class="wrapper-nav-content" v-if="partners"
-              ><router-link to="/partners">견적 요청서 확인</router-link></span
+              ><router-link to="/partners">견적 요청서</router-link></span
             >
             <span class="wrapper-nav-content" v-if="estimating"
               ><router-link to="/estimating"
-                >진행중인 견적 확인</router-link
+                >진행중인 건</router-link
               ></span
             >
             <span class="wrapper-nav-content" v-if="done"
-              ><router-link to="/done">완료된 견적 확인</router-link></span
+              ><router-link to="/done">완료된 건</router-link></span
             >
             <span class="wrapper-nav-content" v-if="profile"
               ><router-link to="/profile">프로필 수정</router-link></span

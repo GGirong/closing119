@@ -3,8 +3,6 @@
     <PartnersHeader class="partenr-header-pc" />
     <WrapperHeader :screen="'done'" class="partner-header-mobile" />
 
-    <Breadcrumb :items="items" title="견적서 작성하기" />
-
     <PartnersEstDetailWrapper :estData="clientData" v-if="loading"/>
 
     <!-- <b-form-group
@@ -260,7 +258,6 @@
 <script>
 import PartnersHeader from "@/components/PartnersHeader";
 import WrapperHeader from "../components/WrapperHeader";
-import Breadcrumb from "../components/Breadcrumb";
 import PartnersEstDetailWrapper from "../components/sections/PartnersEstDetailWrapper";
 import BrandCarousel from "../components/BrandCarousel";
 import Footer from "../components/Footer";
@@ -273,7 +270,6 @@ export default {
   components: {
     PartnersHeader,
     WrapperHeader,
-    Breadcrumb,
     BrandCarousel,
     Footer,
     OffCanvasMobileMenu,

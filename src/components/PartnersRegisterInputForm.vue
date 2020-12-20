@@ -489,9 +489,14 @@ export default {
           privacy = false
         }
       }
+      let re = /[~!@\#$%^&*\()\-=+_']/gi;
 
       if(this.partnersData.partner_name.length == 0) {
         alert('업체명을 입력해주세요!')
+      }
+      else if(re.test(this.partnersData.partner_name))
+      {
+        alert("업체명에 특수문자는 입력하실 수 없습니다.");
       }
       else if(this.partnersData.ceo.length == 0) {
         alert('대표자명을 입력해주세요!')

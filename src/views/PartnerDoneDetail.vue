@@ -2,9 +2,6 @@
   <div class="main-container">
     <PartnersHeader class="partenr-header-pc" />
     <WrapperHeader :screen="'done'" class="partner-header-mobile" />
-
-    <Breadcrumb :items="items" title="완료된 견적 상세보기" />
-
     <div class="page-wrapper section-space--inner--60">
       <div class="project-section">
         <div class="container">
@@ -76,7 +73,6 @@
 import PartnersHeader from "@/components/PartnersHeader";
 import WrapperHeader from "../components/WrapperHeader";
 
-import Breadcrumb from "../components/Breadcrumb";
 import DoneDetailGrid from "../components/DoneDetailGrid";
 import PartnersEstDetailWrapper from "../components/sections/PartnersEstDetailWrapper";
 import BrandCarousel from "../components/BrandCarousel";
@@ -90,7 +86,6 @@ export default {
   components: {
     PartnersHeader,
     WrapperHeader,
-    Breadcrumb,
     BrandCarousel,
     Footer,
     OffCanvasMobileMenu,
