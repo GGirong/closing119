@@ -321,17 +321,23 @@ export default {
 </style>
 <style>
 .custom-prev {
-  background-image: url('../../public/assets/next.png') !important;
+  background-image: url('../../public/assets/next-w.png') !important;
   width: 23.75px;
   height: 44.77px;
   background-size: cover !important;
   background-color: transparent;
 }
+.custom-prev:hover {
+  background-image: url('../../public/assets/next.png') !important;
+}
 .custom-next {
-  background-image: url('../../public/assets/prev.png') !important;
+  background-image: url('../../public/assets/prev-w.png') !important;
   width: 23.75px;
   height: 44.77px;
   background-size: cover !important;
+}
+.custom-next:hover {
+  background-image: url('../../public/assets/prev.png') !important;
 }
 </style>
 <style>
