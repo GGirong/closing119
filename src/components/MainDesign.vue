@@ -364,6 +364,9 @@ export default {
         }
       }
     })
+    .catch(err=>{
+      console.log(err)
+    })
     this.getClientImgFunc()
 
     await axios.get("https://new-api.closing119.com/api/main-modal/").then(res=> {
@@ -372,6 +375,8 @@ export default {
           this.usecaseData.push(res.data.results[i])
         }
       }
+    }).catch(err=> {
+      console.log(err)
     })
 
     for(var i in this.usecaseData) {
@@ -390,9 +395,13 @@ export default {
     }
      await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_u&banner_env=pc").then(res=> {
           this.ad_u_banner = res.data.results
+        }).catch(err=> {
+          console.log(err)
         })
         await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_u&banner_env=m").then(res=> {
           this.ad_u_banner_m = res.data.results
+        }).catch(err=> {
+          console.log(err)
         })
         await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_b&banner_env=pc").then(res=> {
           for(let i in res.data.results) {
@@ -401,6 +410,8 @@ export default {
             }
           }
           
+        }).catch(err=> {
+          console.log(err)
         })
         await axios.get("https://new-api.closing119.com/api/banner/?banner_type=ad_b&banner_env=m").then(res=> {
           for(let i in res.data.results) {
@@ -409,6 +420,8 @@ export default {
             }
           }
           
+        }).catch(err=> {
+          console.log(err)
         })
     this.swiper_loading = true
   },
@@ -456,7 +469,9 @@ export default {
     async getClientImg(id, i) {
       await axios.get('https://new-api.closing119.com/api/clientimage/', {params: {client: id}}).then(res=>{
           this.newClientList[i].imageUrl = res.data.results.client_image[0].image
-      })
+      }).catch(err=> {
+          console.log(err)
+        })
       if(this.clientIdList.length - 1 == i) {
         this.loading = true
       }
