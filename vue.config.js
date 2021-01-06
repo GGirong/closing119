@@ -1,7 +1,11 @@
 const ansiRegex = require("ansi-regex");
 module.exports = {
   lintOnSave: false,
-  publicPath: "/",
+  publicPath: '/',
   assetsDir: process.env.BASE_URL,
-  transpileDependencies: [ansiRegex],
+  transpileDependencies: [
+    ansiRegex,
+    'vuetify',
+    'vuetify-dialog'
+  ],
 };
